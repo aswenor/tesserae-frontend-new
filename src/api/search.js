@@ -16,12 +16,14 @@
  * @requires ../state/async
  * @requires ../state/search
  */
-import { responsiveFontSizes } from '@material-ui/core';
 import axios from 'axios';
-import { batch } from 'react-redux';
+import { hasIn, isArray } from 'lodash'
 
-import { setFetchingStoplist } from '../state/async';
-import { updateResults, updateSearchID, updateSearchStatus,
+import { updateChangePage,
+         updateResults,
+         updateSearchID,
+         updateSearchInProgress,
+         updateSearchStatus,
          updateStopwords } from '../state/search';
 
 
@@ -44,31 +46,70 @@ function normalizeScores(parallels, maxScore = 10) {
 }
 
 
-export function runSearch(source, target, params) {
+export function runSearch(language, source, target, params) {
   return async dispatch => {
-    let response = await fetchStoplist(params.feature, params.stoplist, params.stoplistBasis)(dispatch);
+    dispatch(updateSearchInProgress(true));
 
-    if (response.status >= 400 && response.atatus < 600) {
+    const slBasis = params.stoplistBasis.toLowerCase() === 'corpus'
+                    ? language
+                    : [source.object_id, target.object_id]
+
+    let response = await fetchStoplist(params.feature, params.stoplist, slBasis)(dispatch);
+
+    if (response.status >= 400 && response.status < 600) {
+      dispatch(updateSearchInProgress(false));
       return;
     }
 
-    response = await initiateSearch(source, target, params, response.stopwords)(dispatch);
-    
-    if (response.status >= 400 && response.atatus < 600) {
+    response = await initiateSearch(source, target, params, response.data.stopwords)(dispatch);
+
+    const searchID = response.search_id;
+    response = response.response;
+
+    if (hasIn(response, 'data')) {
+      response = await getSearchStatus(searchID)(dispatch);
+      
+      if (hasIn(response.data, 'parallels')) {
+        dispatch(updateSearchInProgress(false));
+        return searchID;
+      }
+    }
+
+    if (response.status >= 400 && response.status < 600) {
+      dispatch(updateSearchInProgress(false));
       return;
     }
 
-    const searchID = response.data.search_id;
-    while (response.status.toLowerCase() !== 'done') {
-      response = await getSearchStatus(searchID);
+    while (response.data.status.toLowerCase() !== 'done') {
+      response = await getSearchStatus(searchID)(dispatch);
 
-      if (response.status >= 400 && response.atatus < 600) {
+      if (response.status >= 400 && response.status < 600) {
+        dispatch(updateSearchInProgress(false));
         return;
       }
     }
 
     await fetchResults(searchID)(dispatch);
+    dispatch(updateSearchInProgress(false));
+
+    return searchID;
   }
+}
+
+
+export function changePage(searchID, pagination) {
+  return async dispatch => {
+    dispatch(updateChangePage(true));
+    const response = await fetchResults(
+      searchID,
+      pagination.currentPage,
+      pagination.rowsPerPage,
+      pagination.sortHeader,
+      pagination.sortOrder
+    )(dispatch);
+    dispatch(updateChangePage(false));
+    return response.data.parallels;
+  };
 }
 
 
@@ -78,7 +119,6 @@ export function runSearch(source, target, params) {
  * @param {String} feature The token feature of the search.
  * @param {number} stopwords The size of the stoplist to create.
  * @param {String|String[]} stoplistBasis The source of frequency data.
- * @param {boolean} pending True if any AJAX calls are in progress.
  * @returns {function} Callback that calls dispatch to handle communication.
  */
 export function fetchStoplist(feature, stopwords, stoplistBasis) {
@@ -89,15 +129,15 @@ export function fetchStoplist(feature, stopwords, stoplistBasis) {
   };
 
   // Different stoplist bases have different nomenclature, so handle accordingly.
-  if (stoplistBasis instanceof Array) {
+  if (isArray(stoplistBasis)) {
     params.works = stoplistBasis;
   }
   else {
     params.language = stoplistBasis;
   }
 
-  return dispatch => {
-    axios({
+  return async dispatch => {
+    return axios({
       method: 'get',
       url: `${REST_API}/stopwords/`,
       crossDomain: true,
@@ -109,7 +149,7 @@ export function fetchStoplist(feature, stopwords, stoplistBasis) {
       return response;
     })
     .catch(error => {
-
+      return error.response;
     });
   }
 }
@@ -125,9 +165,9 @@ export function fetchStoplist(feature, stopwords, stoplistBasis) {
  * @param {boolean} pending True if any AJAX calls are in progress.
  * @returns {function} Callback that calls dispatch to handle communication.
  */
-export function initiateSearch(source, target, params, stopwords, asyncReady) {
-  return dispatch => {
-    axios({
+export function initiateSearch(source, target, params, stopwords) {
+  return async dispatch => {
+    return axios({
       method: 'post',
       url: `${REST_API}/parallels/`,
       crossDomain: true,
@@ -161,20 +201,27 @@ export function initiateSearch(source, target, params, stopwords, asyncReady) {
       }
     })
     .then(response => {
-      let searchID = [];
+      let searchID = '';
       
       if (response.headers.location !== undefined) {
-        searchID = response.headers.location.match(/parallels[/]([\w\d]+)/);
+        searchID = response.headers.location.match(/parallels[/]([\w\d]+)/)[1];
       }
       
       else if (response.request.responseURL !== undefined) {
-        searchID = response.request.responseURL.match(/parallels[/]([\w\d]+)/);
+        searchID = response.request.responseURL.match(/parallels[/]([\w\d]+)/)[1];
       }
 
-      dispatch(updateSearchID(searchID))
-      response.data.searchID = searchID;
+      dispatch(updateSearchID(searchID));
 
-      return response;
+      if (hasIn(response, 'data.parallels')) {
+        const maxScore = response.data.max_score;
+        const nResults = response.data.total_count;
+        const normedParallels = normalizeScores(response.data.parallels,
+                                                maxScore >= 10 ? maxScore : 10);
+        dispatch(updateResults(normedParallels, nResults));
+      }
+
+      return {search_id: searchID, response: response};
     })
     .catch(error => {
       return error.response
@@ -191,16 +238,25 @@ export function initiateSearch(source, target, params, stopwords, asyncReady) {
  * @returns {function} Callback that calls dispatch to handle communication.
  */
 export function getSearchStatus(searchID, asyncReady) {
-  return dispatch => {
-    axios({
+  return async  dispatch => {
+    return axios({
       method: 'get',
       url: `${REST_API}/parallels/${searchID}/status/`,
       crossDomain: true,
       responseType: 'json',
       cacheControl: 'no-store'
     })
-    .then(response => {})
-    .catch(error => {});
+    .then(response => {
+      // On success, update the global state and return the status.
+      if (response.data.status !== undefined) {
+        dispatch(updateSearchStatus(response.data.status, response.data.progress));
+      }
+
+      return response;
+    })
+    .catch(error => {
+      return error.response;
+    });
   }
 }
 
@@ -216,11 +272,11 @@ export function getSearchStatus(searchID, asyncReady) {
  * @param {number} sortOrder 1 (asc) or -1 (desc)
  * @returns {function} Callback that calls dispatch to handle communication.
  */
-export function fetchResults(searchID, asyncReady, currentPage = 0,
+export function fetchResults(searchID, currentPage = 0,
                              rowsPerPage = 100, sortLabel = 'score',
                              sortOrder = -1) {
   return async dispatch => {
-    axios({
+    return axios({
       method: 'get',
       url: `${REST_API}/parallels/${searchID}`,
       crossDomain: true,
@@ -233,7 +289,20 @@ export function fetchResults(searchID, asyncReady, currentPage = 0,
         sort_order: sortOrder === -1 ? 'descending' : 'ascending',
       }
     })
-    .then(response => {})
-    .catch(error => {});
+    .then(response => {
+      // On success, update the global state and return the results.
+      // Because of strange design constraints and group consensus, normalize
+      // all scores to be in range [0, 10].
+      const maxScore = response.data.max_score;
+      const nResults = response.data.total_count;
+      const normedParallels = normalizeScores(response.data.parallels,
+                                              maxScore >= 10 ? maxScore : 10);
+      dispatch(updateResults(normedParallels, nResults));
+      response.data.parallels = normedParallels;
+      return response;
+    })
+    .catch(error => {
+      return error.response;
+    });
   }
 }
