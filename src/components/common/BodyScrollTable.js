@@ -1,13 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody'
 import TableContainer from '@material-ui/core/TableContainer';
+import TableFooter from '@material-ui/core/TableFooter';
 import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Toolbar from '@material-ui/core/Toolbar';
 
+import { resetPagination, updatePagination } from '../../state/pagination';
 import TesseraeTablePagination from './TesseraeTablePagination';
 
 
@@ -16,35 +23,29 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     height: '100%',
     margin: 0,
-    // overflow: "overlay",
     padding: 0,
     width: '100%',
   },
   container: {
     height: '100%',
-    // overflow: 'overlay'
+  },
+  table: {
+    overflowY: 'hidden',
+  },
+  header: {
+    backgroundColor: theme.palette.secondary.main,
   },
   body: {
-    marginBottom: '300px',
-    // height: '98%',
-    overflow: 'overlay'
-  },
-  pagination: {
-    backgroundColor: 'white',
-    borderTop: '1px solid #dedede',
-    bottom: 0,
-    minHeight: '52px',
-    position: 'fixed',
-    top: 'auto',
-    width: '100%',
-    zIndex: theme.zIndex.drawer
+    height: '100%',
+    overflowY: 'overlay'
   }
 }));
 
 
 function BodyScrollTable(props) {
-  const { bodyCount, bodyRows, headerRow, initialRowsPerPage, onPageChange,
-          rowsPerPageLabel, rowsPerPageOptions } = props;
+  const { bodyCount, children, initialRowsPerPage, onPageChange,
+          pagination, resetPagination, rowsPerPageLabel, rowsPerPageOptions,
+          updatePagination } = props;
 
   const classes = useStyles();
   
@@ -67,30 +68,36 @@ function BodyScrollTable(props) {
       >
         <TableContainer className={classes.container}>
           <Table
+            className={classes.table}
             stickyHeader
           >
-            <TableHead>
-              {headerRow}
+            <TableHead
+              className={classes.header}
+            >
+              {children[0]}
             </TableHead>
             <TableBody
               className={classes.body}
             >
-              {bodyRows}
+              {children[1]}
             </TableBody>
-
+            <TableFooter>
+              <TableRow>
+                <TesseraeTablePagination
+                  count={bodyCount}
+                  initialRowsPerPage={initialRowsPerPage}
+                  onPageChange={onPageChange}
+                  pagination={pagination}
+                  resetPagination={resetPagination}
+                  rowsPerPageLabel={rowsPerPageLabel}
+                  rowsPerPageOptions={rowsPerPageOptions}
+                  updatePagination={updatePagination}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
+          
         </TableContainer>
-      </Box>
-      <Box
-        className={classes.pagination}
-      >
-        <TesseraeTablePagination
-          count={bodyCount}
-          initialRowsPerPage={initialRowsPerPage}
-          onPageChange={onPageChange}
-          rowsPerPageLabel={rowsPerPageLabel}
-          rowsPerPageOptions={rowsPerPageOptions}
-        />
       </Box>
     </Box>
   );

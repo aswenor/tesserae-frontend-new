@@ -1,19 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TablePagination from '@material-ui/core/TablePagination';
 
 import TablePaginationActions from './TablePaginationActions';
-import { updatePagination, resetPagination } from '../../state/pagination';
 
 
 const useStyles = makeStyles(theme => ({
   root: {
-    overflow: "hidden",
+    backgroundColor: theme.palette.secondary.main,
+    borderTop: '1px solid rgba(224, 224, 224, 1)',
+    bottom: 0,
+    left: 0,
+    overflow: 'hidden',
+    position: 'sticky',
+    top: 'auto',
     width: '100%',
+    zIndex: 2
   }
 }));
 
@@ -29,19 +33,6 @@ function TesseraeTablePagination(props) {
           updatePagination } = props;
   
   const classes = useStyles();
-
-  useEffect(() => {
-    updatePagination({
-      currentPage: 0,
-      rowsPerPage: initialRowsPerPage
-    });
-  }, [initialRowsPerPage, updatePagination]);
-
-  useEffect(() => {
-    if (onPageChange) {
-      onPageChange(pagination);
-    }
-  }, [onPageChange, pagination, resetPagination]);
 
   const handleChangePage = (event, newPage) => {
     updatePagination({currentPage: newPage});
@@ -62,6 +53,7 @@ function TesseraeTablePagination(props) {
       page={pagination.currentPage}
       rowsPerPage={pagination.rowsPerPage}
       rowsPerPageOptions={rowsPerPageOptions}
+      variant="footer"
     />
   );
 }
@@ -75,19 +67,4 @@ TesseraeTablePagination.propTypes = {
 };
 
 
-function mapStateToProps(state) {
-  return {
-    pagination: state.pagination
-  };
-}
-
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    resetPagination: resetPagination,
-    updatePagination: updatePagination
-  }, dispatch);
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(TesseraeTablePagination);
+export default TesseraeTablePagination;
