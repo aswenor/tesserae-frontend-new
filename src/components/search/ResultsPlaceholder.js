@@ -15,7 +15,6 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/styles';
@@ -26,7 +25,6 @@ import Typography from '@material-ui/core/Typography';
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { getSearchStatus, fetchResults } from '../../api/search';
 import { toTitleCase } from '../../utils';
 
 
@@ -51,7 +49,6 @@ const useStyles = makeStyles(theme => ({
   },
   text: {
     display: 'inline-block',
-    fontSize: 18,
     marginTop: '20px'
   }
 }));
@@ -65,7 +62,9 @@ const useStyles = makeStyles(theme => ({
  *   
  */
 function ResultsPlaceholder(props) {
-  const { results, searchID, searchProgress } = props;
+  const { searchInProgress, searchProgress } = props;
+
+  console.log(searchInProgress, searchProgress);
 
   /** CSS styles and global theme. */
   const classes = useStyles(props);
@@ -91,7 +90,7 @@ function ResultsPlaceholder(props) {
         flexGrow={1}
         flexDirection="row"
       >
-        {searchID === '' && results.length === 0
+        {!searchInProgress 
          ?  <Box
               className={classes.spacer}
             >
@@ -105,7 +104,8 @@ function ResultsPlaceholder(props) {
               <Typography
                 className={classes.text}
                 color="primary"
-                variant="subtitle1">
+                variant="h5"
+              >
                 Run a search to find parallels.
               </Typography>
             </Box>
@@ -116,7 +116,7 @@ function ResultsPlaceholder(props) {
                 align="left"
                 className={classes.text}
                 color="primary"
-                variant="subtitle1"
+                variant="h5"
               >
                 Searching. This may take a moment.
               </Typography>
@@ -131,29 +131,9 @@ function ResultsPlaceholder(props) {
 
 ResultsPlaceholder.propTypes = {
   /**
-   * Flag determining if an AJAX call may be initiated.
+   * True if a search is currently running.
    */
-  asyncReady: PropTypes.bool,
-
-  /**
-   * Function to get results from the REST API.
-   */
-  fetchResults: PropTypes.func,
-
-  /**
-   * Function to get the status of the search from the REST API.
-   */
-  getSearchStatus: PropTypes.func,
-
-  /**
-   * List of results returned from the search.
-   */
-  results: PropTypes.arrayOf(PropTypes.object),
-
-  /**
-   * ID assigned to the search by the REST API.
-   */
-  searchID: PropTypes.string,
+  searchInProgress: PropTypes.bool,
 
   /**
    * Progress indicators for stages of a search.
@@ -169,11 +149,6 @@ ResultsPlaceholder.propTypes = {
      */
     value : PropTypes.number
   })),
-
-  /**
-   * Search status string returned from the REST API.
-   */
-  searchStatus: PropTypes.string,
 }
 
 
@@ -183,27 +158,13 @@ ResultsPlaceholder.propTypes = {
  * @param {object} state The global state of the application.
  * @returns {object} Members of the global state to provide as props.
  */
-const mapStateToProps = state => ({
-  asyncReady: state.async.asyncPending < state.async.maxAsyncPending,
-  results: state.search.results,
-  resultCount: state.search.resultCount,
-  searchID: state.search.searchID,
-  searchInProgress: state.async.searchInProgress,
-  searchStatus: state.search.searchStatus,
-  searchProgress: state.search.searchProgress
-});
-
-
-/**
- * Add redux store actions to this component's props.
- * 
- * @param {function} dispatch The redux dispatch function.
- */
-const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchResults: fetchResults,
-  getSearchStatus: getSearchStatus,
-}, dispatch);
+function mapStateToProps(state) {
+  return {
+    searchInProgress: state.search.searchInProgress,
+    searchProgress: state.search.progress,
+  }
+}
 
 
 // Do redux binding here.
-export default connect(mapStateToProps, mapDispatchToProps)(ResultsPlaceholder);
+export default connect(mapStateToProps)(ResultsPlaceholder);

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PageContainer from '../common/PageContainer';
-import ResultsTable from './ResultsTable';
+import RightPanel from './RightPanel';
 import SearchParametersForm from './SearchParametersForm';
 import TwoPanelView from '../common/TwoPanelView';
 
@@ -15,7 +15,7 @@ function Search(props) {
         showToggle={true}
       >
         <SearchParametersForm />
-        <ResultsTable />
+        <RightPanel />
       </TwoPanelView>
     </PageContainer>
   );

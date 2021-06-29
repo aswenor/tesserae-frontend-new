@@ -11,16 +11,12 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Typography from '@material-ui/core/Typography';
-
-import { updatePagination } from '../../state/pagination';
 
 
 /** CSS styles to apply to table cells. */
@@ -32,12 +28,15 @@ const cellStyles = makeStyles(theme => ({
     borderBottom: '2px solid black'
   },
   numberCell: {
+    backgroundColor: theme.palette.secondary.main,
     width: '1%'
   },
   snippetCell: {
+    backgroundColor: theme.palette.secondary.main,
     width: '48%'
   },
   matchesCell: {
+    backgroundColor: theme.palette.secondary.main,
     width: '10%'
   },
 }));
@@ -48,7 +47,7 @@ const cellStyles = makeStyles(theme => ({
  * 
  * @component
  */
-function ResultsTableHeader(props) {
+function Header(props) {
   const { sortHeader, sortOrder, updatePagination } = props;
 
   /** Map sort direction from number to string. */
@@ -98,7 +97,7 @@ function ResultsTableHeader(props) {
           direction={sortHeader === 'source_tag' ? sortDirection : 'desc'}
           hideSortIcon={false}
         >
-          <Typography variant="h6"><b>Source</b></Typography>
+          <Typography><b>Source</b></Typography>
         </TableSortLabel>
       </TableCell>
       <TableCell
@@ -114,7 +113,7 @@ function ResultsTableHeader(props) {
           direction={sortHeader === 'target_tag' ? sortDirection : 'desc'}
           hideSortIcon={false}
         >
-          <Typography variant="h6"><b>Target</b></Typography>
+          <Typography><b>Target</b></Typography>
         </TableSortLabel>
       </TableCell>
       <TableCell
@@ -123,7 +122,7 @@ function ResultsTableHeader(props) {
         key="matches"
         variant="head"
       >
-        <Typography variant="h6"><b>Match Features</b></Typography>
+        <Typography><b>Matches</b></Typography>
       </TableCell>
       <TableCell
         align="center"
@@ -138,7 +137,7 @@ function ResultsTableHeader(props) {
           direction={sortHeader === 'score' ? sortDirection : 'desc'}
           hideSortIcon={false}
         >
-          <Typography variant="h6"><b>Score</b></Typography>
+          <Typography><b>Score</b></Typography>
         </TableSortLabel>
       </TableCell>
     </TableRow>
@@ -146,7 +145,7 @@ function ResultsTableHeader(props) {
 }
 
 
-ResultsTableHeader.propTypes = {
+Header.propTypes = {
   /**
    * Header on which to search.
    */
@@ -164,19 +163,4 @@ ResultsTableHeader.propTypes = {
 };
 
 
-function mapStateToProps(state) {
-  return {
-    sortHeader: state.pagination.sortHeader,
-    sortOrder: state.pagination.sortOrder,
-  }
-}
-
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updatePagination: updatePagination
-  }, dispatch);
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResultsTableHeader);
+export default Header;

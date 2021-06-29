@@ -18,7 +18,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
-import { highlightMatches } from '../../utils';
+import { highlightMatches } from '../../../utils';
 
 
 /** CSS styles to apply to table cells. */
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
  * 
  * @component
  */
-function ResultsTableBody(props) {
+function BodyRow(props) {
   const { idx, result } = props;
 
   /** CSS styles and global theme. */
@@ -123,7 +123,7 @@ function ResultsTableBody(props) {
 }
 
 
-ResultsTableBody.propTypes = {
+BodyRow.propTypes = {
   /**
    * List of results as specified in the REST API.
    */
@@ -168,4 +168,4 @@ ResultsTableBody.propTypes = {
 };
 
 
-export default ResultsTableBody;
+export default BodyRow;

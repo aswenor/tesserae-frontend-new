@@ -20,22 +20,24 @@
  * Default state for async communications.
  */
  export const DEFAULT_STATE = {
+  changingPage: false,
   results: [],
   resultsCount: 0,
   searchID: '',
+  searchInProgress: false,
   searchParameters: {
     unitType: 'phrase',
     feature: 'lemmata',
     stoplist: 10,
-    stoplistBasis: '',
+    stoplistBasis: 'corpus',
     scoreBasis: 'form',
     frequencyBasis: 'corpus',
     maxDistance: '10 words',
     distanceBasis: 'frequency',
     dropScoresBelow: '6'
   },
-  searchProgress: [],
-  searchStatus: '',
+  progress: [],
+  status: '',
   sourceText: {author: '', title: ''},
   stopwords: [],
   targetText: {author: '', title: ''}
@@ -51,8 +53,10 @@ const CLEAR_SOURCE_TEXT = 'CLEAR_SOURCE_TEXT';
 const CLEAR_STOPWORDS = 'CLEAR_STOPWORDS';
 const CLEAR_TARGET_TEXT = 'CLEAR_TARGET_TEXT';
 const RESET_SEARCH = 'RESET_SEARCH';
+const UPDATE_CHANGE_PAGE = 'UPDATE_CHANGE_PAGE';
 const UPDATE_RESULTS = 'UPDATE_RESULTS';
 const UPDATE_SEARCH_ID = 'UPDATE_SEARCH_ID';
+const UPDATE_SEARCH_IN_PROGRESS = 'UPDATE_SEARCH_IN_PROGRESS';
 const UPDATE_SEARCH_PARAMETERS = 'UPDATE_SEARCH_PARAMETERS';
 const UPDATE_SEARCH_STATUS = 'UPDATE_SEARCH_STATUS';
 const UPDATE_SOURCE_TEXT = 'UPDATE_SOURCE_TEXT';
@@ -80,8 +84,8 @@ export function clearResults() {
       results: DEFAULT_STATE.results,
       resultsCount: DEFAULT_STATE.resultsCount,
       searchID: DEFAULT_STATE.searchID,
-      searchProgress: DEFAULT_STATE.searchProgress,
-      searchStatus: DEFAULT_STATE.searchStatus,
+      progress: DEFAULT_STATE.progress,
+      status: DEFAULT_STATE.searchStatus,
     }
   }
 }
@@ -97,8 +101,8 @@ export function clearSearchMetadata() {
     type: CLEAR_SEARCH_METADATA,
     payload: {
       searchID: DEFAULT_STATE.searchID,
-      searchProgress: DEFAULT_STATE.searchProgress,
-      searchStatus: DEFAULT_STATE.searchStatus,
+      progress: DEFAULT_STATE.progress,
+      status: DEFAULT_STATE.searchStatus,
     }
   };
 }
@@ -165,10 +169,26 @@ export function resetSearch() {
 
 
 /**
+ * Update the page change in progress flag.
+ * 
+ * @param {Boolean} changingPage True if page change in progress, false otherwise.
+ * @returns {Object} A redux-style action.
+ */
+export function updateChangePage(changingPage = DEFAULT_STATE.changingPage) {
+  return {
+    type: UPDATE_CHANGE_PAGE,
+    payload: {
+      changingPage: changingPage
+    }
+  }
+}
+
+
+/**
  * Update the results of a search.
  *
  * @param {Array} results The search results to display.
- * @param
+ * @param {Number} resultsCount the total number of search results.
  * @returns {Object} A redux-style action.
  */
 export function updateResults(results = DEFAULT_STATE.results,
@@ -200,6 +220,22 @@ export function updateSearchID(searchID = DEFAULT_STATE.searchID) {
 
 
 /**
+ * Set the flag determining whether or not a search is running.
+ * 
+ * @param {bool} searchInProgress True if a search is running.
+ * @returns {Object} A redux-style action.
+ */
+export function updateSearchInProgress(searchInProgress = DEFAULT_STATE.searchInProgress) {
+  return {
+    type: UPDATE_SEARCH_IN_PROGRESS,
+    payload: {
+      searchInProgress: searchInProgress
+    }
+  }
+}
+
+
+/**
 *  Update additional parameters of a search.
 *
 * @param {Object} searchParameters Constraints/settings for the search
@@ -218,17 +254,17 @@ export function updateSearchParameters(searchParameters = DEFAULT_STATE.searchPa
 /**
 *  Update the status of an in-progress search.
 *
-* @param {Object} searchStatus Status of the search.
-* @param {Array} searchStatusProgress Progress indicators for the search.
+* @param {Object} status Status of the search.
+* @param {Array} progress Progress indicators for the search.
 * @returns {Object} A redux-style action.
 **/
-export function updateSearchStatus(searchStatus = DEFAULT_STATE.searchStatus,
-                                   searchProgress = DEFAULT_STATE.searchProgress) {
+export function updateSearchStatus(status = DEFAULT_STATE.status,
+                                   progress = DEFAULT_STATE.progress) {
   return {
     type: UPDATE_SEARCH_STATUS,
     payload: {
-      searchProgress: searchProgress,
-      searchStatus: searchStatus
+      progress: progress,
+      status: status
     }
   };
 }
@@ -306,8 +342,10 @@ export function searchReducer(state = DEFAULT_STATE, action = {}) {
     case CLEAR_STOPWORDS:
     case CLEAR_TARGET_TEXT:
     case RESET_SEARCH:
+    case UPDATE_CHANGE_PAGE:
     case UPDATE_RESULTS:
     case UPDATE_SEARCH_ID:
+    case UPDATE_SEARCH_IN_PROGRESS:
     case UPDATE_SEARCH_STATUS:
     case UPDATE_SOURCE_TEXT:
     case UPDATE_STOPWORDS:

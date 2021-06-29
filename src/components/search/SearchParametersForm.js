@@ -34,7 +34,7 @@ import { MarginlessAccordion, MarginlessAccordionSummary,
          MarginlessAccordionDetails } from '../common/MarginlessAccordion';
 import TextSelectGroup from './TextSelectGroup';
 
-import { fetchStoplist, initiateSearch } from '../../api/search';
+import { runSearch } from '../../api/search';
 import { clearResults, clearSearchMetadata } from '../../state/search';
 
 
@@ -78,31 +78,22 @@ const useStyles = makeStyles(theme => ({
  *   );
  */
 function SearchParametersForm(props) {
-  const { asyncReady, clearResults, fetchStoplist, initiateSearch,
-          language, searchNeeded, searchParameters, sourceText,
-          stopwords, targetText, toggleSideBar } = props;
+  const { clearResults, runSearch,
+          language, searchInProgress, searchParameters, sourceText,
+          targetText, toggleSideBar } = props;
 
   const classes = useStyles();
 
   const clearAndInitiate = () => {
-    if (searchNeeded) {
+    if (!searchInProgress) {
       clearResults();
-      initiateSearch(sourceText, targetText, searchParameters,
-                    stopwords, true);
+      runSearch(language, sourceText, targetText, searchParameters, true);
     }
   };
 
-  const disableSearch = !searchNeeded
-                        || stopwords.length === 0
+  const disableSearch = searchInProgress
                         || sourceText.object_id === undefined
                         || targetText.object_id === undefined;
-
-  if (language !== '' && stopwords.length === 0) {
-    const basis = searchParameters.stoplistBasis === 'corpus'
-                  ? language
-                  : [sourceText.object_id, targetText.object_id];
-    fetchStoplist(searchParameters.feature, searchParameters.stoplist, basis, asyncReady);
-  }
 
   // Most of the content here is the Material-UI Grid model to handle spacing
   // members of the form.
@@ -132,11 +123,9 @@ function SearchParametersForm(props) {
               justify="center"
               spacing={2}
             >
-              <Grid item xs={12}>
-                <LanguageSelectButtons
-                  toggleSideBar={toggleSideBar}
-                />
-              </Grid>
+              <LanguageSelectButtons
+                toggleSideBar={toggleSideBar}
+              />
               <Grid item xs={12}>
                 <TextSelectGroup />
               </Grid>
@@ -253,12 +242,10 @@ SearchParametersForm.propTypes = {
  */
 const mapStateToProps = (state) => {
   return {
-    asyncReady: state.async.asyncPending < state.async.maxAsyncPending,
     language: state.corpus.language,
-    searchNeeded: state.search.searchID === '' && !state.async.searchInProgress,
+    searchInProgress: state.search.searchInProgress,
     searchParameters: state.search.searchParameters,
     sourceText: state.search.sourceText,
-    stopwords: state.search.stopwords,
     targetText: state.search.targetText,
   };
 };
@@ -271,8 +258,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   clearResults: clearResults,
   clearSearchMetadata: clearSearchMetadata,
-  fetchStoplist: fetchStoplist,
-  initiateSearch: initiateSearch,
+  runSearch: runSearch
 }, dispatch);
 
 
