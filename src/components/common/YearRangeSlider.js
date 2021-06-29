@@ -65,7 +65,7 @@ function YearRangeSlider(props) {
   }
 
   /** Ticks to display on the slider (0 changed to 1). */
-  const marks = [sliderMin, 1, sliderMax] // range(sliderMin, sliderMax, tickInterval)
+  const marks = [sliderMin, sliderMax] // range(sliderMin, sliderMax, tickInterval)
     .map(x => {
       return {
         value: x,
@@ -88,11 +88,11 @@ function YearRangeSlider(props) {
       max={sliderMax}
       min={sliderMin}
       name="year-range-select"
-      onChange={handleChange}
+      onChange={(event, value) => {selectYearRange(value);}}
       onChangeCommitted={handleChange}
       value={[yearLower, yearUpper]}
       ValueLabelComponent={YearLabel}
-      valueLabelDisplay="on"
+      valueLabelDisplay="auto"
       valueLabelFormat={yearDisplay}
     />
   );

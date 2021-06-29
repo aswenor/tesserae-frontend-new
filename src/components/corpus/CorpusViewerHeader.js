@@ -7,7 +7,6 @@
  * 
  * @requires NPM:react
  * @requires NPM:prop-types
- * @requires NPM:react-redux
  * @requires NPM:react-router-dom
  * @requires NPM:@material-ui/core
  * @requires NPM:@material-ui/icons
@@ -16,9 +15,8 @@
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
+import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
@@ -28,13 +26,22 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 
 import IngestForm from './IngestForm';
-import { updatePagination } from '../../state/pagination';
 
 
 /**
  * Whether or not we are in admin mode.
  */
 const MODE = process.env.REACT_APP_MODE.toLowerCase() === 'admin';
+
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundColor: theme.palette.secondary.main,
+  },
+  cell: {
+    backgroundColor: theme.palette.secondary.main,
+  }
+}));
 
 
 /**
@@ -51,10 +58,12 @@ const MODE = process.env.REACT_APP_MODE.toLowerCase() === 'admin';
  *  );
  */
 function CorpusViewerHeader(props) {
-  const { sortHeader, sortOrder, updatePagination } = props; 
+  const { sortHeader, sortOrder, updatePagination } = props;
 
   /** Flag indicating that the ingest form should be visible. */
   const [ ingestOpen, setIngestOpen ] = useState(false);
+
+  const classes = useStyles();
 
   /**
    * Update pagination on header click.
@@ -81,6 +90,7 @@ function CorpusViewerHeader(props) {
     if ((idx < 3 || idx > 5) && idx !== 7) {
       return (
         <TableCell
+          className={classes.cell}
           key={item}
           variant="head"
         >
@@ -92,6 +102,7 @@ function CorpusViewerHeader(props) {
       return (
         <TableCell
           align="right"
+          className={classes.cell}
           colSpan={3}
           key={item}
           variant="head"
@@ -112,13 +123,14 @@ function CorpusViewerHeader(props) {
     else {
       return (
         <TableCell
+          className={classes.cell}
           key={item}
+          sortDirection={sortHeader.toLowerCase() === item.toLowerCase() ? order : false}
           variant="head"
-          sortDirection={sortHeader === item ? order : false}
         >
           <TableSortLabel
-            active={sortHeader === item}
-            direction={sortHeader === item
+            active={sortHeader.toLowerCase() === item.toLowerCase()}
+            direction={sortHeader.toLowerCase() === item.toLowerCase()
                        ? (sortOrder === 1 ? 'asc' : 'desc')
                        : 'asc'
             }
@@ -132,7 +144,9 @@ function CorpusViewerHeader(props) {
   });
 
   return (
-    <TableRow>
+    <TableRow
+      className={classes.root}
+    >
       {headCells}
     </TableRow>
   );
@@ -157,30 +171,5 @@ CorpusViewerHeader.propTypes = {
 };
 
 
-/**
- * Add redux store state to this component's props.
- * 
- * @param {object} state The global state of the application.
- * @returns {object} Members of the global state to provide as props.
- */
-function mapStateToProps(state) {
-  return {
-    sortHeader: state.pagination.sortHeader,
-    sortOrder: state.pagination.sortOrder
-  };
-}
-
-
-/**
- * Add redux store actions to this component's props.
- * @param {function} dispatch The redux dispatch function.
- */
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updatePagination: updatePagination
-  }, dispatch);
-}
-
-
 // Do redux binding here.
-export default connect(mapStateToProps, mapDispatchToProps)(CorpusViewerHeader);
+export default CorpusViewerHeader;

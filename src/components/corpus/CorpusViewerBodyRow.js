@@ -170,7 +170,7 @@ function CorpusViewerBodyRow(props) {
 
   
   return (
-    <TableRow key={text.object_id}>
+    <TableRow key={`${text.object_id}-${text.author}-${text.title}`}>
       <TableCell
           variant="body"
         >
@@ -214,7 +214,7 @@ function CorpusViewerBodyRow(props) {
         <TableCell
           variant="body"
         >
-          <Typography variant="body1">{`${text.year} ${text.year > 0 ? 'CE' : 'BCE'}`}</Typography>
+          <Typography variant="body1">{`${Math.abs(text.year)} ${text.year > 0 ? 'CE' : 'BCE'}`}</Typography>
         </TableCell>
         <TableCell
           variant="body"

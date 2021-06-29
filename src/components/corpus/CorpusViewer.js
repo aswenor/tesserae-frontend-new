@@ -13,9 +13,10 @@
  * @requires ./CorpusViewerBodyRow
  * @requires ./CorpusViewerHeader
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { orderBy } from 'lodash';
 
 import Box from '@material-ui/core/Box';
 
@@ -31,10 +32,6 @@ import CorpusViewerHeader from './CorpusViewerHeader';
  * @example
  *   return (
  *     <CorpusViewer
- *       currentPage={0}
- *       rowsPerPage={10}
- *       sortHeader="author"
- *       sortOrder={1}
  *       textList={[{
  *         author: 'vergil',
  *         is_prose: true,
@@ -46,39 +43,47 @@ import CorpusViewerHeader from './CorpusViewerHeader';
  *   );
  */
 function CorpusViewer(props) {
-  const { currentPage, rowsPerPage, sortHeader, sortOrder, textList } = props;
+  const { textList } = props;
 
-  /**
-   * The first and last entries to select from textList.
-   */
-  const start = currentPage * rowsPerPage;
-  const end = start + rowsPerPage;
-
-  /**
-   * Determine the order of two objects by a given field.
-   * 
-   * @param {Object} a 
-   * @param {Object} b 
-   * @returns {number} -1, 0, or 1 depending on equality
-   */
-  const compareTexts = (a, b) => {
-    if (a[sortHeader] < b[sortHeader]) {
-      return sortOrder
-    }
-    else if (a[sortHeader] < b[sortHeader]) {
-      return -sortOrder
-    }
-    else {
-      return 0;
-    }
-  };
-
-  /**
-   * Array of rows of the table.
-   */
-  const bodyRows = textList.slice().sort(compareTexts).slice(start, end).map(item => {
-    return (<CorpusViewerBodyRow text={item} />);
+  const [ pagination, setPagination ] = useState({
+    currentPage: 0,
+    rowsPerPage: 25,
+    sortHeader: 'author',
+    sortOrder: 1
   });
+
+  const [ displayRows, setDisplayRows] = useState([]);
+
+  useEffect(() => {
+    /**
+     * The first and last entries to select from textList.
+     */
+    const start = pagination.currentPage * pagination.rowsPerPage;
+    const end = start + pagination.rowsPerPage;
+
+    /**
+     * Determine the order of two objects by a given field.
+     * 
+     * @param {Object} a 
+     * @param {Object} b 
+     * @returns {number} -1, 0, or 1 depending on equality
+     */
+    const compareTexts = (a, b) => {
+      if (a[pagination.sortHeader] > b[pagination.sortHeader]) {
+        return pagination.sortOrder
+      }
+      else if (a[pagination.sortHeader] < b[pagination.sortHeader]) {
+        return -pagination.sortOrder
+      }
+      else {
+        return 0;
+      }
+    };
+    
+    setDisplayRows(textList.slice().sort(compareTexts).slice(start, end).map(item => {
+      return (<CorpusViewerBodyRow text={item} />);
+    }));
+  }, [pagination, textList]);
 
   return (
     <Box
@@ -90,13 +95,20 @@ function CorpusViewer(props) {
     >
       <BodyScrollTable
         bodyCount={textList.length}
-        bodyRows={bodyRows}
-        headerRow={<CorpusViewerHeader />}
         initialRowsPerPage={25}
         onPageChange={() => {}}
+        pagination={pagination}
         rowsPerPageLabel="Rows Per Page:"
-        rowsPerPageOptions={[10, 25, 50, 100]}
-      />
+        rowsPerPageOptions={[25, 50, 100]}
+        updatePagination={(newPagination) => setPagination(prev => ({...prev, ...newPagination}))}
+      >
+        <CorpusViewerHeader 
+          sortHeader={pagination.sortHeader}
+          sortOrder={pagination.sortOrder}
+          updatePagination={newPagination => setPagination(prev => ({...prev, ...newPagination}))}
+        />
+        {displayRows}
+      </BodyScrollTable>
     </Box>
   );
 }

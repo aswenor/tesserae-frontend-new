@@ -12,7 +12,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isNull, isObject, uniqBy } from 'lodash';
+import { hasIn, isNull, isObject, uniqBy, isString } from 'lodash';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '10px'
   },
   select: {
-    // backgroundColor: theme.palette.default.main,
+    backgroundColor: '#ffffff',
     marginBottom: '10px',
     [theme.breakpoints.up('md')]: {
 
@@ -80,15 +80,16 @@ function TextSelectDropdowns(props) {
   const textItems = textList.filter(t => selection.author === '' || t.author.toLowerCase() === selection.author).sort((a, b) => a.title > b.title);
  
   const isAuthorSelected = (option, value) => {
-    return isObject(value) ? 
-           option.search_id === value.search_id :
-           option.author.toLowerCase() === value.toLowerCase();
+    return isObject(value)
+      ? option.author.toLowerCase() === value.author.toLowerCase()
+      : false;
+     
   }
 
   const isTitleSelected = (option, value) => {
-    return isObject(value) ?
-           option.search_id === value.search_id :
-           option.title.toLowerCase() === value.toLowerCase();
+    return isObject(value)
+      ? option.title.toLowerCase() === value.title.toLowerCase()
+      : false;
   }
   
   return (
@@ -103,14 +104,15 @@ function TextSelectDropdowns(props) {
         </Typography>
       }
       <Autocomplete
+        autoComplete={true}
         className={classes.select}
         defaultValue={{author: '', title: ''}}
-        getOptionLabel={option => option.author !== undefined ? option.author : ''}
+        getOptionLabel={option => { return hasIn(option, 'author') ? option.author : '' }}
         getOptionSelected={isAuthorSelected}
         loading={loading}
         loadingText={loadingText}
         onChange={(event, value) => handleAuthorChange(!isNull(value) ? value : '')}
-        // onInputChange={(event, value) => handleAuthorChange(!isNull(value) ? value : '')}
+        // onInputChange={(event, value) => {console.log(value); handleAuthorChange(isString(value) ? value : '')}}
         onOpen={(event) => {onOpen()}}
         options={authorItems}
         renderInput={params => (
@@ -123,9 +125,10 @@ function TextSelectDropdowns(props) {
         value={selection}
       />
       <Autocomplete
+        autoComplete={true}
         className={classes.select}
         defaultValue={{author: '', title: ''}}
-        getOptionLabel={option => option.title !== undefined ? option.title : ''}
+        getOptionLabel={option => hasIn(option, 'title') ? option.title : ''}
         getOptionSelected={isTitleSelected}
         loading={loading}
         loadingText={loadingText}

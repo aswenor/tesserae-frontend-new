@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
  *   );
  */
 function CorpusViewerSidebar(props) {
-  const { filteredTextList, textList } = props;
+  const { filteredTextList, updateFilteredTextList } = props;
 
   /** CSS styles and global theme. */
   const classes = useStyles();
@@ -92,7 +92,7 @@ function CorpusViewerSidebar(props) {
       <LanguageSelectButtons />
       <CorpusFilter
         filteredTextList={filteredTextList}
-        loading={textList && textList.length > 0}
+        updateFilteredTextList={updateFilteredTextList}
       />
       <div className={classes.spacer}></div>
       <SearchButtons />

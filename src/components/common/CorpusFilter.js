@@ -14,21 +14,21 @@
  * @requires ../../theme
  * @requires ./YearRangeSlider
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { filter, isNumber, isString, maxBy, minBy, uniqBy } from 'lodash';
 
 import { makeStyles } from '@material-ui/core/styles';
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import ThemeProvider from '@material-ui/styles/ThemeProvider'
 
-import { clearFilter, updateFilter } from '../../state/corpus';
-import TextSelectDropdowns from './TextSelectDropdowns';
+import { filterTexts } from '../../utils';
 import createTesseraeTheme from '../../theme';
-import YearRangeSlider from './YearRangeSlider'
+import TypeButtonGroup from './TypeButtonGroup';
+import YearRangeSlider from './YearRangeSlider';
 
 
 const useStyles = makeStyles(theme => ({
@@ -61,56 +61,101 @@ const localTheme = {
 
 
 function CorpusFilter(props) {
-  const { authorFilter, clearFilter, filteredTextList, loading, maxYear,
-          minYear, titleFilter, typeFilter, updateFilter, yearFilter } = props;
+  const { availableTexts, filteredTextList, updateFilteredTextList } = props;
+
+  const [ yearRange, setYearRange ] = useState([-10000, 10000]);
+
+  const [ textFilter, setFilter ] = useState({
+    author: '',
+    title: '',
+    type: 'all',
+    year: [-10000, 10000]
+  });
+
+  useEffect(() => {
+    const numbersOnly = filter(availableTexts, t => isNumber(t.year));
+    const minYear = Math.floor(minBy(numbersOnly, 'year').year / 100) * 100;
+    const maxYear = Math.ceil(maxBy(numbersOnly, 'year').year / 100) * 100;
+
+    setYearRange([minYear, maxYear]);
+
+    setFilter({
+      author: '',
+      title: '',
+      type: 'all',
+      year: [minYear, maxYear]
+    });
+  }, [availableTexts, setFilter, setYearRange]);
+
+  console.log(yearRange);
+
+  useEffect(() => {
+    updateFilteredTextList(
+      filterTexts(
+        availableTexts,
+        textFilter.type,
+        textFilter.author,
+        textFilter.title,
+        textFilter.year
+      )
+    );
+  }, [availableTexts, textFilter, updateFilteredTextList]);
 
   const classes = useStyles();
 
-  const buttons = ['All', 'Poetry', 'Prose'].map(item => {
-    return (
-      <Button
-        className={classes.button}
-        color={typeFilter === item.toLowerCase() ? "secondary" : "default"}
-        key={item.toLowerCase()}
-        onClick={e => { updateFilter({type: item.toLowerCase()}); }}
-        size="small"
-        variant="contained"
-      >
-        {item}
-      </Button>
-    );
-  });
-
   return (
     <Box
-      direction="column"
+      alignContent="center"
+      alignItems="center"
+      justifyContent="center"
+      justifyItems="center"
       width={.75}
     >
       <ThemeProvider theme={createTesseraeTheme(localTheme)}>
         <Box className={classes.searchSpacer} width={1}></Box>
-        <ButtonGroup
-          className={classes.button}
-          size="small"
-        >
-          {buttons}
-        </ButtonGroup>
+        <TypeButtonGroup
+          setTypeFilter={value => { setFilter(prev => ({...prev, type: value}));; }}
+          typeFilter={textFilter.type}
+        />
         <Box className={classes.searchSpacer} width={1}></Box>
-        <TextSelectDropdowns
-          handleAuthorChange={(value) => { updateFilter({author: value}); }}
-          handleTitleChange={(value) => { updateFilter({title: value}); }}
-          loading={loading}
-          loadingText={"Loading corpus..."}
-          onOpen={() => {}}
-          selection={{author: authorFilter, title: titleFilter}}
-          textList={filteredTextList}
-          title={''}
+        <Autocomplete
+          autoComplete
+          defaultValue={""}
+          filterOptions={createFilterOptions({matchFrom: 'start'})}
+          getOptionSelected={option => option === textFilter.author}
+          onChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
+          onInputChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
+          options={uniqBy(filteredTextList, 'author').map(item => item.author)}
+          renderInput={params => (
+            <TextField {...params}
+              fullWidth
+              placeholder={"Filter by author"}
+              variant="outlined"
+            />
+          )}
+        />
+        <Autocomplete
+          autoComplete
+          defaultValue={""}
+          filterOptions={createFilterOptions({matchFrom: 'start'})}
+          getOptionSelected={option => option === textFilter.title}
+          onChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
+          onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
+          options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
+          renderInput={params => (
+            <TextField {...params}
+              fullWidth
+              placeholder={"Filter by title"}
+              variant="outlined"
+            />
+          )}
         />
         <Box className={classes.yearSpacer} width={1}></Box>
         <YearRangeSlider
-          maxYear={maxYear}
-          minYear={minYear}
-          selectYearRange={(value) => { updateFilter({year: value}); }}
-          selectedYearRange={yearFilter}
+          maxYear={yearRange[1]}
+          minYear={yearRange[0]}
+          selectYearRange={(value) => { setFilter(prev => ({...prev, year: value})); }}
+          selectedYearRange={textFilter.year}
           tickInterval={100}
         />
       </ThemeProvider>
@@ -158,22 +203,9 @@ CorpusFilter.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    authorFilter: state.corpus.filter.author,
-    maxYear: state.corpus.maxYear,
-    minYear: state.corpus.minYear,
-    titleFilter: state.corpus.filter.title,
-    typeFilter: state.corpus.filter.type,
-    yearFilter: state.corpus.filter.year
+    availableTexts: state.corpus.availableTexts
   }
 }
 
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    clearFilter: clearFilter,
-    updateFilter: updateFilter
-  }, dispatch);
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(CorpusFilter);
+export default connect(mapStateToProps)(CorpusFilter);
