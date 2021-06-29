@@ -10,19 +10,49 @@
  * @requires NPM:redux
  * @requires NPM:react-redux
  * @requires NPM:@material-ui/core
+ * @requires ../../common/CollapseBox
+ * @requires ../../../theme
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { batch, connect } from 'react-redux';
 
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import FormControl from '@material-ui/core/FormControl';
 
 import CollapseBox from '../../common/CollapseBox';
+import createTesseraeTheme from '../../../theme';
 
 import { clearSearchMetadata, updateSearchParameters } from '../../../state/search';
+
+
+/** CSS styles to apply to the component. */
+const useStyles = makeStyles(theme => ({
+  button: {
+    border: '1px solid #000000',
+    boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.3)',
+  }
+}));
+
+
+/** Local theme override for nav button styling. */
+const localTheme = {
+  palette: {
+    default: {
+      main: '#ffffff'
+    },
+    primary: {
+      main: '#757575'
+    },
+    secondary: {
+      main: '#757575'
+    },
+  }
+};
 
 
 /**
@@ -43,7 +73,9 @@ function FrequencyBasisInput(props) {
   const { clearSearchMetadata, frequencyBasis,
           updateSearchParameters } = props;
 
-  const handleChange = (event, newFrequencyBasis) => {
+  const classes = useStyles();
+
+  const handleChange = (newFrequencyBasis) => {
     batch(() => {
       clearSearchMetadata();
       updateSearchParameters({frequencyBasis: newFrequencyBasis});
@@ -54,30 +86,37 @@ function FrequencyBasisInput(props) {
     <CollapseBox
       headerText="Frequency Basis"
     >
-      <FormControl
-        margin="dense"
-      >
-        <ToggleButtonGroup
-          aria-label="select frequency basis"
-          exclusive
-          onChange={handleChange}
-          size="small"
-          value={frequencyBasis}
-        >
-          <ToggleButton
-            aria-label="corpus frequency basis"
-            value="corpus"
+      <Box>
+        <ThemeProvider theme={createTesseraeTheme(localTheme)}>
+          <FormControl
+            margin="dense"
           >
-            Corpus
-          </ToggleButton>
-          <ToggleButton
-            aria-label="texts frequency basis"
-            value="texts"
-          >
-            Texts
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </FormControl>
+            <ButtonGroup
+              aria-label="select frequency basis"
+              size="small"
+            >
+              <Button
+                aria-label="corpus frequency basis"
+                className={classes.button}
+                color={frequencyBasis === 'corpus' ? 'secondary' : 'default'}
+                onClick={() => { handleChange('corpus') }}
+                variant='contained'
+              >
+                Corpus
+              </Button>
+              <Button
+                aria-label="texts frequency basis"
+                className={classes.button}
+                color={frequencyBasis === 'texts' ? 'secondary' : 'default'}
+                onClick={() => { handleChange('texts') }}
+                variant='contained'
+              >
+                Texts
+              </Button>
+            </ButtonGroup>
+          </FormControl>
+        </ThemeProvider>
+      </Box>
     </CollapseBox>
   );
 }

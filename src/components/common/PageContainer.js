@@ -22,7 +22,8 @@ import LoadingScreen from './LoadingScreen';
 /** CSS styles to apply to the component. */
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
+    overflowY: 'hidden'
   }
 }));
 

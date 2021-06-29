@@ -16,13 +16,41 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { batch, connect } from 'react-redux';
 
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import CollapseBox from '../../common/CollapseBox';
+import createTesseraeTheme from '../../../theme';
 
 import { clearSearchMetadata, updateSearchParameters } from '../../../state/search';
+
+
+/** CSS styles to apply to the component. */
+const useStyles = makeStyles(theme => ({
+  button: {
+    border: '1px solid #000000',
+    boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.3)',
+  }
+}));
+
+
+/** Local theme override for nav button styling. */
+const localTheme = {
+  palette: {
+    default: {
+      main: '#ffffff'
+    },
+    primary: {
+      main: '#757575'
+    },
+    secondary: {
+      main: '#757575'
+    },
+  }
+};
 
 
 /**
@@ -42,7 +70,9 @@ import { clearSearchMetadata, updateSearchParameters } from '../../../state/sear
 function UnitInput(props) {
   const { clearSearchMetadata, unit, updateSearchParameters } = props;
 
-  const handleChange = (event, newUnit) => {
+  const classes = useStyles();
+
+  const handleChange = (newUnit) => {
     batch(() => {
       clearSearchMetadata();
       updateSearchParameters({unitType: newUnit});
@@ -53,32 +83,37 @@ function UnitInput(props) {
     <CollapseBox
       headerText="Unit"
     >
-      <FormControl
-        margin="dense"
-      >
-        <ToggleButtonGroup
-          aria-label="select unit type"
-          exclusive
-          onChange={handleChange}
-          size="small"
-          value={unit}
-        >
-          <ToggleButton
-            aria-label="line unit type"
-            selected={unit === 'line'}
-            value="line"
+      <Box>
+        <ThemeProvider theme={createTesseraeTheme(localTheme)}>
+          <FormControl
+            margin="dense"
           >
-            Line
-          </ToggleButton>
-          <ToggleButton
-            aria-label="phrase unit type"
-            selected={unit === 'phrase'}
-            value="phrase"
-          >
-            Phrase
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </FormControl>
+            <ButtonGroup
+              aria-label="select unit type"
+              size="small"
+            >
+              <Button
+                aria-label="line unit type"
+                className={classes.button}
+                color={unit === 'line' ? "primary" : "default"}
+                onClick={() => { handleChange('line') }}
+                variant="contained"
+              >
+                Line
+              </Button>
+              <Button
+                aria-label="phrase unit type"
+                className={classes.button}
+                color={unit === 'phrase' ? "primary" : "default"}
+                onClick={() => { handleChange('line') }}
+                variant="contained"
+              >
+                Phrase
+              </Button>
+            </ButtonGroup>
+          </FormControl>
+        </ThemeProvider>
+      </Box>
     </CollapseBox>
   );
 }

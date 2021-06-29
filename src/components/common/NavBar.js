@@ -69,11 +69,8 @@ function NavBar(props) {
   /** CSS styles and global theme. */
   const classes = useStyles();
 
-  /** The route to the default URL. */
-  const root = find(routes, {url: '/'});
-
   /** URL of the current page to highlight the correct button. */
-  const [ selected, setSelected ] = useState(root.url);
+  const [ selected, setSelected ] = useState(window.location.pathname);
 
   /** One link for each route specified to be displayed. */
   const links = routes.filter(item => item.show).map(item => {

@@ -31,6 +31,7 @@ import Typography from '@material-ui/core/Typography';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 
 import createTesseraeTheme from '../../theme';
+import { fetchTexts } from '../../api/corpus';
 import { updateSelectedLanguage } from '../../state/corpus';
 
 
@@ -78,52 +79,43 @@ const localTheme = {
  *   )
  */
 function LanguageSelectButtons(props) {
-  const { language, languages, setSelectedLanguage } = props;
+  const { fetchTexts, language, languages, setSelectedLanguage } = props;
 
   /** CSS styles and global theme. */
   const classes = useStyles();
 
   /** Element to attach the languages dropdown to on open. */
-  const [ anchorEl, setAnchorEl] = useState(null);
+  const [ anchorEl, setAnchorEl ] = useState(null);
 
   /** Whether or not the languages dropdown is open. */
   const open = Boolean(anchorEl);
 
-  let labels = [...languages];
-  let buttons = [];
+  const changeLanguage = (language) => {
+    setSelectedLanguage(language);
+    fetchTexts(language);
+  };
 
-  // This setup assumes that we want at most three buttons displayed.
-  // If three or fewer languages are available, create a distinct button to
-  // select each language. If more than three are available, the third button
-  // should instead be a dropdown to select from the additional languages
-  // beyone the first two. This allows us to feature some languages (e.g.,
-  // Latin and Greek) without having to create separate pages or a huge
-  // collection of buttons.
-  while (buttons.length < 3 && labels.length > 0) {
-    // Create distinc buttons for the first two languages, and a third if
-    // only three are available.
-    if (buttons.length < 2 || (buttons.length === 2 && labels.length === 1)) {
+  let buttons = [];
+  let menuItems = [];
+
+  for (let i = 0; i < languages.length; i++) {
+    if (languages.length === 3 || i < 2) {
       buttons.push(
         <Button
           className={classes.button}
-          color={language === labels[0] ? 'secondary' : 'default'}
-          key={labels[0]}
-          onClick={() => setSelectedLanguage(labels[0])}
+          color={language === languages[i] ? 'secondary' : 'default'}
+          key={languages[i]}
+          onClick={() => changeLanguage(languages[i])}
         >
           <Typography
             variant="button"
           >
-            {labels[0]}
+            {languages[i]}
           </Typography>
         </Button>
       );
-
-      // Remove this language from the array for ease of menu creation later.
-      labels.shift();
     }
-    // Create a dropdown with the third language onward if more than three
-    // are available.
-    else if (buttons.length === 2 && labels.length > 1) {
+    else if (languages.length > 3 && i === 2) {
       buttons.push(
         <Button
           aria-controls={open ? 'additional-languages-menu' : undefined}
@@ -141,7 +133,11 @@ function LanguageSelectButtons(props) {
             {language === languages[0] || language === languages[1] ? 'More...' : language}
           </Typography>
         </Button>
-      )
+      );
+
+      menuItems.push(
+
+      );
     }
   }
 
@@ -150,6 +146,7 @@ function LanguageSelectButtons(props) {
       {/* Use a custom theme to match the nav bar. */}
       <ThemeProvider theme={createTesseraeTheme(localTheme)}>
         <ButtonGroup
+          ref={anchorEl}
           size="small"
           variant="contained"
         >
@@ -171,11 +168,11 @@ function LanguageSelectButtons(props) {
             }}
           >
             <MenuList>
-              {labels.map(item => {
+              {languages.slice(2, languages.length).map(item => {
                 return (
                   <MenuItem
                     key={item}
-                    onClick={() => setSelectedLanguage(item)}
+                    onClick={() => changeLanguage(item)}
                     selected={item === language}
                   >
                     <Typography variant="button">
@@ -194,6 +191,9 @@ function LanguageSelectButtons(props) {
 
 
 LanguageSelectButtons.propTypes = {
+  /** Function to fetch texts from the REST API */
+  fetchText: PropTypes.func,
+
   /** The current user-selected language. */
   language: PropTypes.string,
 
@@ -225,6 +225,7 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    fetchTexts: fetchTexts,
     setSelectedLanguage: updateSelectedLanguage
   }, dispatch)
 }
