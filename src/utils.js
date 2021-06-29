@@ -25,15 +25,20 @@ import Typography from '@material-ui/core/Typography';
  */
 export function filterTexts(texts, type, authorFilter, titleFilter, years) {
   const filterType = type.toLowerCase() === 'prose';
-  const authorPattern = new RegExp(authorFilter, 'iu')
-  const titlePattern = new RegExp(titleFilter, 'iu')
+  const authorPattern = new RegExp(authorFilter, 'iu');
+  const titlePattern = new RegExp(titleFilter, 'iu');
 
+  console.log(type, authorFilter, titleFilter, years);
+  console.log(type.toLowerCase() === 'all' || texts[0].is_prose === filterType);
+  console.log(authorFilter === '' || texts[0].author.search(authorPattern));
+  console.log(titleFilter === '' || texts[0].title.search(authorPattern));
+  console.log(inRange(texts[0].year, years[0], years[1] + 1));
   
   return texts.filter(x => (
     (type.toLowerCase() === 'all' || x.is_prose === filterType) &&
-    x.author.search(authorPattern) &&
-    x.title.search(titlePattern) &&
-    inRange(x.year, years[0], years[-1] + 1)));
+    (authorFilter === '' || x.author.search(authorPattern)) &&
+    (titleFilter === '' || x.title.search(titlePattern)) &&
+    inRange(x.year, years[0], years[1] + 1)));
 }
 
 
