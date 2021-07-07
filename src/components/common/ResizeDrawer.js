@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#ababab',
     borderTop: "1px solid #ddd",
     bottom: 0,
-    cursor: 'ew-resize',
+    cursor: props => props.minWidth !== props.maxWidth ? 'ew-resize' : 'pointer',
     height: '100%',
     position: 'absolute',
     right: 0,
@@ -75,7 +75,7 @@ function ResizeDrawer(props) {
   const { children, maxWidth, minWidth, open, setWidth, width } = props;
   
   /** CSS styles and global theme */
-  const classes = useStyles({open: open, width: width});
+  const classes = useStyles({maxWidth: maxWidth, minWidth: minWidth, open: open, width: width});
 
   /** Callback to begin monitoring the mouse on click. */
   const handleMouseDown = e => {
