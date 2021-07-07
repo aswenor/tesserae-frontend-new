@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
+import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 
 import CorpusFilter from '../../common/CorpusFilter';
@@ -8,30 +11,68 @@ import Table from './Table';
 import ThemedDialog from '../../common/ThemedDialog';
 
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    maxHeight: '100%',
+    overflowY: 'hidden'
+  },
+  divider: {
+    // backgroundColor: '#ababab',
+    height: '100%'
+  },
+  leftSide: {
+  },
+  rightSide: {
+    height: "100%"
+  }
+}));
+
+
 function MultitextSelectDialog(props) {
   const { availableTexts, closeDialog, open } = props;
   
-  const [ textList, setTextList ] = useState(availableTexts);
+  const [ filteredTextList, setFilteredTextList ] = useState([...availableTexts]);
+
+  const classes = useStyles();
 
   return (
     <ThemedDialog
       actions={null}
       body={
-        <Grid container>
-          <Grid item md={4} xs={12}>
+        <Grid container
+          className={classes.root}
+          direction="row"
+          justify="center"
+        >
+          <Grid item xs={12}
+            className={classes.leftSide}
+          >
             <CorpusFilter
-              filteredTextList={textList}
+              filteredTextList={filteredTextList}
+              updateFilteredTextList={setFilteredTextList}
             />
           </Grid>
-          <Grid item md={8} xs={12}>
-            <Table textList={textList} />
+          <Hidden mdDown={true}>
+            <Grid item xs={12}>
+              <Divider
+                className={classes.divider}
+                orientation="vertical"
+                variant="fullWidth"
+              />
+            </Grid>
+          </Hidden>
+          <Grid item xs={12}
+            className={classes.rightside}
+          >
+            <Table textList={filteredTextList} />
           </Grid>
         </Grid>
       }
       closeDialog={closeDialog}
-      maxWidth="xl"
+      fullWidth={true}
+      maxWidth="md"
       open={open}
-      scroll="body"
+      scroll="paper"
       title="Select Multitext Targets"
     />
   );

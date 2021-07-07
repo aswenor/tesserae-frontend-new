@@ -38,7 +38,7 @@ function Header(props) {
       addTexts(textList);
     }
     else {
-      clearTexts();
+      clearTexts(textList);
     }
   };
 
@@ -94,6 +94,22 @@ function Header(props) {
           onClick={() => handleHeaderClick("title")}
         >  
           <Typography><b>Title</b></Typography>
+        </TableSortLabel>
+      </TableCell>
+      <TableCell
+        className={classes.root}
+        sortDirection={sortHeader === "year" ? order : false}
+        variant="head"
+      >
+        <TableSortLabel
+          active={sortHeader === "year"}
+          direction={sortHeader === "year"
+                      ? (sortOrder === 1 ? 'asc' : 'desc')
+                      : 'asc'
+          }
+          onClick={() => handleHeaderClick("year")}
+        >  
+          <Typography><b>Year</b></Typography>
         </TableSortLabel>
       </TableCell>
     </TableRow>

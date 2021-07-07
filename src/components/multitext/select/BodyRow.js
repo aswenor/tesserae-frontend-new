@@ -56,6 +56,13 @@ function BodyRow(props) {
           {text.title}
         </Typography>
       </TableCell>
+      <TableCell
+        variant="body"
+      >
+        <Typography variant="body1">
+          {`${Math.abs(text.year)} ${text.year < 0 ? 'BCE' : 'CE'}`}
+        </Typography>
+      </TableCell>
     </TableRow>
   );
 }
