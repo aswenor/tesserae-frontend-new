@@ -32,13 +32,15 @@ const useStyles = makeStyles(theme => ({
   actions: {
     backgroundColor: theme.palette.secondary.main,
     margin: 0,
-    padding: theme.spacing(1)
+    // padding: theme.spacing(1)
   },
   content: {
     backgroundColor: theme.palette.secondary.main,
-    maxHeight: '90vh',
+    maxHeight: '80vh',
     overflowY: 'hidden',
-    padding: theme.spacing(2)
+    // paddingBottom: theme.spacing(2),
+    // paddingLeft: theme.spacing(2),
+    // paddingRight: theme.spacing(2),
   }
 }));
 
@@ -48,10 +50,8 @@ const styles = (theme) => ({
   root: {
     backgroundColor: theme.palette.secondary.main,
     margin: 0,
-    maxHeight: '80vh',
-    padding: theme.spacing(2),
-    overflowX: 'hidden',
-    overflowY: 'overlay'
+    // padding: theme.spacing(2),
+    overflowX: 'hidden'
   },
   closeButton: {
     position: 'absolute',
@@ -137,8 +137,9 @@ function ThemedDialog(props) {
     <Dialog
       aria-labelledby={`responsive-dialog-${title.toLowerCase().replace(/[\s]/, '-')}`}
       fullScreen={fullScreen}
+      fullWidth={true}
       className={classes.root}
-      maxWidth={maxWidth ? maxWidth : 'sm'}
+      maxWidth={maxWidth ? maxWidth : 'xl'}
       onClose={() => closeDialog()}
       open={open}
       scroll={scroll ? scroll : 'paper'}
