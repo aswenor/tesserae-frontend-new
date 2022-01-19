@@ -20,11 +20,13 @@ import axios from 'axios';
 import { hasIn, isArray } from 'lodash'
 
 import { updateChangePage,
+         updateDownloadInProgress,
          updateResults,
          updateSearchID,
          updateSearchInProgress,
          updateSearchStatus,
          updateStopwords } from '../state/search';
+import { sleep } from '../utils'; 
 
 
 /**
@@ -81,6 +83,7 @@ export function runSearch(language, source, target, params) {
     }
 
     while (response.data.status.toLowerCase() !== 'done') {
+      sleep(250);
       response = await getSearchStatus(searchID)(dispatch);
 
       if (response.status >= 400 && response.status < 600) {
@@ -94,6 +97,24 @@ export function runSearch(language, source, target, params) {
 
     return searchID;
   }
+}
+
+
+export function downloadResults(searchID, filetype) {
+  return async dispatch => {
+    let response = download(searchID, filetype)(dispatch);
+    let status = response.data.status.toLowerCase();
+    dispatch(updateDownloadInProgress(status !== 'done'))
+
+    while (response.status === 200 && status !== 'done') {
+      sleep(250);
+      response = download(searchID, filetype)(dispatch);
+      status = response.data.status.toLowerCase();
+      dispatch(updateDownloadInProgress(status !== 'done'));
+    }
+
+    return searchID;
+  };
 }
 
 
@@ -220,7 +241,7 @@ export function initiateSearch(source, target, params, stopwords) {
                                                 maxScore >= 10 ? maxScore : 10);
         dispatch(updateResults(normedParallels, nResults));
       }
-
+      
       return {search_id: searchID, response: response};
     })
     .catch(error => {
@@ -299,6 +320,33 @@ export function fetchResults(searchID, currentPage = 0,
                                               maxScore >= 10 ? maxScore : 10);
       dispatch(updateResults(normedParallels, nResults));
       response.data.parallels = normedParallels;
+      return response;
+    })
+    .catch(error => {
+      return error.response;
+    });
+  }
+}
+
+
+/**
+ * Download search results to file.
+ * 
+ * @param {String} searchID Search database id for the endpoint.
+ * @param {String} filetype File format to download the results to.
+ * @returns {function} Callback that calls dispatch to handle communication.
+ */
+function download(searchID, filetype) {
+  return async dispatch => {
+    return axios({
+      method: 'get',
+      url: `${REST_API}/parallels/${searchID}/downloads/${filetype}`,
+      crossDomain: true,
+      responseType: 'json',
+      cacheControl: 'no-store',
+    })
+    .then(response => {
+      dispatch(updateDownloadInProgress(response.data.in_progress));
       return response;
     })
     .catch(error => {

@@ -29,6 +29,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SearchIcon from '@material-ui/icons/Search';
 
 import AdvancedOptionsGroup from './AdvancedOptionsGroup'
+import DownloadButton from './DownloadButton';
 import LanguageSelectButtons from '../common/LanguageSelectButtons';
 import { MarginlessAccordion, MarginlessAccordionSummary,
          MarginlessAccordionDetails } from '../common/MarginlessAccordion';
@@ -141,6 +142,12 @@ function SearchParametersForm(props) {
                 >
                   <SearchIcon /> Search
                 </Fab>
+              </Grid>
+              <Grid item
+                align="center"
+                xs={12}
+              >
+                <DownloadButton />
               </Grid>
             </Grid>
           </MarginlessAccordionDetails>

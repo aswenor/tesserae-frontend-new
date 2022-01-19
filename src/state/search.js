@@ -21,6 +21,7 @@
  */
  export const DEFAULT_STATE = {
   changingPage: false,
+  downloadInProgress: false,
   results: [],
   resultsCount: 0,
   searchID: '',
@@ -54,6 +55,7 @@ const CLEAR_STOPWORDS = 'CLEAR_STOPWORDS';
 const CLEAR_TARGET_TEXT = 'CLEAR_TARGET_TEXT';
 const RESET_SEARCH = 'RESET_SEARCH';
 const UPDATE_CHANGE_PAGE = 'UPDATE_CHANGE_PAGE';
+const UPDATE_DOWNLOAD_IN_PROGRESS = 'UPDATE_DOWNLOAD_IN_PROGRESS';
 const UPDATE_RESULTS = 'UPDATE_RESULTS';
 const UPDATE_SEARCH_ID = 'UPDATE_SEARCH_ID';
 const UPDATE_SEARCH_IN_PROGRESS = 'UPDATE_SEARCH_IN_PROGRESS';
@@ -85,7 +87,7 @@ export function clearResults() {
       resultsCount: DEFAULT_STATE.resultsCount,
       searchID: DEFAULT_STATE.searchID,
       progress: DEFAULT_STATE.progress,
-      status: DEFAULT_STATE.searchStatus,
+      status: DEFAULT_STATE.status,
     }
   }
 }
@@ -102,7 +104,7 @@ export function clearSearchMetadata() {
     payload: {
       searchID: DEFAULT_STATE.searchID,
       progress: DEFAULT_STATE.progress,
-      status: DEFAULT_STATE.searchStatus,
+      status: DEFAULT_STATE.status,
     }
   };
 }
@@ -179,6 +181,22 @@ export function updateChangePage(changingPage = DEFAULT_STATE.changingPage) {
     type: UPDATE_CHANGE_PAGE,
     payload: {
       changingPage: changingPage
+    }
+  }
+}
+
+
+/**
+ * Flag whether or not a search download is in-progress.
+ * 
+ * @param {Boolean} inProgress True if a download is in-progress, false otherwise.
+ * @returns {Object} A redux-style action.
+ */
+export function updateDownloadInProgress(inProgress) {
+  return {
+    type: UPDATE_DOWNLOAD_IN_PROGRESS,
+    payload: {
+      downloadInProgress: inProgress
     }
   }
 }
@@ -343,6 +361,7 @@ export function searchReducer(state = DEFAULT_STATE, action = {}) {
     case CLEAR_TARGET_TEXT:
     case RESET_SEARCH:
     case UPDATE_CHANGE_PAGE:
+    case UPDATE_DOWNLOAD_IN_PROGRESS:
     case UPDATE_RESULTS:
     case UPDATE_SEARCH_ID:
     case UPDATE_SEARCH_IN_PROGRESS:
