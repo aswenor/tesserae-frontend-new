@@ -9,8 +9,8 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
- * @requires NPM:@material-ui/icons
+ * @requires NPM:@mui/material
+ * @requires NPM:@mui/icons-material
  * @requires ../../api/corpus
  */
 import React from 'react';
@@ -18,11 +18,11 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
+import makeStyles from '@mui/styles/makeStyles';
+import Fab from '@mui/material/Fab';
 
-import CloseIcon from '@material-ui/icons/Close';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import { deleteTexts } from '../../api/corpus';
 import ThemedDialog from '../common/ThemedDialog';

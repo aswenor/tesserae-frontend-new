@@ -15,7 +15,7 @@
  */
 
 import axios from 'axios';
-import { difference, find, isUndefined, union } from 'lodash';
+import { difference, find, hasIn, isUndefined, union } from 'lodash';
 
 import { registerError } from '../state/async';
 import { updateAvailableLanguages,
@@ -51,7 +51,7 @@ export function initialFetch() {
  * Fetch the list of languages available in the corpus. 
  */
 export function fetchLanguages() {
-  return dispatch => {
+  return async dispatch => {
     return axios({
       method: 'get',
       url: `${REST_API}/languages/`,
@@ -61,7 +61,7 @@ export function fetchLanguages() {
     .then(response => {
       const languages = response.data.languages.map(item => item.toLowerCase()).sort();
       const defaults = union(languages, ['greek', 'latin']).reverse();
-      const others = difference(languages, defaults);
+      const others = difference(languages, defaults).sort();
 
       /**
        * Choose Latin as default, then fall back to Greek,
@@ -79,7 +79,7 @@ export function fetchLanguages() {
       dispatch(updateAvailableLanguages([...defaults, ...others], language));
 
       response.data.language = language;
-      return response
+      return response;
     })
     .catch(error => {
       dispatch(registerError(error));

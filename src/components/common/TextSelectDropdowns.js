@@ -8,16 +8,18 @@
  * @requires NPM:react
  * @requires NPM:prop-types
  * @requires NPM:lodash
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { hasIn, isNull, isObject, uniqBy, isString } from 'lodash';
+import { hasIn, isNull, isObject, uniqBy } from 'lodash';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Autocomplete from '@mui/material/Autocomplete';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 
 /** CSS styles to apply to the component. */
@@ -31,10 +33,11 @@ const useStyles = makeStyles(theme => ({
   select: {
     backgroundColor: '#ffffff',
     marginBottom: '10px',
+    width: '100%',
     [theme.breakpoints.up('md')]: {
 
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('lg')]: {
 
     }
   }
@@ -67,8 +70,11 @@ const useStyles = makeStyles(theme => ({
  *   )
  */
 function TextSelectDropdowns(props) {
-  const { handleAuthorChange, handleTitleChange, loading, loadingText,
-          onOpen, selection, textList, title } = props;
+  const { division, handleAuthorChange, handleDivisionChange,
+          handleTitleChange, loading, loadingText, onOpen, selection,
+          textList, title } = props;
+
+  console.log(division);
  
   /** CSS styles and global theme. */
   const classes = useStyles();
@@ -91,7 +97,33 @@ function TextSelectDropdowns(props) {
       ? option.title.toLowerCase() === value.title.toLowerCase()
       : false;
   }
-  
+
+  let full = (
+    <MenuItem
+      key="Full Text"
+      onClick={() => { handleDivisionChange('0'); }}
+      selected={division === '0'}
+      value="0"
+    >
+      Full Text
+    </MenuItem>);
+
+  let divisions = [];
+  if (Boolean(selection.divisions)) {
+    divisions = selection.divisions.map(item => {
+      return (
+        <MenuItem
+          key={item}
+          onClick={() => { handleDivisionChange(item); }}
+          selected={division === item}
+          value={item}
+        >
+          Book {item}
+        </MenuItem>
+      );
+    });
+  }
+
   return (
     <div>
       { title !== '' &&
@@ -108,7 +140,7 @@ function TextSelectDropdowns(props) {
         className={classes.select}
         defaultValue={{author: '', title: ''}}
         getOptionLabel={option => { return hasIn(option, 'author') ? option.author : '' }}
-        getOptionSelected={isAuthorSelected}
+        isOptionEqualToValue={isAuthorSelected}
         loading={loading}
         loadingText={loadingText}
         onChange={(event, value) => handleAuthorChange(!isNull(value) ? value : '')}
@@ -129,7 +161,7 @@ function TextSelectDropdowns(props) {
         className={classes.select}
         defaultValue={{author: '', title: ''}}
         getOptionLabel={option => hasIn(option, 'title') ? option.title : ''}
-        getOptionSelected={isTitleSelected}
+        isOptionEqualToValue={isTitleSelected}
         loading={loading}
         loadingText={loadingText}
         onChange={(event, value) => handleTitleChange(!isNull(value) ? value : '')}
@@ -145,12 +177,35 @@ function TextSelectDropdowns(props) {
         )}
         value={selection}
       />
+      <Select
+        align="left"
+        className={classes.select}
+        value={division}
+        variant="outlined"
+      >
+        {[full, ...divisions]}
+      </Select>
     </div>
   );
 }
  
  
 TextSelectDropdowns.propTypes = {
+  /**
+   * The text subsection to use in the search.
+   */
+  division: PropTypes.string,
+
+  /**
+   * Callback to handle selecting an author.
+   */
+  handleAuthorChange: PropTypes.func,
+
+  /**
+   * Callback to handle changing the text subsection.
+   */
+  handleDivisionChange: PropTypes.func,
+
   /**
    * Callback to handle selecting a text in either dropdown.
    */

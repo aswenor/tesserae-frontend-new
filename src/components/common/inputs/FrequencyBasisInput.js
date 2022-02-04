@@ -9,7 +9,7 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ../../common/CollapseBox
  * @requires ../../../theme
  */
@@ -18,11 +18,12 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { batch, connect } from 'react-redux';
 
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import FormControl from '@material-ui/core/FormControl';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import FormControl from '@mui/material/FormControl';
 
 import CollapseBox from '../../common/CollapseBox';
 import createTesseraeTheme from '../../../theme';
@@ -87,35 +88,37 @@ function FrequencyBasisInput(props) {
       headerText="Frequency Basis"
     >
       <Box>
-        <ThemeProvider theme={createTesseraeTheme(localTheme)}>
-          <FormControl
-            margin="dense"
-          >
-            <ButtonGroup
-              aria-label="select frequency basis"
-              size="small"
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={createTesseraeTheme(localTheme)}>
+            <FormControl
+              margin="dense"
             >
-              <Button
-                aria-label="corpus frequency basis"
-                className={classes.button}
-                color={frequencyBasis === 'corpus' ? 'secondary' : 'default'}
-                onClick={() => { handleChange('corpus') }}
-                variant='contained'
+              <ButtonGroup
+                aria-label="select frequency basis"
+                size="small"
               >
-                Corpus
-              </Button>
-              <Button
-                aria-label="texts frequency basis"
-                className={classes.button}
-                color={frequencyBasis === 'texts' ? 'secondary' : 'default'}
-                onClick={() => { handleChange('texts') }}
-                variant='contained'
-              >
-                Texts
-              </Button>
-            </ButtonGroup>
-          </FormControl>
-        </ThemeProvider>
+                <Button
+                  aria-label="corpus frequency basis"
+                  className={classes.button}
+                  color={frequencyBasis === 'corpus' ? 'secondary' : 'default'}
+                  onClick={() => { handleChange('corpus') }}
+                  variant='contained'
+                >
+                  Corpus
+                </Button>
+                <Button
+                  aria-label="texts frequency basis"
+                  className={classes.button}
+                  color={frequencyBasis === 'texts' ? 'secondary' : 'default'}
+                  onClick={() => { handleChange('texts') }}
+                  variant='contained'
+                >
+                  Texts
+                </Button>
+              </ButtonGroup>
+            </FormControl>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Box>
     </CollapseBox>
   );

@@ -7,15 +7,15 @@
  * 
  * @requires NPM:react
  * @requires NPM:prop-types
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
  
 /** CSS styles to apply to the component. */
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
  * 
  * @component
  * @example
- *  import DoneIcon from '@material-ui/core/Done';
+ *  import DoneIcon from '@mui/material/Done';
  *  
  *  let file = '';
  * 

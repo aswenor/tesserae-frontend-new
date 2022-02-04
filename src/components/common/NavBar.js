@@ -8,7 +8,7 @@
  * @requires NPM:react
  * @requires NPM:react-router-dom
  * @requires NPM:lodash
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ../../theme
  * @requires ../../routes
  */
@@ -16,13 +16,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { find } from 'lodash';
 
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
 import createTesseraeTheme from '../../theme';
 import routes from '../../routes';
@@ -103,13 +104,15 @@ function NavBar(props) {
           width={1}  
         >
           {/* This theme overrides the global as long as it is in a Box */}
-          <ThemeProvider theme={createTesseraeTheme(navTheme)}>
-            <ButtonGroup
-              size="small"
-            >
-              {links}
-            </ButtonGroup>
-          </ThemeProvider>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={createTesseraeTheme(navTheme)}>
+              <ButtonGroup
+                size="small"
+              >
+                {links}
+              </ButtonGroup>
+            </ThemeProvider>
+          </StyledEngineProvider>
         </Box>
       </Toolbar>
     </AppBar>

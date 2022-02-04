@@ -7,22 +7,22 @@
  * 
  * @requires NPM:react
  * @requires NPM:prop-types
- * @requires NPM:@material-ui/core
- * @requires NPM:@material-ui/icons
+ * @requires NPM:@mui/material
+ * @requires NPM:@mui/icons-material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Link from '@material-ui/core/Link';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
+import makeStyles from '@mui/styles/makeStyles';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import ListItemText from '@mui/material/ListItemText';
 
-import GetAppIcon from '@material-ui/icons/GetApp';
+import GetAppIcon from '@mui/icons-material/GetApp';
 
 
 /**
@@ -49,7 +49,7 @@ function DownloadVersionListEntry(props) {
           component={Link}
           edge="end"
           href={url}
-        >
+          size="large">
           <GetAppIcon />
         </IconButton>
       </ListItemSecondaryAction>

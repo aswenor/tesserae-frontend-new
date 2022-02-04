@@ -6,15 +6,15 @@
  * @exports About
  * 
  * @requires NPM:react
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ../common/PageContainer
  */
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 
 import PageContainer from '../common/PageContainer';
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(3),
       padding: theme.spacing(2),
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('lg')]: {
       height: '100%'
     }
   }
@@ -57,7 +57,7 @@ function About(props) {
         <Grid container
           alignContent="flex-start"
           alignItems="flex-start"
-          justify="center"
+          justifyContent="center"
         >
           <Grid item xs={12}>
             <Typography align="center" variant='h4'>About</Typography>

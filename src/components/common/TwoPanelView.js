@@ -4,14 +4,14 @@
  * @author [Jeff Kinnison](https://github.com/jeffkinnison)
  * 
  * @requires NPM:react
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ./HorizontalTwoPanelView
  * @requires ./VerticalTwoPanelView
  */
 import React from 'react';
 
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import HorizontalTwoPanelView from './HorizontalTwoPanelView';
 import VerticalTwoPanelView from './VerticalTwoPanelView';

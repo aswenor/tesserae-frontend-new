@@ -11,7 +11,7 @@
  * @requires NPM:react-redux
  * @requires NPM:redux-thunk
  * @requires NPM:lodash
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ./components/common/NavBar
  * @requires ./routes
  * @requires ./state
@@ -24,9 +24,9 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { sortBy } from 'lodash';
 
-import { ThemeProvider } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import NavBar from './components/common/NavBar';
 import routes from './routes';

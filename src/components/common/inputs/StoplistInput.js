@@ -9,15 +9,15 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { batch, connect } from 'react-redux';
 
-import Slider from '@material-ui/core/Slider';
-import FormControl from '@material-ui/core/FormControl';
+import Slider from '@mui/material/Slider';
+import FormControl from '@mui/material/FormControl';
 
 import CollapseBox from '../../common/CollapseBox';
 

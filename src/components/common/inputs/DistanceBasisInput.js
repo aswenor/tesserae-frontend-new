@@ -9,17 +9,17 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { batch, connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import makeStyles from '@mui/styles/makeStyles';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 import CollapseBox from '../../common/CollapseBox';
 

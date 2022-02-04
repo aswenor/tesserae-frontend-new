@@ -17,7 +17,8 @@
  * @requires ../state/search
  */
 import axios from 'axios';
-import { hasIn, isArray } from 'lodash'
+import JsFileDownloader from 'js-file-downloader';
+import { hasIn, includes, inRange, isArray } from 'lodash'
 
 import { updateChangePage,
          updateDownloadInProgress,
@@ -26,7 +27,6 @@ import { updateChangePage,
          updateSearchInProgress,
          updateSearchStatus,
          updateStopwords } from '../state/search';
-import { sleep } from '../utils'; 
 
 
 /**
@@ -48,7 +48,7 @@ function normalizeScores(parallels, maxScore = 10) {
 }
 
 
-export function runSearch(language, source, target, params) {
+export function runSearch(language, source, sourceDivision, target, targetDivision, params) {
   return async dispatch => {
     dispatch(updateSearchInProgress(true));
 
@@ -63,7 +63,7 @@ export function runSearch(language, source, target, params) {
       return;
     }
 
-    response = await initiateSearch(source, target, params, response.data.stopwords)(dispatch);
+    response = await initiateSearch(source, sourceDivision, target, targetDivision, params, response.data.stopwords)(dispatch);
 
     const searchID = response.search_id;
     response = response.response;
@@ -82,18 +82,17 @@ export function runSearch(language, source, target, params) {
       return;
     }
 
-    while (response.data.status.toLowerCase() !== 'done') {
-      sleep(250);
-      response = await getSearchStatus(searchID)(dispatch);
-
-      if (response.status >= 400 && response.status < 600) {
+    let interval = setInterval(async () => {
+      const response = await getSearchStatus(searchID)(dispatch);
+      const status = response.status;
+      const searchStatus = response.data.status.toLowerCase();
+      
+      if (!inRange(status, 200, 400) || searchStatus === 'done') {
+        clearInterval(interval);
+        await fetchResults(searchID)(dispatch);
         dispatch(updateSearchInProgress(false));
-        return;
       }
-    }
-
-    await fetchResults(searchID)(dispatch);
-    dispatch(updateSearchInProgress(false));
+    }, 250);
 
     return searchID;
   }
@@ -102,16 +101,17 @@ export function runSearch(language, source, target, params) {
 
 export function downloadResults(searchID, filetype) {
   return async dispatch => {
-    let response = download(searchID, filetype)(dispatch);
-    let status = response.data.status.toLowerCase();
-    dispatch(updateDownloadInProgress(status !== 'done'))
+    let interval = setInterval(async () => {
+      const response = await checkDownload(searchID, filetype)(dispatch);
+      const status = response.status;
+      const inProgress = response.data.in_progress;
+      dispatch(updateDownloadInProgress(inProgress));
 
-    while (response.status === 200 && status !== 'done') {
-      sleep(250);
-      response = download(searchID, filetype)(dispatch);
-      status = response.data.status.toLowerCase();
-      dispatch(updateDownloadInProgress(status !== 'done'));
-    }
+      if (!inRange(status, 200, 400) || !inProgress) {
+        clearInterval(interval);
+        await download(searchID, filetype)(dispatch);
+      }
+    }, 500);
 
     return searchID;
   };
@@ -186,7 +186,7 @@ export function fetchStoplist(feature, stopwords, stoplistBasis) {
  * @param {boolean} pending True if any AJAX calls are in progress.
  * @returns {function} Callback that calls dispatch to handle communication.
  */
-export function initiateSearch(source, target, params, stopwords) {
+export function initiateSearch(source, sourceDivision, target, targetDivision, params, stopwords) {
   return async dispatch => {
     return axios({
       method: 'post',
@@ -247,7 +247,7 @@ export function initiateSearch(source, target, params, stopwords) {
     .catch(error => {
       return error.response
     });
-  }
+  };
 }
 
 
@@ -330,26 +330,47 @@ export function fetchResults(searchID, currentPage = 0,
 
 
 /**
- * Download search results to file.
+ * Kick off or get the status of a search download to filetype.
  * 
  * @param {String} searchID Search database id for the endpoint.
  * @param {String} filetype File format to download the results to.
  * @returns {function} Callback that calls dispatch to handle communication.
  */
-function download(searchID, filetype) {
+function checkDownload(searchID, filetype) {
   return async dispatch => {
     return axios({
       method: 'get',
-      url: `${REST_API}/parallels/${searchID}/downloads/${filetype}`,
+      url: `${REST_API}/parallels/${searchID}/downloads/${filetype}/status`,
       crossDomain: true,
       responseType: 'json',
       cacheControl: 'no-store',
     })
     .then(response => {
-      dispatch(updateDownloadInProgress(response.data.in_progress));
+      console.log(response)
       return response;
     })
     .catch(error => {
+      return error.response;
+    });
+  }
+}
+
+
+/**
+ * Download the actual search to file.
+ * 
+ * @param {String} searchID Search database id for the endpoint.
+ * @param {String} filetype File format to download the results to.
+ * @returns {function} Callback that calls dispatch to handle communication.
+ */
+ function download(searchID, filetype) {
+  return async dispatch => {
+    return new JsFileDownloader({
+      url: `${REST_API}/parallels/${searchID}/downloads/${filetype}`,
+      filename: `${searchID}.${filetype}`,
+      contentType: `${includes(['csv', 'tsv'], filetype) ? 'text' : 'application'}/${filetype}`
+    }).then(() => {})
+      .catch(error => {
       return error.response;
     });
   }

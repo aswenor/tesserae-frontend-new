@@ -9,21 +9,21 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
- * @requires NPM:@material-ui/icons
+ * @requires NPM:@mui/material
+ * @requires NPM:@mui/icons-material
  * @requires ../../../api/corpus
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/styles';
-import Box from '@material-ui/core/Box';
-import Hidden from '@material-ui/core/Hidden';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@mui/styles';
+import Box from '@mui/material/Box';
+import Hidden from '@mui/material/Hidden';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
 
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { toTitleCase } from '../../utils';
 

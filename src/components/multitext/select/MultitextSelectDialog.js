@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
-import Hidden from '@material-ui/core/Hidden';
-import Grid from '@material-ui/core/Grid';
+import makeStyles from '@mui/styles/makeStyles';
+import Divider from '@mui/material/Divider';
+import Hidden from '@mui/material/Hidden';
+import Grid from '@mui/material/Grid';
 
 import CorpusFilter from '../../common/CorpusFilter';
 import Table from './Table';
@@ -42,7 +42,7 @@ function MultitextSelectDialog(props) {
         <Grid container
           className={classes.root}
           direction="row"
-          justify="center"
+          justifyContent="center"
         >
           <Grid item xs={12}
             className={classes.leftSide}
@@ -52,7 +52,7 @@ function MultitextSelectDialog(props) {
               updateFilteredTextList={setFilteredTextList}
             />
           </Grid>
-          <Hidden mdDown={true}>
+          <Hidden xlDown={true}>
             <Grid item xs={12}>
               <Divider
                 className={classes.divider}

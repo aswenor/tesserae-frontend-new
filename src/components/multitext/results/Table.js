@@ -9,7 +9,7 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ../ResultsPlaceholder
  * @requires ../../api/corpus
  */

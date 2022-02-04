@@ -9,19 +9,19 @@
  * @requires NPM:prop-types
  * @requires NPM:react-redux
  * @requires NPM:react-router-dom
- * @requires NPM:@material-ui/core
- * @requires NPM:@material-ui/icons
+ * @requires NPM:@mui/material
+ * @requires NPM:@mui/icons-material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
-import Grid from '@material-ui/core/Grid';
+import makeStyles from '@mui/styles/makeStyles';
+import Fab from '@mui/material/Fab';
+import Grid from '@mui/material/Grid';
 
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@mui/icons-material/Search';
 
 
 /** CSS styles to apply to the component. */
@@ -72,7 +72,7 @@ function SearchButtons(props) {
       alignContent="center"
       alignItems="center"
       direction="column"
-      justify="center"
+      justifyContent="center"
     >
       <Grid item xs={12}
         className={classes.buttonStyles}

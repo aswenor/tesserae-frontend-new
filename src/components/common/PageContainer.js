@@ -6,14 +6,14 @@
  * @exports PageContainer
  * 
  * @requires NPM:react
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
 
 import { initialFetch } from '../../api/corpus';
 import LoadingScreen from './LoadingScreen';

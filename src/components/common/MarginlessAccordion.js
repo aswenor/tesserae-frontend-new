@@ -3,12 +3,12 @@
  * 
  * @author [Jeff Kinnison](https://github.com/jeffkinnison)
  * 
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
-import { withStyles } from '@material-ui/core/styles';
-import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
+import withStyles from '@mui/styles/withStyles';
+import MuiAccordion from '@mui/material/Accordion';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
 
 
 /**

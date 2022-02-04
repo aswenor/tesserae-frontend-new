@@ -8,19 +8,20 @@
  * @requires NPM:react
  * @requires NPM:prop-types
  * @requires NPM:lodash
- * @requires NPM:@material-ui/core
- * @requires NPM:@material-ui/icons
+ * @requires NPM:@mui/material
+ * @requires NPM:@mui/icons-material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import IconButton from '@mui/material/IconButton';
 
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
 
 
 const useStyles = makeStyles(theme => ({
@@ -49,14 +50,14 @@ function TablePaginationActions(props) {
         aria-label="first page"
         disabled={page === 0}
         onClick={(event) => onChangePage(event, 0)}
-      >
+        size="large">
         {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         aria-label="previous page"
         disabled={page === 0}
         onClick={(event) => onChangePage(event, prevPage)}
-      >
+        size="large">
         {theme.direction === 'rtl'
          ? <KeyboardArrowRightIcon />
          : <KeyboardArrowLeftIcon />
@@ -66,7 +67,7 @@ function TablePaginationActions(props) {
         aria-label="next page"
         disabled={page === totalPages}
         onClick={(event) => onChangePage(event, nextPage)}
-      >
+        size="large">
         {theme.direction === 'rtl'
          ? <KeyboardArrowLeftIcon />
          : <KeyboardArrowRightIcon />
@@ -76,7 +77,7 @@ function TablePaginationActions(props) {
         aria-label="last page"
         disabled={page === totalPages}
         onClick={(event) => onChangePage(event, totalPages)}
-      >
+        size="large">
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </span>

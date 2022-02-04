@@ -7,13 +7,13 @@
  * 
  * @requires NPM:react
  * @requires NPM:prop-types
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import makeStyles from '@mui/styles/makeStyles';
+import Drawer from '@mui/material/Drawer';
 import { Transition } from 'react-transition-group';
 
 

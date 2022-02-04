@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
-import TablePagination from '@material-ui/core/TablePagination';
+import makeStyles from '@mui/styles/makeStyles';
+import TablePagination from '@mui/material/TablePagination';
 
 import TablePaginationActions from './TablePaginationActions';
 
@@ -48,8 +48,8 @@ function TesseraeTablePagination(props) {
       className={classes.root}
       count={count}
       labelRowsPerPage={rowsPerPageLabel}
-      onChangePage={handleChangePage}
-      onChangeRowsPerPage={handleChangeRowsPerPage}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
       page={pagination.currentPage}
       rowsPerPage={pagination.rowsPerPage}
       rowsPerPageOptions={rowsPerPageOptions}

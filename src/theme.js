@@ -7,7 +7,7 @@
  */
 
  
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { createTheme, responsiveFontSizes, adaptV4Theme } from '@mui/material/styles';
 
 
 const DEFAULT_THEME = {
@@ -39,6 +39,6 @@ const DEFAULT_THEME = {
 
 
 export default function createTesseraeTheme(userOptions) {
-  const theme = createMuiTheme({...DEFAULT_THEME, ...userOptions});
+  const theme = createTheme(adaptV4Theme({...DEFAULT_THEME, ...userOptions}));
   return responsiveFontSizes(theme);
 }

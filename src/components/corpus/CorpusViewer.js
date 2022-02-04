@@ -8,7 +8,7 @@
  * @requires NPM:react
  * @requires NPM:prop-types
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ../common/BodyScrollTable
  * @requires ./CorpusViewerBodyRow
  * @requires ./CorpusViewerHeader
@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { orderBy } from 'lodash';
 
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 
 import BodyScrollTable from '../common/BodyScrollTable';
 import CorpusViewerBodyRow from './CorpusViewerBodyRow';

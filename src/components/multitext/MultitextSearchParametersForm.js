@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SearchIcon from '@material-ui/icons/Search';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SearchIcon from '@mui/icons-material/Search';
 
 import AdvancedOptionsGroup from '../search/AdvancedOptionsGroup';
 import LanguageSelectButtons from '../common/LanguageSelectButtons';
@@ -97,7 +97,7 @@ function MultitextSearchParametersForm(props) {
             <Grid container
               alignContent="center"
               alignItems="center"
-              justify="center"
+              justifyContent="center"
               spacing={2}
             >
               <Grid item xs={12}>

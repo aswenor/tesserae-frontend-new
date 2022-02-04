@@ -6,12 +6,12 @@
  * @exports VerticalTwoPanelView
  * 
  * @requires NPM:react
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React from 'react';
 
-import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 
 /**
  * Vertical two-panel layout.

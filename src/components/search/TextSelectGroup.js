@@ -9,7 +9,7 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ../common/TextSelectDropdowns
  * @requires ../../state/search
  */
@@ -18,10 +18,11 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
 import TextSelectDropdowns from '../common/TextSelectDropdowns';
-import { updateSourceText, updateTargetText } from '../../state/search';
+import { updateSourceDivision, updateSourceText,
+         updateTargetDivision, updateTargetText } from '../../state/search';
 
 
 /**
@@ -55,8 +56,9 @@ import { updateSourceText, updateTargetText } from '../../state/search';
  *  );
  */
 function TextSelectGroup(props) {
-  const { availableTexts, language, sourceText, targetText,
-          updateSource, updateTarget } = props
+  const { availableTexts, language, sourceDivision, sourceText,
+          targetDivision, targetText, updateSource, updateSourceDivision,
+          updateTarget, updateTargetDivision } = props
 
   /** Update selected text on user selection. */
   const handleTextChange = (text, updateFunc) => {
@@ -67,7 +69,7 @@ function TextSelectGroup(props) {
     <Grid container
       alignContent="center"
       alignItems="center"
-      justify="flex-start"
+      justifyContent="flex-start"
       spacing={2}
     >
       <Grid item
@@ -76,7 +78,9 @@ function TextSelectGroup(props) {
       >
         {/* Source text selection. */}
         <TextSelectDropdowns
+          division={sourceDivision}
           handleAuthorChange={(value) => handleTextChange(value, updateSource)}
+          handleDivisionChange={updateSourceDivision}
           handleTitleChange={(value) => handleTextChange(value, updateSource)}
           loading={availableTexts.length === 0}
           loadingText={`Loading ${language} corpus`}
@@ -92,7 +96,9 @@ function TextSelectGroup(props) {
       >
         {/* Target text selection. */}
         <TextSelectDropdowns
+          division={targetDivision}
           handleAuthorChange={(value) => handleTextChange(value, updateTarget)}
+          handleDivisionChange={updateTargetDivision}
           handleTitleChange={(value) => handleTextChange(value, updateTarget)}
           loading={availableTexts.length === 0}
           loadingText={`Loading ${language} corpus`}
@@ -119,9 +125,19 @@ TextSelectGroup.propTypes = {
   language: PropTypes.string,
 
   /**
+   * The currently selected source text subsection.
+   */
+  sourceDivision: PropTypes.string,
+
+  /**
    * The currently selected source text.
    */
   sourceText: PropTypes.object,
+
+  /**
+   * The currently selected target text subsection.
+   */
+  targetDivision: PropTypes.string,
   
   /**
    * The currently selected target text.
@@ -132,11 +148,21 @@ TextSelectGroup.propTypes = {
    * Function to select a new source text from the dropdown menu.
    */
   updateSource: PropTypes.func,
+
+  /**
+   * Function to select a source text subsection.
+   */
+  updateSourceDivision: PropTypes.func,
   
   /**
    * Function to select a new target text from the dropdown menu.
    */
-  updateTarget: PropTypes.func
+  updateTarget: PropTypes.func,
+
+  /**
+   * Function to select a target text subsection.
+   */
+  updateTargetDivision: PropTypes.func
 };
 
 
@@ -150,7 +176,9 @@ const mapStateToProps = (state) => {
   return {
     availableTexts: state.corpus.availableTexts,
     language: state.corpus.language,
+    sourceDivision: state.search.sourceDivision,
     sourceText: state.search.sourceText,
+    targetDivision: state.search.targetDivision,
     targetText: state.search.targetText,
   };
 };
@@ -163,7 +191,9 @@ const mapStateToProps = (state) => {
  */
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    updateSourceDivision: updateSourceDivision,
     updateSource: updateSourceText,
+    updateTargetDivision: updateTargetDivision,
     updateTarget: updateTargetText
   }, dispatch);
 }

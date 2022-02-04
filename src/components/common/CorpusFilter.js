@@ -8,8 +8,8 @@
  * @requires NPM:react
  * @requires NPM:prop-types
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
- * @requires NPM:@material-ui/styles
+ * @requires NPM:@mui/material
+ * @requires NPM:@mui/styles
  * @requires ./TextSelectDropdowns
  * @requires ../../theme
  * @requires ./YearRangeSlider
@@ -19,11 +19,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { filter, isNumber, isString, maxBy, minBy, uniqBy } from 'lodash';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
-import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import ThemeProvider from '@material-ui/styles/ThemeProvider'
+import makeStyles from '@mui/styles/makeStyles';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import ThemeProvider from '@mui/styles/ThemeProvider'
 
 import { filterTexts } from '../../utils';
 import createTesseraeTheme from '../../theme';
@@ -87,8 +87,6 @@ function CorpusFilter(props) {
     });
   }, [availableTexts, setFilter, setYearRange]);
 
-  console.log(yearRange);
-
   useEffect(() => {
     updateFilteredTextList(
       filterTexts(
@@ -122,7 +120,7 @@ function CorpusFilter(props) {
           autoComplete
           defaultValue={""}
           filterOptions={createFilterOptions({matchFrom: 'start'})}
-          getOptionSelected={option => option === textFilter.author}
+          isOptionEqualToValue={option => option === textFilter.author}
           onChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
           onInputChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
           options={uniqBy(filteredTextList, 'author').map(item => item.author)}
@@ -138,7 +136,7 @@ function CorpusFilter(props) {
           autoComplete
           defaultValue={""}
           filterOptions={createFilterOptions({matchFrom: 'start'})}
-          getOptionSelected={option => option === textFilter.title}
+          isOptionEqualToValue={option => option === textFilter.title}
           onChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
           onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
           options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
@@ -160,7 +158,7 @@ function CorpusFilter(props) {
         />
       </ThemeProvider>
     </Box>
-  )
+  );
 }
 
 

@@ -8,7 +8,7 @@
  * @requires NPM:react
  * @requires NPM:prop-types
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ./BodyRow
  * @requires ../../common/BodyScrollTable
  * @requires ./Header

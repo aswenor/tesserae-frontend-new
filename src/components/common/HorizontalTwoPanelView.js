@@ -7,22 +7,22 @@
  * 
  * @requires NPM:react
  * @requires NPM:prop-types
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires NPM:react-transition-group
- * @requires NPM:@material-ui/icons
+ * @requires NPM:@mui/icons-material
  * @requires ./ResizeDrawer
  * 
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import { CSSTransition as Transition } from 'react-transition-group';
 
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import ResizeDrawer from './ResizeDrawer';
 

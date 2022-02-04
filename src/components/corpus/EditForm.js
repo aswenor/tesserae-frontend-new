@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
+import makeStyles from '@mui/styles/makeStyles';
+import Fab from '@mui/material/Fab';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import BlockIcon from '@material-ui/icons/Block';
-import CloseIcon from '@material-ui/icons/Close';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import BlockIcon from '@mui/icons-material/Block';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { fetchTexts, updateTextMetadata } from '../../api/corpus';
 import ThemedDialog from '../common/ThemedDialog';

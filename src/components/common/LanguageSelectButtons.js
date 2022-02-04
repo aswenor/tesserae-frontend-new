@@ -9,8 +9,8 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
- * @requires NPM:@material-ui/icons
+ * @requires NPM:@mui/material
+ * @requires NPM:@mui/icons-material
  * @requires ../../theme
  * @requires ../../state/corpus
  */
@@ -19,16 +19,17 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
 
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 import createTesseraeTheme from '../../theme';
 import { fetchTexts } from '../../api/corpus';
@@ -144,47 +145,52 @@ function LanguageSelectButtons(props) {
   return (
     <Box>
       {/* Use a custom theme to match the nav bar. */}
-      <ThemeProvider theme={createTesseraeTheme(localTheme)}>
-        <ButtonGroup
-          ref={anchorEl}
-          size="small"
-          variant="contained"
-        >
-          {buttons}
-        </ButtonGroup>
-        {/* If more than three languages are present, this is where we put them. */}
-        {languages.length > 3 &&
-          <Popover
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              horizontal: 'center',
-              vertical: 'bottom'
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={createTesseraeTheme(localTheme)}>
+          <ButtonGroup
+            ref={anchorEl}
+            size="small"
+            sx={{
+              marginTop: (theme) => theme.spacing(2)
             }}
-            onClose={() => setAnchorEl(null)}
-            open={open}
-            transformOrigin={{
-              horizontal: 'center',
-              vertical: 'top'
-            }}
+            variant="contained"
           >
-            <MenuList>
-              {languages.slice(2, languages.length).map(item => {
-                return (
-                  <MenuItem
-                    key={item}
-                    onClick={() => changeLanguage(item)}
-                    selected={item === language}
-                  >
-                    <Typography variant="button">
-                      {item.toUpperCase()}
-                    </Typography>
-                  </MenuItem>
-                )
-              })}
-            </MenuList>
-          </Popover>
-        }
-      </ThemeProvider>
+            {buttons}
+          </ButtonGroup>
+          {/* If more than three languages are present, this is where we put them. */}
+          {languages.length > 3 &&
+            <Popover
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                horizontal: 'center',
+                vertical: 'bottom'
+              }}
+              onClose={() => setAnchorEl(null)}
+              open={open}
+              transformOrigin={{
+                horizontal: 'center',
+                vertical: 'top'
+              }}
+            >
+              <MenuList>
+                {languages.slice(2, languages.length).map(item => {
+                  return (
+                    <MenuItem
+                      key={item}
+                      onClick={() => changeLanguage(item)}
+                      selected={item === language}
+                    >
+                      <Typography variant="button">
+                        {item.toUpperCase()}
+                      </Typography>
+                    </MenuItem>
+                  )
+                })}
+              </MenuList>
+            </Popover>
+          }
+        </ThemeProvider>
+      </StyledEngineProvider>
     </Box>
   );
 }

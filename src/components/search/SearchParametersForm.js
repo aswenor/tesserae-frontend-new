@@ -9,8 +9,8 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
- * @requires NPM:@material-ui/icons
+ * @requires NPM:@mui/material
+ * @requires NPM:@mui/icons-material
  * @requires ./AdvancedOptionsGroup
  * @requires ./TextSelectGroup
  * @requires ../../api/corpus
@@ -20,13 +20,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SearchIcon from '@material-ui/icons/Search';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SearchIcon from '@mui/icons-material/Search';
 
 import AdvancedOptionsGroup from './AdvancedOptionsGroup'
 import DownloadButton from './DownloadButton';
@@ -79,8 +79,8 @@ const useStyles = makeStyles(theme => ({
  *   );
  */
 function SearchParametersForm(props) {
-  const { clearResults, runSearch,
-          language, searchInProgress, searchParameters, sourceText,
+  const { clearResults, runSearch, language, searchInProgress,
+          searchParameters, sourceDivision, sourceText, targetDivision,
           targetText, toggleSideBar } = props;
 
   const classes = useStyles();
@@ -88,7 +88,7 @@ function SearchParametersForm(props) {
   const clearAndInitiate = () => {
     if (!searchInProgress) {
       clearResults();
-      runSearch(language, sourceText, targetText, searchParameters, true);
+      runSearch(language, sourceText, sourceDivision, targetText, targetDivision, searchParameters, true);
     }
   };
 
@@ -121,7 +121,7 @@ function SearchParametersForm(props) {
             <Grid container
               alignContent="center"
               alignItems="center"
-              justify="center"
+              justifyContent="center"
               spacing={2}
             >
               <LanguageSelectButtons
@@ -252,7 +252,9 @@ const mapStateToProps = (state) => {
     language: state.corpus.language,
     searchInProgress: state.search.searchInProgress,
     searchParameters: state.search.searchParameters,
+    sourceDivision: state.search.sourceDivision,
     sourceText: state.search.sourceText,
+    targetDivision: state.search.targetDivision,
     targetText: state.search.targetText,
   };
 };

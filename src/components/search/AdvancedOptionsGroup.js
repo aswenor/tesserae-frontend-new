@@ -6,7 +6,7 @@
  * @exports AdvancedOptionsGroup
  * 
  * @requires NPM:react
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ../common/inputs/DistanceBasisInput
  * @requires ../common/inputs/DropScoresInput
  * @requires ../common/inputs/FeatureInput
@@ -18,7 +18,7 @@
  */
 import React from 'react';
 
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 
 import DistanceBasisInput from '../common/inputs/DistanceBasisInput';
 import DropScoresInput from '../common/inputs/DropScoresInput';

@@ -8,14 +8,14 @@
  * @requires NPM:react
  * @requires NPM:prop-types
  * @requires NPM:lodash
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { range } from 'lodash';
 
-import Slider from '@material-ui/core/Slider';
-import Tooltip from '@material-ui/core/Tooltip';
+import Slider from '@mui/material/Slider';
+import Tooltip from '@mui/material/Tooltip';
 
 
 function YearLabel(props) {

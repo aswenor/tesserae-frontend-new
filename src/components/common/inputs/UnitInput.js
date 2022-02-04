@@ -9,18 +9,19 @@
  * @requires NPM:prop-types
  * @requires NPM:redux
  * @requires NPM:react-redux
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { batch, connect } from 'react-redux';
 
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 import CollapseBox from '../../common/CollapseBox';
 import createTesseraeTheme from '../../../theme';
@@ -84,35 +85,37 @@ function UnitInput(props) {
       headerText="Unit"
     >
       <Box>
-        <ThemeProvider theme={createTesseraeTheme(localTheme)}>
-          <FormControl
-            margin="dense"
-          >
-            <ButtonGroup
-              aria-label="select unit type"
-              size="small"
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={createTesseraeTheme(localTheme)}>
+            <FormControl
+              margin="dense"
             >
-              <Button
-                aria-label="line unit type"
-                className={classes.button}
-                color={unit === 'line' ? "primary" : "default"}
-                onClick={() => { handleChange('line') }}
-                variant="contained"
+              <ButtonGroup
+                aria-label="select unit type"
+                size="small"
               >
-                Line
-              </Button>
-              <Button
-                aria-label="phrase unit type"
-                className={classes.button}
-                color={unit === 'phrase' ? "primary" : "default"}
-                onClick={() => { handleChange('line') }}
-                variant="contained"
-              >
-                Phrase
-              </Button>
-            </ButtonGroup>
-          </FormControl>
-        </ThemeProvider>
+                <Button
+                  aria-label="line unit type"
+                  className={classes.button}
+                  color={unit === 'line' ? "primary" : "default"}
+                  onClick={() => { handleChange('line') }}
+                  variant="contained"
+                >
+                  Line
+                </Button>
+                <Button
+                  aria-label="phrase unit type"
+                  className={classes.button}
+                  color={unit === 'phrase' ? "primary" : "default"}
+                  onClick={() => { handleChange('line') }}
+                  variant="contained"
+                >
+                  Phrase
+                </Button>
+              </ButtonGroup>
+            </FormControl>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Box>
     </CollapseBox>
   );

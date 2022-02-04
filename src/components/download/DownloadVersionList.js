@@ -7,14 +7,14 @@
  * 
  * @requires NPM:react
  * @requires NPM:prop-types
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ./DownloadVersionListEntry
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
+import makeStyles from '@mui/styles/makeStyles';
+import List from '@mui/material/List';
 
 import DownloadVersionListEntry from './DownloadVersionListEntry';
 

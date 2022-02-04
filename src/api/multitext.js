@@ -110,7 +110,7 @@ export function initiateSearch(searchID, multitextSelections, unit) {
       response.data.search_id = searchID;
       
       return response;
-    })
+    });
     // .catch(error => {
     //   return error.response;
     // });

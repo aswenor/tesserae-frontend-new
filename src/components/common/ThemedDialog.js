@@ -8,23 +8,25 @@
  * @requires NPM:react
  * @requires NPM:prop-types
  * @requires NPM:lodash
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isString } from 'lodash';
 
-import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import IconButton from '@material-ui/core/IconButton';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import Typography from '@material-ui/core/Typography';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import IconButton from '@mui/material/IconButton';
+import MuiDialogTitle from '@mui/material/DialogTitle';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 /** CSS styles to apply to the component. */
@@ -92,7 +94,7 @@ const DialogTitle = withStyles(styles)((props) => {
           aria-label="close"
           className={classes.closeButton}
           onClick={onClose}
-        >
+          size="large">
           <CloseIcon />
         </IconButton>
       ): null}
@@ -106,7 +108,7 @@ const DialogTitle = withStyles(styles)((props) => {
  * 
  * @component 
  * @example
- *  import Button from '@material-ui/core/Button';
+ *  import Button from '@mui/material/Button';
  *  
  *  const button = (<Button onClick={() => {}}>Done</Button>);
  *  let open = true;
@@ -131,7 +133,7 @@ function ThemedDialog(props) {
   // Get the theme to find the current breakpoint witdth and conditionally set
   // the dialog to be the full screen width.
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
 
   return (
     <Dialog

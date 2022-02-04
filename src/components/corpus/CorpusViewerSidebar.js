@@ -7,7 +7,7 @@
  * 
  * @requires NPM:react
  * @requires NPM:prop-types
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  * @requires ../common/BodyScrollTable
  * @requires ../common/CorpusFilter
  * @requires ./SearchButtons
@@ -15,8 +15,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
 
 import CorpusFilter from '../common/CorpusFilter';
 import LanguageSelectButtons from '../common/LanguageSelectButtons';

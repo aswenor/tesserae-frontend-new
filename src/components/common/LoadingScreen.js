@@ -6,14 +6,14 @@
  * @exports LoadingScreen
  * 
  * @requires NPM:react
- * @requires NPM:@material-ui/core
+ * @requires NPM:@mui/material
  */
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Grid from '@mui/material/Grid';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
 
 
 /** CSS styles to apply to the component. */
@@ -49,7 +49,7 @@ function LoadingScreen(props) {
       alignItems="center"
       className={classes.root}
       direction="column"
-      justify="center"
+      justifyContent="center"
     >
       <Grid item xs={4}>
         <div className={classes.spacer}></div>
