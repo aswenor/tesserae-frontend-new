@@ -13,6 +13,7 @@ import ThemedDialog from '../../common/ThemedDialog';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    width: '100%',
     maxHeight: '100%',
     overflowY: 'hidden'
   },
