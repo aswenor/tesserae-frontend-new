@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
   button: {
     border: '1px solid #000000',
     boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.3)'
+
   },
   buttonGroup: {
     backgroundColor: theme.palette.default.main
@@ -41,13 +42,11 @@ function TypeButtonGroup(props) {
   });
 
   return (
-    <Box>
-        <ButtonGroup
-          className={classes.buttonGroup}
-        >
-          {buttons}
-        </ButtonGroup>
-    </Box>
+    <ButtonGroup
+      className={classes.buttonGroup}
+    >
+      {buttons}
+    </ButtonGroup>
   )
 }
 

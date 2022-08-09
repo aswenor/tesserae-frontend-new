@@ -20,10 +20,10 @@ import { connect } from 'react-redux';
 import { filter, isNumber, isString, maxBy, minBy, uniqBy } from 'lodash';
 
 import makeStyles from '@mui/styles/makeStyles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import ThemeProvider from '@mui/styles/ThemeProvider'
 
 import { filterTexts } from '../../utils';
 import createTesseraeTheme from '../../theme';
@@ -32,6 +32,9 @@ import YearRangeSlider from './YearRangeSlider';
 
 
 const useStyles = makeStyles(theme => ({
+  autocomplete: {
+    backgroundColor: '#ffffff'
+  },
   button: {
     border: '1px solid #000000',
     boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.3)',
@@ -109,54 +112,59 @@ function CorpusFilter(props) {
       justifyItems="center"
       width={.75}
     >
-      <ThemeProvider theme={createTesseraeTheme(localTheme)}>
-        <Box className={classes.searchSpacer} width={1}></Box>
-        <TypeButtonGroup
-          setTypeFilter={value => { setFilter(prev => ({...prev, type: value}));; }}
-          typeFilter={textFilter.type}
-        />
-        <Box className={classes.searchSpacer} width={1}></Box>
-        <Autocomplete
-          autoComplete
-          defaultValue={""}
-          filterOptions={createFilterOptions({matchFrom: 'start'})}
-          isOptionEqualToValue={option => option === textFilter.author}
-          onChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
-          onInputChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
-          options={uniqBy(filteredTextList, 'author').map(item => item.author)}
-          renderInput={params => (
-            <TextField {...params}
-              fullWidth
-              placeholder={"Filter by author"}
-              variant="outlined"
-            />
-          )}
-        />
-        <Autocomplete
-          autoComplete
-          defaultValue={""}
-          filterOptions={createFilterOptions({matchFrom: 'start'})}
-          isOptionEqualToValue={option => option === textFilter.title}
-          onChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
-          onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
-          options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
-          renderInput={params => (
-            <TextField {...params}
-              fullWidth
-              placeholder={"Filter by title"}
-              variant="outlined"
-            />
-          )}
-        />
-        <Box className={classes.yearSpacer} width={1}></Box>
-        <YearRangeSlider
-          maxYear={yearRange[1]}
-          minYear={yearRange[0]}
-          selectYearRange={(value) => { setFilter(prev => ({...prev, year: value})); }}
-          selectedYearRange={textFilter.year}
-          tickInterval={100}
-        />
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={createTesseraeTheme(localTheme)}>
+          <Box className={classes.searchSpacer} width={1}></Box>
+          <TypeButtonGroup
+            setTypeFilter={value => { setFilter(prev => ({...prev, type: value}));; }}
+            typeFilter={textFilter.type}
+          />
+          <Box className={classes.searchSpacer} width={1}></Box>
+          <Autocomplete
+            autoComplete
+            defaultValue={""}
+            filterOptions={createFilterOptions({matchFrom: 'start'})}
+            isOptionEqualToValue={option => option === textFilter.author}
+            onChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
+            onInputChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
+            options={uniqBy(filteredTextList, 'author').map(item => item.author)}
+            renderInput={params => (
+              <TextField {...params}
+                className={classes.autocomplete}
+                fullWidth
+                placeholder={"Filter by author"}
+                variant="outlined"
+              />
+            )}
+          />
+          <Box className={classes.searchSpacer} width={1}></Box>
+          <Autocomplete
+            autoComplete
+            defaultValue={""}
+            filterOptions={createFilterOptions({matchFrom: 'start'})}
+            isOptionEqualToValue={option => option === textFilter.title}
+            onChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
+            onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
+            options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
+            renderInput={params => (
+              <TextField {...params}
+                className={classes.autocomplete}
+                fullWidth
+                placeholder={"Filter by title"}
+                variant="outlined"
+              />
+            )}
+          />
+          <Box className={classes.yearSpacer} width={1}></Box>
+          <YearRangeSlider
+            maxYear={yearRange[1]}
+            minYear={yearRange[0]}
+            selectYearRange={(value) => { setFilter(prev => ({...prev, year: value})); }}
+            selectedYearRange={textFilter.year}
+            tickInterval={100}
+          />
+        </ThemeProvider>
+      </StyledEngineProvider>
     </Box>
   );
 }
