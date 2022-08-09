@@ -18,7 +18,7 @@
  */
 import axios from 'axios';
 import JsFileDownloader from 'js-file-downloader';
-import { hasIn, includes, inRange, isArray } from 'lodash'
+import { hasIn, includes, inRange, isArray, last, split } from 'lodash'
 
 import { updateChangePage,
          updateDownloadInProgress,
@@ -89,7 +89,7 @@ export function runSearch(language, source, sourceDivision, target, targetDivisi
       
       if (!inRange(status, 200, 400) || searchStatus === 'done') {
         clearInterval(interval);
-        await fetchResults(searchID)(dispatch);
+        await fetchResults(searchID, sourceDivision, targetDivision)(dispatch);
         dispatch(updateSearchInProgress(false));
       }
     }, 250);
@@ -118,11 +118,13 @@ export function downloadResults(searchID, filetype) {
 }
 
 
-export function changePage(searchID, pagination) {
+export function changePage(searchID, sourceDivision, targetDivision, pagination) {
   return async dispatch => {
     dispatch(updateChangePage(true));
     const response = await fetchResults(
       searchID,
+      sourceDivision,
+      targetDivision,
       pagination.currentPage,
       pagination.rowsPerPage,
       pagination.sortHeader,
@@ -234,14 +236,6 @@ export function initiateSearch(source, sourceDivision, target, targetDivision, p
 
       dispatch(updateSearchID(searchID));
 
-      if (hasIn(response, 'data.parallels')) {
-        const maxScore = response.data.max_score;
-        const nResults = response.data.total_count;
-        const normedParallels = normalizeScores(response.data.parallels,
-                                                maxScore >= 10 ? maxScore : 10);
-        dispatch(updateResults(normedParallels, nResults));
-      }
-      
       return {search_id: searchID, response: response};
     })
     .catch(error => {
@@ -293,9 +287,9 @@ export function getSearchStatus(searchID, asyncReady) {
  * @param {number} sortOrder 1 (asc) or -1 (desc)
  * @returns {function} Callback that calls dispatch to handle communication.
  */
-export function fetchResults(searchID, currentPage = 0,
-                             rowsPerPage = 100, sortLabel = 'score',
-                             sortOrder = -1) {
+export function fetchResults(searchID, sourceDivision = 0, targetDivision = 0,
+                             currentPage = 0, rowsPerPage = 100,
+                             sortLabel = 'score', sortOrder = -1) {
   return async dispatch => {
     return axios({
       method: 'get',
@@ -308,6 +302,8 @@ export function fetchResults(searchID, currentPage = 0,
         per_page: rowsPerPage,
         sort_by: sortLabel,
         sort_order: sortOrder === -1 ? 'descending' : 'ascending',
+        source_division: sourceDivision,
+        target_division: targetDivision,
       }
     })
     .then(response => {
