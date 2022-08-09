@@ -6,8 +6,9 @@
  * @exports filterTexts
  * 
  * @requires NPM:lodash
+ * @requires NPM:@mui/material
  */
-import { inRange } from 'lodash';
+import { includes, inRange, split } from 'lodash';
 
 import Typography from '@mui/material/Typography';
 
@@ -28,12 +29,6 @@ export function filterTexts(texts, type, authorFilter, titleFilter, years) {
   const authorPattern = new RegExp(authorFilter, 'iu');
   const titlePattern = new RegExp(titleFilter, 'iu');
 
-  console.log(type, authorFilter, titleFilter, years);
-  console.log(type.toLowerCase() === 'all' || texts[0].is_prose === filterType);
-  console.log(authorFilter === '' || texts[0].author.search(authorPattern));
-  console.log(titleFilter === '' || texts[0].title.search(authorPattern));
-  console.log(inRange(texts[0].year, years[0], years[1] + 1));
-  
   return texts.filter(x => (
     (type.toLowerCase() === 'all' || x.is_prose === filterType) &&
     (authorFilter === '' || x.author.search(authorPattern)) &&
@@ -48,94 +43,54 @@ export function filterTexts(texts, type, authorFilter, titleFilter, years) {
  * @param {String} snippet The snippet to highlight.
  * @param {String} tag Locus identifier for the snippet.
  * @param {Array} matchIndices The indices of the tokens to highlight.
- * @returns {Array} A list of Typography components with matches highlighted.
+ * @returns {Component} A Typography component with matches highlighted.
  */
- export function highlightMatches(snippet, tag, matchIndices) {
-  /** Array of highlighted tokens. */
-  let highlightedSnippet = [];
+export function highlightMatches(snippet, tag, matchIndices) {
+  // Sorry in advance for the code/comment ratio, but this one required some explanation.
 
-  /** Split the snippet along whitespace. */
-  let snippetTokens = snippet.split(/[\s.?!,;:/]+/);
+  // This RegExp will be weird to explain in comments.
+  // For more information, see https://medium.com/@shemar.gordon32/how-to-split-and-keep-the-delimiter-s-d433fb697c65
+  // Essentially, it splits the string and keeps the delimiters.
+  // This is not guraranteed to work with all languages.
+  const splitted = split(snippet, /(?=[\s.,;:?/!&'")(-])|(?<=[\s.,;:?/!&'")(-])/g);
   
-  /** The current token index to inspect. */
-  let current = 0;
+  let wordStr = ''; // Collect multi-word parts here to reduce the number of components
+  let tags = []; // Add each Typography component here.
+  let wordIdx = 0; // Keep a counter of which word we are on for highlighting.
 
-  /** The next match token index. */
-  let next = null;
+  // Iterate over each index in the array of split strings.
+  for (let i in splitted) {
+    // Determine if the current string is a word or non-word. If so, handle as described below, otherwise
+    // add it to the `wordStr` buffer.
+    // Note that all Typography components in this block are "span"
+    // components rather than "p" components. This prevents the browser from rendering a newline for every Typography component.
+    if (splitted[i].search(/[^\s.,;:?/!&'")(-]/) >= 0){
 
-  /** The current slice of the snippet to wrap. */
-  let slice = null;
-
-  // Iterate over the match indices, extract token slices, and highlight
-  // relevant tokens.
-  while (matchIndices.length > 0 || current < snippetTokens.length) {
-    // Get the index of the next match token.
-    next = matchIndices.shift();
-
-    // If the current token is the next match token, highlight it.
-    if (current === next) {
-      slice = snippetTokens.slice(current, next + 1);
-      highlightedSnippet.push(
-        <Typography
-            color="primary"
-            component="span"
-            key={`${tag} ${current},${next + 1}`}
-          >
-            {` ${slice.join(' ')}`}
-          </Typography>
-      );
-      current = next + 1;
+      // Determine if the current string is a match word. If so, compile the current`wordStr` into a
+      // Typography component, compile the current string into a highlighted Typography component, and clear
+      // the current `wordStr`. Otherwise, add the current string to the `wordStr` buffer.
+      if (includes(matchIndices, wordIdx)) {
+        if (wordIdx > 0 && wordIdx.length > 0) {
+          tags.push(<Typography component="span" key={`${tag}-${tags.length}`}>{wordStr}</Typography>);
+          wordStr = '';
+        }
+        tags.push(<Typography component="span" key={`${tag}-${tags.length}`} color="primary">{splitted[i]}</Typography>);
+      }
+      else {
+        wordStr = `${wordStr}${splitted[i]}`;
+      }
+      wordIdx += 1;
     }
-
-    // If no more matches are found, slice into the remaining tokens and
-    // wrap them without a highlight.
-    else if (next === undefined) {
-      slice = snippetTokens.slice(current, snippetTokens.length);
-
-      highlightedSnippet.push(
-        <Typography
-          color="textPrimary"
-          component="span"
-          key={`${tag} ${current},${snippetTokens.length}`}
-        >
-          {` ${slice.join(' ')}`}
-        </Typography>
-      );
-      
-      current = snippetTokens.length;
-    }
-
-    // Otherwise, get the span of tokens leading up to the next match token
-    // and wrap them without highlight, then get the match token and
-    // highlight it.
     else {
-      slice = snippetTokens.slice(current, next);
-      highlightedSnippet.push(
-        <Typography
-          color="textPrimary"
-          component="span"
-          key={`${tag} ${current},${next}`}
-        >
-          {` ${slice.join(' ')}`}
-        </Typography>
-      );
-
-      slice = snippetTokens.slice(next, next + 1);
-      highlightedSnippet.push(
-        <Typography
-          color="primary"
-          component="span"
-          key={`${tag} ${next},${next + 1}`}
-        >
-          {` ${slice.join(' ')}`}
-        </Typography>
-      );
-
-      current = next + 1;
+      wordStr = `${wordStr}${splitted[i]}`;
     }
   }
 
-  return highlightedSnippet;
+  // Compile the remaining parts of the snippet.
+  tags.push(<Typography component="span" key={`${tag}-${tags.length}`}>{wordStr}</Typography>);
+
+  // Wrap the result in a "p" Typography component to contain it all.
+  return (<Typography>{tags}</Typography>);
 }
 
 
