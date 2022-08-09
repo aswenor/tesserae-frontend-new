@@ -84,9 +84,9 @@ function CorpusViewerSidebar(props) {
       component="section"
       display="flex"
       flexDirection="column"
-      flexGrow={1}
+      flexGrow={1.0}
       height={'100%'}
-      width={1}
+      width={1.0}
     >
       <div className={classes.spacer}></div>
       <LanguageSelectButtons />

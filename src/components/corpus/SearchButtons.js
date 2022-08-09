@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 
@@ -68,39 +69,27 @@ function SearchButtons(props) {
   const multitextReady = searchReady && multitextSelections.length > 0;
 
   return (
-    <Grid container
-      alignContent="center"
-      alignItems="center"
-      direction="column"
-      justifyContent="center"
-    >
-      <Grid item xs={12}
-        className={classes.buttonStyles}
+
+    <Box>
+      <Fab
+        color="primary"
+        component={Link}
+        disabled={!searchReady}
+        to={'/'}
+        variant="extended"
       >
-        <Fab
-          color="primary"
-          component={Link}
-          disabled={!searchReady}
-          to={'/'}
-          variant="extended"
-        >
-          <SearchIcon />Search
-        </Fab>
-      </Grid>
-      <Grid item xs={12}
-        className={classes.buttonStyles}
+        <SearchIcon />Search
+      </Fab>
+      <Fab
+        color="primary"
+        component={Link}
+        disabled={!multitextReady}
+        to={'/multitext'}
+        variant="extended"
       >
-        <Fab
-          color="primary"
-          component={Link}
-          disabled={!multitextReady}
-          to={'/multitext'}
-          variant="extended"
-        >
-          <SearchIcon />Multitext
-        </Fab>
-      </Grid>
-    </Grid>
+        <SearchIcon />Multitext
+      </Fab>
+    </Box>
   );
 }
 
