@@ -34,7 +34,8 @@ import Header from './Header';
  * @component
  */
 function ResultsTable(props) {
-  const { changePage, changingPage, resultsCount, searchID } = props;
+  const { changePage, changingPage, resultsCount, searchID, sourceDivision,
+          targetDivision } = props;
 
   const [ pagination, setPagination ] = useState({
     currentPage: 0,
@@ -44,14 +45,15 @@ function ResultsTable(props) {
   });
 
   useEffect(() => {
-    console.log(changePage, searchID, pagination);
     if (searchID !== '') {
       changePage(
         searchID,
+        sourceDivision,
+        targetDivision,
         {...pagination}
       )
     }
-  }, [changePage, pagination, searchID]);
+  }, [changePage, pagination, searchID, sourceDivision, targetDivision]);
 
   const updatePagination = (newPagination) => {
     setPagination({...pagination, ...newPagination});
@@ -66,7 +68,7 @@ function ResultsTable(props) {
     : <BodyScrollTable
         bodyCount={resultsCount}
         initialRowsPerPage={100}
-        onPageChange={() => {}}
+        onChangePage={setPagination}
         pagination={pagination}
         rowsPerPageLabel="Results per page: "
         rowsPerPageOptions={[50, 100, 250, 500]}
@@ -150,7 +152,9 @@ ResultsTable.propTypes = {
 const mapStateToProps = state => ({
   changingPage: state.search.changingPage,
   resultsCount: state.search.resultsCount,
-  searchID: state.search.searchID
+  searchID: state.search.searchID,
+  sourceDivision: state.search.searchDivision,
+  targetDivision: state.search.targetDivision
 });
 
 

@@ -68,7 +68,7 @@ function BodyRow(props) {
       className={classes.row}
       hover
       tabIndex={-1}
-      key={result.object_id}
+      key={`${result.object_id}-${result.source_tag}-${result.target_tag}`}
     >
       <TableCell
         className={classes.numberCell}
