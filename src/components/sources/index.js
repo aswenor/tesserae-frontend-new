@@ -23,7 +23,8 @@ import PageContainer from '../common/PageContainer';
 const useStyles = makeStyles((theme) => ({
   paper: {
     backgroundColor: '#fdead1',
-    display: 'flex',
+	display: 'flex',
+	overflow: 'auto',
     [theme.breakpoints.up('md')]: {
       height: '90vh',
       marginLeft: theme.spacing(3),
@@ -75,8 +76,6 @@ function Sources(props) {
               During our searches, all punctuation and capitalization are removed. Below we provide the electronic
               sources for each our text. To the best of our ability, we have looked for indications of the original 
               provenance of these texts, and reproduce citation where possible. This is a work in progress. </p>
-
-	<div style="overflow-y:auto;">
               <table>
                 <tr>
 	                <th>Author</th>
@@ -6583,7 +6582,6 @@ function Sources(props) {
 			<td>Bridget Murray</td>
 
                 </tr></table>
-		</div>
             </Typography>
           </Grid>
         </Grid>
