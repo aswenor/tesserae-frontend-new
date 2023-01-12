@@ -64,19 +64,19 @@ function About(props) {
           </Grid>
           <Grid item xs={12}>
             <Typography align="center">
-              <p> Tesserae is a collaborative project of the <a href="https://www.buffalo.edu">University of Buffalo</a> 
-              <a href="https://arts-sciences.buffalo.edu/classics.html">Department of Classics</a> and
+              <p> Tesserae is a collaborative project of the <a href="https://www.buffalo.edu">University of Buffalo </a> 
+              <a href="https://arts-sciences.buffalo.edu/classics.html">Department of Classics</a> and 
               <a href="https://arts-sciences.buffalo.edu/linguistics.html">Department of Linguistics</a>, the 
-              <a href="https://cse.nd.edu/">Department of Computer Science and Engineering</a> of the 
-              <a href="https://www.nd.edu/">University of Notre Dame</a>, and the 
-              <a href="https://www.unige.ch/lettres/antic/">Département des Sciences de l\'Antiquité</a> of the 
-              <a href="https://unige.ch/">University of Geneva</a>. 
+              <a href="https://cse.nd.edu/"> Department of Computer Science and Engineering </a> of the
+              <a href="https://www.nd.edu/"> University of Notre Dame</a>, and the 
+              <a href="https://www.unige.ch/lettres/antic/"> Département des Sciences de l\'Antiquité </a> of the 
+              <a href="https://unige.ch/"> University of Geneva</a>. 
               </p>
                 
               <p> The principal investigators are <a href="https://arts-sciences.buffalo.edu/classics/faculty/core-faculty.host.html/content/shared/arts-sciences/classics/core-faculty/coffee-neil.html">Neil Coffee</a>,
               Professor of Classics, University of Buffalo; <a href="https://www.wjscheirer.com/">Walter J. Scheirer</a>, 
               Associate Professor of Computer Science, University of Notre Dame; and
-              <a href="https://arts-sciences.buffalo.edu/linguistics/faculty.host.html/content/shared/arts-sciences/linguistics/new-faculty-profiles/koenig-jean-pierre.html">Jean-Pierre Koenig</a>,
+              <a href="https://arts-sciences.buffalo.edu/linguistics/faculty.host.html/content/shared/arts-sciences/linguistics/new-faculty-profiles/koenig-jean-pierre.html"> Jean-Pierre Koenig</a>,
               Professor of Linguistics, University of Buffalo. A list of personnel and collaborators is <a href="https://tesserae.caset.buffalo.edu/blog/people/">here</a>.
               </p>
               
