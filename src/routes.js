@@ -4,6 +4,7 @@ import Downloads from './components/download';
 import Multitext from './components/multitext';
 import Reader from './components/reader';
 import Search from './components/search';
+import Sources from './components/sources';
 
 
 const routes = [
