@@ -12,7 +12,8 @@ const routes = [
   {name: 'Search', url: '/', component: Search, show: true},
   {name: 'Multitext', url: '/multitext', component: Multitext, show: true},
   {name: 'Downloads', url: '/download', component: Downloads, show: true},
-  {name: 'Reader', url: '/reader/:textId', component: Reader}
+  {name: 'Reader', url: '/reader/:textId', component: Reader},
+  {name: 'Sources', url: '/sources', component: Sources, show: true}
 ]
 
 
