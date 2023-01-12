@@ -76,6 +76,7 @@ function Sources(props) {
               sources for each our text. To the best of our ability, we have looked for indications of the original 
               provenance of these texts, and reproduce citation where possible. This is a work in progress. </p>
 
+	<div style="overflow-y:auto;">
               <table>
                 <tr>
 	                <th>Author</th>
@@ -6582,6 +6583,7 @@ function Sources(props) {
 			<td>Bridget Murray</td>
 
                 </tr></table>
+		</div>
             </Typography>
           </Grid>
         </Grid>
