@@ -64,7 +64,7 @@ function Sources(props) {
           </Grid>
           <Grid item xs={12}>
             <Typography align="center">
-              The texts used in this project were gathered from many electronic text databases, including 
+              <p> The texts used in this project were gathered from many electronic text databases, including 
               <a href="http://thelatinlibrary.com/"> The Latin Library</a>, 
               <a href="http://www.perseus.tufts.edu/hopper/"> The Perseus Project</a>,
               <a href="https://digiliblt.uniupo.it/"> DigilibLT</a>,
@@ -74,7 +74,29 @@ function Sources(props) {
               We have modified the texts by changing the markup, and may have made superficial changes to orthography.
               During our searches, all punctuation and capitalization are removed. Below we provide the electronic
               sources for each our text. To the best of our ability, we have looked for indications of the original 
-              provenance of these texts, and reproduce citation where possible. This is a work in progress.
+              provenance of these texts, and reproduce citation where possible. This is a work in progress. </p>
+
+              <table>
+                <tr>
+	                <th>Author</th>
+	                <th>Work</th>
+	                <th>e-Source</th>
+	                <th>Print Source</th>
+	                <th>Added by</th>
+                </tr>
+                <tr>
+	                <td>Achilles Tatius</td>
+	                <td>Leucippe et Clitophon</td>
+	                <td><a href="http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3atext%3a2008.01.0665">Perseus</a></td>
+	                <td>Rudolf Hercher, <em>Erotici Scriptores Graeci, Vol 1</em>. Leipzig: in aedibus B. G. Teubneri, 1858.</td>
+	                <td>Emilie Redwood</td>
+                </tr><tr>
+	                <td>Aelian</td>
+	                <td>De Natura Animalium</td>
+	                <td><a href="http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3atext%3a2008.01.0590">Perseus</a></td>
+	                <td>Rudolf Hercher, <em>Claudii Aeliani de natura animalium libri xvii, varia historia, epistolae, fragmenta, Vol 1</em>. Lipsiae: In Aedibus B.G. Teubneri, 1864.</td>
+	                <td>Emilie Redwood</td>
+                </tr></table>
             </Typography>
           </Grid>
         </Grid>
