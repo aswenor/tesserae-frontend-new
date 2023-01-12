@@ -5447,7 +5447,7 @@ function Sources(props) {
 			<td></td>
 
 		</tr><tr>
-			<td>Plutarch/td>
+			<td>Plutarch</td>
 			<td>Quaestiones Convivales</td>
 			<td><a href="http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3atext%3a2008.01.0311">Perseus</a></td>
 			<td>George N. Bernadakis<em>Plutarch. Moralia</em>. Leipzig. Teubner. 1892. 4.</td>
