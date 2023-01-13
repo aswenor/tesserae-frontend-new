@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     backgroundColor: '#fdead1',
     display: 'flex',
+    overflow: 'auto',
     [theme.breakpoints.up('md')]: {
       height: '90vh',
       marginLeft: theme.spacing(3),
