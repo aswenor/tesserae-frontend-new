@@ -61,11 +61,15 @@ function Tutorial(props) {
           justifyContent="center"
         >
           <Grid item xs={12}>
-            <Typography align="center" variant='h4'>Tutorial</Typography>
+            <Typography align="center" variant='h4'>Basic Tutorial</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography align="left">
-              Basic tutorial info here
+              The basic search compares two texts to find every place where they share two or more words within a single line or phrase. Shared words are those that have a common lemma or are considere semantically related, with the latter category including but not limited to synonyms and antonyms. 
+            </Typography>
+            <Typography align="left" variant='h3'>Target and Source</Typography>
+            <Typography align="left"
+              The “target” text is the text you are studying most closely. It is generally the alluding text, and the more recent. The search is bidirectional, so the choice of which text is the target and which the source has no influence on the search. In the display of results, however, phrases from the target text will appear in the left column, those from the source on the right. 
             </Typography>
           </Grid>
           <Grid item xs={12}>
