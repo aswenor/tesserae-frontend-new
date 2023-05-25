@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     backgroundColor: '#fdead1',
     display: 'flex',
+    overflow: 'auto',
     [theme.breakpoints.up('md')]: {
       height: '90vh',
       marginLeft: theme.spacing(3),
@@ -63,10 +64,10 @@ function About(props) {
             <Typography align="center" variant='h4'>About</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="center">
+            <Typography align="left">
               <p> Tesserae is a collaborative project of the <a href="https://www.buffalo.edu">University of Buffalo </a> 
-              <a href="https://arts-sciences.buffalo.edu/classics.html">Department of Classics</a> and 
-              <a href="https://arts-sciences.buffalo.edu/linguistics.html">Department of Linguistics</a>, the 
+              <a href="https://arts-sciences.buffalo.edu/classics.html"> Department of Classics</a> and 
+              <a href="https://arts-sciences.buffalo.edu/linguistics.html"> Department of Linguistics</a>, the 
               <a href="https://cse.nd.edu/"> Department of Computer Science and Engineering </a> of the
               <a href="https://www.nd.edu/"> University of Notre Dame</a>, and the 
               <a href="https://www.unige.ch/lettres/antic/"> Département des Sciences de l\'Antiquité </a> of the 
@@ -86,6 +87,19 @@ function About(props) {
               </p>
                 
               <p> For more information, contact Dr. Neil Coffee (<a href="ncoffee@buffalo.edu">ncoffee@buffalo.edu</a>) </p>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align="center" variant='h4'>Docs</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align="left">
+              <p> Here we provide documentation for the Tesserae project code as used with this software. We provide two main forms of 
+              documentation here, with more in progress. The documenation for the API of this project can be found <a href="https://tesserae.caset.buffalo.edu/docs/api/">here</a>.</p>
+              <p> If you are interested in downloading a standalone version of Tesserae for your own use, please refer to this github repository 
+              that has been setup to allow for easy downloading. This version will allow you to ingest your own texts as needed as well. You can
+              find directions for installing the standalone versions <a href="https://github.com/tesserae/electron-tesserae">here</a>. </p>
+              <p> Documentation for the use of this website and its functionalities is in progress. </p>
             </Typography>
           </Grid>
         </Grid>

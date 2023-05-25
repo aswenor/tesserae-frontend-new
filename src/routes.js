@@ -5,6 +5,7 @@ import Multitext from './components/multitext';
 import Reader from './components/reader';
 import Search from './components/search';
 import Sources from './components/sources';
+import Tutorial from './components/tutorial';
 
 
 const routes = [
@@ -12,9 +13,10 @@ const routes = [
   {name: 'Corpus', url: '/corpus', component: Corpus, show: true},
   {name: 'Search', url: '/', component: Search, show: true},
   {name: 'Multitext', url: '/multitext', component: Multitext, show: true},
-  {name: 'Downloads', url: '/download', component: Downloads, show: true},
+  {name: 'Downloads', url: '/download', component: Downloads},
   {name: 'Reader', url: '/reader/:textId', component: Reader},
-  {name: 'Sources', url: '/sources', component: Sources, show: true}
+  {name: 'Sources', url: '/sources', component: Sources, show: true},
+  {name: 'Tutorial', url: '/tutorial', component: Tutorial, show: true}
 ]
 
 
