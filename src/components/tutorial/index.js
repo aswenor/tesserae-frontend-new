@@ -64,7 +64,7 @@ function Tutorial(props) {
             <Typography align="center" variant='h4'>Basic Tutorial</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left" variant='body1'>
+            <Typography align="left" variant='body2'>
               The basic search compares two texts to find every place where they share two or more words within a single line or phrase. Shared words are those that have a common lemma or are considere semantically related, with the latter category including but not limited to synonyms and antonyms. 
             </Typography>
           </Grid>
@@ -80,12 +80,12 @@ function Tutorial(props) {
             <Typography align="left" variant='h6'>Compare Texts</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left" variant='paragraph'>
+            <Typography align="left" variant='body2'>
               Clicking on “Compare Texts” will initiate a default search for parallel language between the selected texts. The default settings are designed to capture the largest number of interesting intertexts and rank them as efficiently as possible. To customize the search parameters, click on the words “advanced features” and see the relevant help page. 
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left">
+            <Typography align="left" variant='body2'>
               The default search will produce pairs of phrases, one from each text, which share at least two words. Words are considered to be “shared” if they partake of a common dictionary headword or lemma. As of Version 3.1 (July 2015), default searches include both shared-lemma and semantic matches, the latter of which include synonyms, antonyms, and many compound words. 
             </Typography>
           </Grid>
@@ -93,12 +93,12 @@ function Tutorial(props) {
             <Typography align="left" variant='h6'>Limitations</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left">
+            <Typography align="left" variant='body2'>
               The search uses automatic rules on the best available data, but has some known limitations. Lemma search overmatches because it does not distinguish between homographs. Latin bellum, meaning "war," will match bellae, "beautiful ladies," because bellum could have been the masculine accusative from of bellus, meaning "beautiful." Semantic matches are based on an automatically-generated dictionary of related words. Experiments have shown that the large majority of these matches are semantically related in a broad sense, but the search still returns a signifiant percentage of minimally related or unrelated words. 
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left">
+            <Typography align="left" variant='body2'>
                Searches on large full texts can take a few moments to process. You can speed results by choosing to compare parts of large works rather than whole works. 
             </Typography>
           </Grid>
@@ -106,7 +106,7 @@ function Tutorial(props) {
             <Typography align="center" variant='h4'>Advanced Tutorial</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left">
+            <Typography align="left" variant='body2'>
               Advanced tutorial info here
             </Typography>
           </Grid>
