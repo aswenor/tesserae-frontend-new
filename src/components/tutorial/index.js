@@ -69,11 +69,37 @@ function Tutorial(props) {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left" variant='h5'>Target and Source</Typography>
+            <Typography align="left" variant='h6'>Target and Source</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography align="left">
               The “target” text is the text you are studying most closely. It is generally the alluding text, and the more recent. The search is bidirectional, so the choice of which text is the target and which the source has no influence on the search. In the display of results, however, phrases from the target text will appear in the left column, those from the source on the right. 
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align="left" variant='h6'>Compare Texts</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align="left">
+              Clicking on “Compare Texts” will initiate a default search for parallel language between the selected texts. The default settings are designed to capture the largest number of interesting intertexts and rank them as efficiently as possible. To customize the search parameters, click on the words “advanced features” and see the relevant help page. 
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align="left">
+              The default search will produce pairs of phrases, one from each text, which share at least two words. Words are considered to be “shared” if they partake of a common dictionary headword or lemma. As of Version 3.1 (July 2015), default searches include both shared-lemma and semantic matches, the latter of which include synonyms, antonyms, and many compound words. 
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align="left" variant='h6'>Limitations</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align="left">
+              The search uses automatic rules on the best available data, but has some known limitations. Lemma search overmatches because it does not distinguish between homographs. Latin bellum, meaning "war," will match bellae, "beautiful ladies," because bellum could have been the masculine accusative from of bellus, meaning "beautiful." Semantic matches are based on an automatically-generated dictionary of related words. Experiments have shown that the large majority of these matches are semantically related in a broad sense, but the search still returns a signifiant percentage of minimally related or unrelated words. 
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align="left">
+               Searches on large full texts can take a few moments to process. You can speed results by choosing to compare parts of large works rather than whole works. 
             </Typography>
           </Grid>
           <Grid item xs={12}>
