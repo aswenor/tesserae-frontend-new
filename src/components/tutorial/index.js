@@ -102,14 +102,6 @@ function Tutorial(props) {
                Searches on large full texts can take a few moments to process. You can speed results by choosing to compare parts of large works rather than whole works. 
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Typography align="center" variant='h4'>Advanced Tutorial</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography align="left" variant='body2'>
-              Advanced tutorial info here
-            </Typography>
-          </Grid>
         </Grid>
       </Paper>
     </PageContainer>
