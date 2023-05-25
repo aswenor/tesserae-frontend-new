@@ -64,7 +64,7 @@ function Tutorial(props) {
             <Typography align="center" variant='h4'>Basic Tutorial</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left">
+            <Typography align="left" variant='body1'>
               The basic search compares two texts to find every place where they share two or more words within a single line or phrase. Shared words are those that have a common lemma or are considere semantically related, with the latter category including but not limited to synonyms and antonyms. 
             </Typography>
           </Grid>
@@ -72,7 +72,7 @@ function Tutorial(props) {
             <Typography align="left" variant='h6'>Target and Source</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left">
+            <Typography align="left" variant='body2'>
               The “target” text is the text you are studying most closely. It is generally the alluding text, and the more recent. The search is bidirectional, so the choice of which text is the target and which the source has no influence on the search. In the display of results, however, phrases from the target text will appear in the left column, those from the source on the right. 
             </Typography>
           </Grid>
@@ -80,7 +80,7 @@ function Tutorial(props) {
             <Typography align="left" variant='h6'>Compare Texts</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left">
+            <Typography align="left" variant='paragraph'>
               Clicking on “Compare Texts” will initiate a default search for parallel language between the selected texts. The default settings are designed to capture the largest number of interesting intertexts and rank them as efficiently as possible. To customize the search parameters, click on the words “advanced features” and see the relevant help page. 
             </Typography>
           </Grid>
