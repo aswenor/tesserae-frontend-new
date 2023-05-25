@@ -216,10 +216,12 @@ export function initiateSearch(source, sourceDivision, target, targetDivision, p
         source: {
           object_id: source.object_id,
           units: params.unitType
+          // division : sourceDivision
         },
         target: {
           object_id: target.object_id,
           units: params.unitType
+          // division : targetDivision
         },
       }
     })
