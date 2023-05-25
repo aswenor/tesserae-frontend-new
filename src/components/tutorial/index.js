@@ -69,7 +69,7 @@ function Tutorial(props) {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align="left" variant='h3'>Target and Source</Typography>
+            <Typography align="left" variant='h5'>Target and Source</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography align="left">
