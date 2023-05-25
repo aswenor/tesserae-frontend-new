@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(3),
       marginRight: theme.spacing(3),
       marginTop: theme.spacing(3),
-      padding: theme.spacing(3),
+      padding: theme.spacing(4),
     },
     [theme.breakpoints.down('lg')]: {
       height: '100%'
