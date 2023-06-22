@@ -63,7 +63,17 @@ function BodyRow(props) {
   const sourceSnippet = highlightMatches(result.source_snippet, result.source_tag, sourceIndices);
   const targetSnippet = highlightMatches(result.target_snippet, result.target_tag, targetIndices);
 
-  return (
+  // Get the divisions and parse out the given integer value of each division (no integer value means use full text)
+  sourceDivision = parseInt(state.search.sourceDivision)
+  targetDivision = parseInt(state.search.targetDivision)
+
+  // Parse out the subsection from the text tags
+  sourceSection = Math.floor(parseFloat(result.source_tag))
+  targetSection = Math.floor(parseFloat(result.target_tag))
+  
+  // Check for subsection tags and if they match (or its a full text search) return the corresponding BodyRow object
+  if( (isNaN(sourceDivision) && isNaN(targetDivision)) || ((sourceDivision == sourceSection) && isNaN(targetDivision)) || (isNaN(sourceDivision) && (targetDivision == targetSection)) || ((sourceDivision == sourceSection) && (targetDivision == targetSection))) {
+    return (
     <TableRow
       className={classes.row}
       hover
@@ -120,6 +130,13 @@ function BodyRow(props) {
       </TableCell>
     </TableRow>
   );
+  }
+
+  else {
+    return
+  }
+  
+  
 }
 
 
