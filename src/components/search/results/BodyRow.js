@@ -64,12 +64,12 @@ function BodyRow(props) {
   const targetSnippet = highlightMatches(result.target_snippet, result.target_tag, targetIndices);
 
   // Get the divisions and parse out the given integer value of each division (no integer value means use full text)
-  sourceDivision = parseInt(state.search.sourceDivision)
-  targetDivision = parseInt(state.search.targetDivision)
+  let sourceDivision = parseInt(state.search.sourceDivision)
+  let targetDivision = parseInt(state.search.targetDivision)
 
   // Parse out the subsection from the text tags
-  sourceSection = Math.floor(parseFloat(result.source_tag))
-  targetSection = Math.floor(parseFloat(result.target_tag))
+  let sourceSection = Math.floor(parseFloat(result.source_tag))
+  let targetSection = Math.floor(parseFloat(result.target_tag))
   
   // Check for subsection tags and if they match (or its a full text search) return the corresponding BodyRow object
   if( (isNaN(sourceDivision) && isNaN(targetDivision)) || ((sourceDivision == sourceSection) && isNaN(targetDivision)) || (isNaN(sourceDivision) && (targetDivision == targetSection)) || ((sourceDivision == sourceSection) && (targetDivision == targetSection))) {
