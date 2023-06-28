@@ -109,21 +109,24 @@ export function fetchTexts(language) {
       const texts = response.data.texts.sort((a, b) => 
         a.author > b.author || (a.author === b.author && a.title > b.title)
       );
+         let source = undefined;
+         let target = undefined;
 
-      if (texts.length > 1) {
-        const source = (language.toLowerCase() === 'latin'
-          ? find(texts, {author: 'vergil', title: 'aeneid'})
-          : find(texts, {author: 'homer', title: 'iliad'})
-        );
-
-        const target = (language.toLowerCase() === 'latin'
-          ? find(texts, {author: 'lucan', title: 'bellum civile'})
-          : undefined
-        );
+        if (language.toLowerCase() === 'latin') {
+          source = find(texts, {author: 'vergil', title: 'aeneid'});
+          target = find(texts, {author: 'lucan', title: 'bellum civile'});
+        }
+         else if (language.toLowerCase() === 'greek') {
+           source = find(texts, {author:'homer', title: 'iliad'});
+           target = find(texts, {author: 'Apollonius', title: 'agronautica'});
+         }
+         else if (language.toLowerCase() === 'english') {
+           source = find(texts, {author: 'cowper', title: 'task'});
+           target = find(texts, {author: 'wordsworth', title: 'prelude'});
+         }
 
         dispatch(updateSourceText(!isUndefined(source) ? source : texts[0]));
         dispatch(updateTargetText(!isUndefined(target) ? target : texts[-1]));
-      }
              
       
       dispatch(updateAvailableTexts(texts));
