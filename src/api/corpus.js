@@ -60,7 +60,7 @@ export function fetchLanguages() {
     })
     .then(response => {
       const languages = response.data.languages.map(item => item.toLowerCase()).sort();
-      const defaults = union(languages, ['greek', 'latin']).reverse();
+      const defaults = union(languages, ['english', 'greek', 'latin']).reverse();
       const others = difference(languages, defaults).sort();
 
       /**
