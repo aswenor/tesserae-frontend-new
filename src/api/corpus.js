@@ -118,7 +118,7 @@ export function fetchTexts(language) {
         }
          else if (language.toLowerCase() === 'greek') {
            source = find(texts, {author:'homer', title: 'iliad'});
-           target = find(texts, {author: 'Apollonius', title: 'agronautica'});
+           target = find(texts, {author: 'apollonius', title: 'agronautica'});
          }
          else if (language.toLowerCase() === 'english') {
            source = find(texts, {author: 'cowper', title: 'task'});
