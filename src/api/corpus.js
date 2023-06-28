@@ -116,10 +116,20 @@ export function fetchTexts(language) {
           : undefined
         );
 
+         const source = (language.toLowerCase() === 'greek'
+          ? find(texts, {author: 'homer', title: 'iliad'})
+          : undefined
+         );
+
         const target = (language.toLowerCase() === 'latin'
           ? find(texts, {author: 'lucan', title: 'bellum civile'})
           : undefined
         );
+
+         const target = (language.toLowerCase() == 'greek'
+          ? find(texts, {author: 'apollonius', title: 'argonautica'})
+          : undefined
+         );
 
         dispatch(updateSourceText(!isUndefined(source) ? source : texts[0]));
         dispatch(updateTargetText(!isUndefined(target) ? target : texts[-1]));
