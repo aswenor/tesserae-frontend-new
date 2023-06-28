@@ -112,9 +112,9 @@ export function fetchTexts(language) {
 
       if (texts.length > 1) {
         const source = (language.toLowerCase() === 'latin'
-          ? find(texts, {author: 'vergil', title: 'aeneid'})
+          ? find(texts, {author: 'vergil', title: 'aeneid'}))
           : (language.toLowerCase() === 'greek' ? find(texts, {author: 'homer', title: 'iliad'})
-        ));
+        );
 
         const target = (language.toLowerCase() === 'latin'
           ? find(texts, {author: 'lucan', title: 'bellum civile'})
