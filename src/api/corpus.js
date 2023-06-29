@@ -60,7 +60,7 @@ export function fetchLanguages() {
     })
     .then(response => {
       const languages = response.data.languages.map(item => item.toLowerCase()).sort();
-      const defaults = union(languages, ['greek', 'latin']).reverse();
+      const defaults = union(languages, ['greek', 'latin', 'greek-latin']).reverse();
       const others = difference(languages, defaults).sort();
 
       /**
@@ -109,21 +109,24 @@ export function fetchTexts(language) {
       const texts = response.data.texts.sort((a, b) => 
         a.author > b.author || (a.author === b.author && a.title > b.title)
       );
+         let source = undefined;
+         let target = undefined;
 
-      if (texts.length > 1) {
-        const source = (language.toLowerCase() === 'latin'
-          ? find(texts, {author: 'vergil', title: 'aeneid'})
-          : undefined
-        );
-
-        const target = (language.toLowerCase() === 'latin'
-          ? find(texts, {author: 'lucan', title: 'bellum civile'})
-          : undefined
-        );
+        if (language.toLowerCase() === 'latin') {
+                 source = find(texts, {author: 'vergil', title: 'aeneid'});
+                 target = find(texts, {author: 'lucan', title: 'bellum civile'});
+        }
+         else if (language.toLowerCase() === 'greek') {
+                  source = find(texts, {author: 'homer', title: 'iliad'});
+                  target = find(texts, {author: 'apollonius', title: 'argonautica'});
+        }
+         else if (language.toLowerCase() === 'greek-latin') {
+                  source = find(texts, {author: 'homer', title: 'iliad'});
+                  target = find(texts, {author: 'vergil', title: 'aeneid'});
+         }
 
         dispatch(updateSourceText(!isUndefined(source) ? source : texts[0]));
         dispatch(updateTargetText(!isUndefined(target) ? target : texts[-1]));
-      }
       
       dispatch(updateAvailableTexts(texts));
       return texts;
