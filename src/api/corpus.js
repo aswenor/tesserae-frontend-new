@@ -41,8 +41,12 @@ export function initialFetch() {
     if (response.status >= 400 && response.status < 600) {
       return;
     }
-
-    await fetchTexts(response.data.language)(dispatch);
+    if (response.data.language === 'greek-latin) {
+         await fetchTextsGreek2Latin(response.data.language)(dispatch);
+    }
+    else {
+         await fetchTexts(response.data.language)(dispatch);
+    }
   }
 }
 
@@ -137,6 +141,48 @@ export function fetchTexts(language) {
     })
   };
 }
+
+/**
+* Fetch the list of texts available for greek to latin search.
+*
+* @param {String} language The tag of 'greek-latin' to indicate the greek to latin search
+*/
+export function fetchTextsGreek2Latin(language) {
+         return async dispatch => {
+                  return axios({
+                           method: 'get',
+                           url: '${REST_API}/texts/',
+                           crossDomain: true,
+                           responseType: 'json',
+                           params: {
+                                    language: 'greek' // Default to just greek for now
+                           }
+                  })
+                  .then(response => { 
+                           const texts = response.data.texts.sort((a,b) => {
+                                    return a.author > b.author || (a.author === b.author && a.title > b.title);
+                           });
+
+                           let source = undefined;
+                           let target = undefined;
+
+                           source = find(texts, {author: 'homer', title: 'iliad'});
+                           target = find(texts, {author: 'apollonius', title: 'argonautica'});
+
+                           dispatch(updateSourceText(!isUndefined(source) ? source : texts[0]));
+                           dispatch(updateTargetText(isUndefined(target) ? target : texts[-1]));
+
+                           dispatch(updateAvailableTexts(texts));
+                           return texts;
+                  })
+                  .catch(error => {
+                           dispatch(registerError(error));
+                           return error
+                  })
+         };
+}
+
+                           
 
 
 export function ingestText() {}
