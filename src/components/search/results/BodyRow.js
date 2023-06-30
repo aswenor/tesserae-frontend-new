@@ -64,8 +64,22 @@ function BodyRow(props) {
   const targetSnippet = highlightMatches(result.target_snippet, result.target_tag, targetIndices);
 
   // Get the divisions and parse out the given integer value of each division (no integer value means use full text)
-  let sourceDiv = parseInt(sourceDivision);
-  let targetDiv = parseInt(targetDivision);
+  //let sourceDiv = parseInt(sourceDivision);
+  //let targetDiv = parseInt(targetDivision);
+  let sourceDiv = undefined;
+  let targetDiv = undefined;
+  if (sourceDivision === '0') {
+    sourceDiv = NaN;
+  }
+  else {
+    sourceDiv = parseInt(sourceDivision);
+  }
+  if (targetDivision === '0') {
+    targetDiv = NaN;
+  }
+  else {
+    targetDiv = parseInt(targetDivision);
+  }
 
   // Parse out the subsection from the text tags
   //let sourceSection = Math.floor(parseFloat(result.source_tag))
