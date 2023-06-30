@@ -83,8 +83,8 @@ function BodyRow(props) {
   }
   sourceSection = Math.floor(parseCheck);
 
-  j = 0;
-  parseCheck1 = parseTargetTag[j];
+  let j = 0;
+  let parseCheck1 = parseTargetTag[j];
   while(isNaN(parseCheck1)) {
     j = j + 1;
     parseCheck1 = parseTargetTag[j];
