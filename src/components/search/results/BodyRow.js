@@ -92,8 +92,8 @@ function BodyRow(props) {
   targetSection = Math.floor(parseCheck1);
   
   // Check for subsection tags and if they match (or its a full text search) return the corresponding BodyRow object
-  //if( (isNaN(sourceDiv) && isNaN(targetDiv)) || ((sourceDiv === sourceSection) && isNaN(targetDiv)) || (isNaN(sourceDiv) && (targetDiv === targetSection)) || ((sourceDiv === sourceSection) && (targetDiv === targetSection))) {
-  if ((sourceDiv === sourceSection) && (targetDiv === targetSection)) {  
+  if( (isNaN(sourceDiv) && isNaN(targetDiv)) || ((sourceDiv === sourceSection) && isNaN(targetDiv)) || (isNaN(sourceDiv) && (targetDiv === targetSection)) || ((sourceDiv === sourceSection) && (targetDiv === targetSection))) {
+  //if ((sourceDiv === sourceSection) && (targetDiv === targetSection)) {  
     return (
     <TableRow
       className={classes.row}
