@@ -41,7 +41,7 @@ export function initialFetch() {
     if (response.status >= 400 && response.status < 600) {
       return;
     }
-    if (response.data.language === 'greek') {
+    if (response.data.language.toLowerCase() === 'greek') {
          await fetchTextsGreek2Latin(response.data.language)(dispatch);
     }
     else {
