@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
  * @component
  */
 function BodyRow(props) {
-  const { idx, result } = props;
+  const { idx, result, sourceDivision, targetDivision } = props;
 
   /** CSS styles and global theme. */
   const classes = useStyles();
@@ -64,8 +64,8 @@ function BodyRow(props) {
   const targetSnippet = highlightMatches(result.target_snippet, result.target_tag, targetIndices);
 
   // Get the divisions and parse out the given integer value of each division (no integer value means use full text)
-  let sourceDivision = parseInt(React.state.search.sourceDivision)
-  let targetDivision = parseInt(React.state.search.targetDivision)
+  let sourceDivision = parseInt(sourceDivision)
+  let targetDivision = parseInt(targetDivision)
 
   // Parse out the subsection from the text tags
   let sourceSection = Math.floor(parseFloat(result.source_tag))

@@ -82,6 +82,8 @@ function ResultsTable(props) {
         <Body
           currentPage={pagination.currentPage}
           rowsPerPage={pagination.rowsPerPage}
+          sourceDivision={sourceDivision}
+          targetDivision={targetDivision}
         />
       </BodyScrollTable>
   );

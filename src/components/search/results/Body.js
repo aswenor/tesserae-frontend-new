@@ -6,7 +6,7 @@ import BodyRow from './BodyRow';
 
 
 function Body(props) {
-  const { currentPage, results, rowsPerPage } = props;
+  const { currentPage, results, rowsPerPage, sourceDivision, targetDivision } = props;
 
   return (
     <React.Fragment>
@@ -14,6 +14,8 @@ function Body(props) {
         <BodyRow 
           idx={currentPage * rowsPerPage + idx + 1}
           result={item}
+          sourceDivision={sourceDivision}
+          targetDivision={targetDivision}
         />
       ))]}
     </React.Fragment>
@@ -24,7 +26,9 @@ function Body(props) {
 Body.propTypes = {
   currentPage: PropTypes.number,
   results: PropTypes.arrayOf(PropTypes.object),
-  rowsPerPage: PropTypes.number
+  rowsPerPage: PropTypes.number,
+  sourceDivision: PropTypes.string,
+  targetDivision: PropTypes.string
 }
 
 
