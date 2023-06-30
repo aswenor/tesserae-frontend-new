@@ -73,6 +73,7 @@ function BodyRow(props) {
   
   // Check for subsection tags and if they match (or its a full text search) return the corresponding BodyRow object
   //if( (isNaN(sourceDiv) && isNaN(targetDiv)) || ((sourceDiv === sourceSection) && isNaN(targetDiv)) || (isNaN(sourceDiv) && (targetDiv === targetSection)) || ((sourceDiv === sourceSection) && (targetDiv === targetSection))) {
+  if (isNaN(sourceDiv) && isNaN(targetDiv)) {  
     return (
     <TableRow
       className={classes.row}
@@ -130,11 +131,11 @@ function BodyRow(props) {
       </TableCell>
     </TableRow>
   );
-  //}
+  }
 
-  //else {
-    //return false;
-  //}
+  else {
+    return false;
+  }
   
   
 }
