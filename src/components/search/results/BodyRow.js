@@ -68,8 +68,10 @@ function BodyRow(props) {
   let targetDiv = parseInt(targetDivision)
 
   // Parse out the subsection from the text tags
-  let sourceSection = Math.floor(parseFloat(result.source_tag))
-  let targetSection = Math.floor(parseFloat(result.target_tag))
+  //let sourceSection = Math.floor(parseFloat(result.source_tag))
+  //let targetSection = Math.floor(parseFloat(result.target_tag))
+  let sourceSection = parseInt(result.source_tag)
+  let targetSection = parseInt(result.target_tag)
   
   // Check for subsection tags and if they match (or its a full text search) return the corresponding BodyRow object
   //if( (isNaN(sourceDiv) && isNaN(targetDiv)) || ((sourceDiv === sourceSection) && isNaN(targetDiv)) || (isNaN(sourceDiv) && (targetDiv === targetSection)) || ((sourceDiv === sourceSection) && (targetDiv === targetSection))) {
