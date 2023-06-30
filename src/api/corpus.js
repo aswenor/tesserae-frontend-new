@@ -151,7 +151,7 @@ export function fetchTextsGreek2Latin(language) {
          return async dispatch => {
                   return axios({
                            method: 'get',
-                           url: '${REST_API}/texts/',
+                           url: `${REST_API}/texts/`,
                            crossDomain: true,
                            responseType: 'json',
                            params: {
@@ -180,9 +180,7 @@ export function fetchTextsGreek2Latin(language) {
                            return error
                   })
          };
-}
-
-                           
+}                           
 
 
 export function ingestText() {}
