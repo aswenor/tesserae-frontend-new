@@ -64,18 +64,36 @@ function BodyRow(props) {
   const targetSnippet = highlightMatches(result.target_snippet, result.target_tag, targetIndices);
 
   // Get the divisions and parse out the given integer value of each division (no integer value means use full text)
-  let sourceDiv = parseInt(sourceDivision)
-  let targetDiv = parseInt(targetDivision)
+  let sourceDiv = parseInt(sourceDivision);
+  let targetDiv = parseInt(targetDivision);
 
   // Parse out the subsection from the text tags
   //let sourceSection = Math.floor(parseFloat(result.source_tag))
   //let targetSection = Math.floor(parseFloat(result.target_tag))
-  let sourceSection = parseInt(result.source_tag)
-  let targetSection = parseInt(result.target_tag)
+  const parseSourceTag = result.source_tag.split(" ");
+  const parseTargetTag = result.source_tag.split(" ");
+  let sourceSection = undefined;
+  let targetSection = undefined;
+  let i = 0;
+  let parseCheck = parseSourceTag[i];
+
+  while(isNaN(parseCheck)) {
+    i = i + 1;
+    parseCheck = parseSourceTag[i];
+  }
+  sourceSection = Math.floor(parseCheck);
+
+  i = 0;
+  parseCheck = parseTargetTag[i];
+  while(isNaN(parseCheck)) {
+    i = i + 1;
+    parseCheck = parseTargetTag[i];
+  }
+  targetSection = Math.floor(parseCheck);
   
   // Check for subsection tags and if they match (or its a full text search) return the corresponding BodyRow object
   //if( (isNaN(sourceDiv) && isNaN(targetDiv)) || ((sourceDiv === sourceSection) && isNaN(targetDiv)) || (isNaN(sourceDiv) && (targetDiv === targetSection)) || ((sourceDiv === sourceSection) && (targetDiv === targetSection))) {
-  if (isNaN(sourceSection)) {  
+  if (sourceSection === 1) {  
     return (
     <TableRow
       className={classes.row}
