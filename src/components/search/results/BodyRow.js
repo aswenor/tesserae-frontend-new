@@ -71,7 +71,7 @@ function BodyRow(props) {
   //let sourceSection = Math.floor(parseFloat(result.source_tag))
   //let targetSection = Math.floor(parseFloat(result.target_tag))
   const parseSourceTag = result.source_tag.split(" ");
-  const parseTargetTag = result.source_tag.split(" ");
+  const parseTargetTag = result.target_tag.split(" ");
   let sourceSection = undefined;
   let targetSection = undefined;
   let i = 0;
