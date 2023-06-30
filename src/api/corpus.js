@@ -167,7 +167,7 @@ export function fetchTextsGreek2Latin(language) {
                            let target = undefined;
 
                            source = find(texts, {author: 'homer', title: 'iliad'});
-                           target = find(texts, {author: 'apollonius', title: 'argonautica'});
+                           target = find(texts, {author: 'isocrates', title: 'speeches'});
 
                            dispatch(updateSourceText(!isUndefined(source) ? source : texts[0]));
                            dispatch(updateTargetText(isUndefined(target) ? target : texts[-1]));
