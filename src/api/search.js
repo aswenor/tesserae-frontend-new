@@ -56,18 +56,20 @@ export function runSearch(language, source, sourceDivision, target, targetDivisi
     const slBasis = params.stoplistBasis.toLowerCase() === 'corpus'
                     ? language
                     : [source.object_id, target.object_id]
+    
+    let response = undefined;
 
     if (language.toLowerCase() === 'greek-latin') {
       const searchMethod = 'greek_to_latin';
       // Get seperate greek and latin stopword lists manually using parameters from REST API
-      let response = await fetchStoplist(params.feature, params.stoplist, 'greek')(dispatch);
+      response = await fetchStoplist(params.feature, params.stoplist, 'greek')(dispatch);
       if (response.status >= 400 && response.status < 600) {
         dispatch(updateSearchInProgress(false));
         return;
       }
       let greekStopwords = response.data.stopwords;
 
-      response = await fetchStopList(params.feature, params.stoplist, 'latin')(dispatch);
+      response = await fetchStoplist(params.feature, params.stoplist, 'latin')(dispatch);
       if (response.status >= 400 && response.status < 600) {
         dispatch(updateSearchInProgress(false));
         return;
@@ -78,7 +80,7 @@ export function runSearch(language, source, sourceDivision, target, targetDivisi
     }
     else {
       const searchMethod = 'original';
-      let response = await fetchStoplist(params.feature, params.stoplist, slBasis)(dispatch);
+      response = await fetchStoplist(params.feature, params.stoplist, slBasis)(dispatch);
       if (response.status >= 400 && response.status < 600) {
         dispatch(updateSearchInProgress(false));
         return;
