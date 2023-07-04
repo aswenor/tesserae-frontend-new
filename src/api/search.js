@@ -8,6 +8,7 @@
  * @exports updateSearchParameters
  * @exports fetchStoplist
  * @exports initiateSearch
+ * @exports initiateGreek2LatinSearch
  * @exports getSearchStatus
  * @exports fetchResults
  * 
@@ -56,15 +57,44 @@ export function runSearch(language, source, sourceDivision, target, targetDivisi
                     ? language
                     : [source.object_id, target.object_id]
 
-    let response = await fetchStoplist(params.feature, params.stoplist, slBasis)(dispatch);
+    if (language.toLowerCase() === 'greek-latin') {
+      const searchMethod = 'greek_to_latin';
+      // Get seperate greek and latin stopword lists manually using parameters from REST API
+      let response = await fetchStoplist(params.feature, params.stoplist, 'greek')(dispatch);
+      if (response.status >= 400 && response.status < 600) {
+        dispatch(updateSearchInProgress(false));
+        return;
+      }
+      let greekStopwords = response.data.stopwords;
+
+      response = await fetchStopList(params.feature, params.stoplist, 'latin')(dispatch);
+      if (response.status >= 400 && response.status < 600) {
+        dispatch(updateSearchInProgress(false));
+        return;
+      }
+      let latinStopwords = response.data.stopwords;
+
+      response = await initiateGreek2LatinSearch(source, sourceDivision, target, targetDivision, params, greekStopwords, latinStopwords)(dispatch);
+    }
+    else {
+      const searchMethod = 'original';
+      let response = await fetchStoplist(params.feature, params.stoplist, slBasis)(dispatch);
+      if (response.status >= 400 && response.status < 600) {
+        dispatch(updateSearchInProgress(false));
+        return;
+      }
+      response = await initiateSearch(source, sourceDivision, target, targetDivision, params, response.data.stopwords)(dispatch);
+    }
+
+    /* let response = await fetchStoplist(params.feature, params.stoplist, slBasis)(dispatch);
 
     if (response.status >= 400 && response.status < 600) {
       dispatch(updateSearchInProgress(false));
       return;
     }
 
-    response = await initiateSearch(source, sourceDivision, target, targetDivision, params, response.data.stopwords)(dispatch);
-
+    response = await initiateSearch(searchMethod, source, sourceDivision, target, targetDivision, params, response.data.stopwords)(dispatch);
+    */
     const searchID = response.search_id;
     response = response.response;
 
@@ -208,7 +238,7 @@ export function initiateSearch(source, sourceDivision, target, targetDivision, p
           max_distance: parseInt(params.maxDistance, 10),
           distance_basis: params.distanceBasis,
           score_basis: params.scoreBasis
-        },
+        }, 
         page_number: 0,
         per_page: 100,
         sort_by: 'score',
@@ -246,6 +276,69 @@ export function initiateSearch(source, sourceDivision, target, targetDivision, p
   };
 }
 
+/**
+ * Kick off a greek-to-latin search by sending parameters to the REST API
+ * 
+ * @param {Object} source Source text metadata.
+ * @param {Object} target Target text metadata.
+ * @param {Object} params Advanced options for the search.
+ * @param {String[]} greekStopwords List of greek tokens to exclude from the search.
+ * @param {String[]} latinStopwords List of latin tokens to exclude from the search.
+ */
+export function initiateGreek2LatinSearch(source, sourceDivision, target, targetDivision, params, greekStopwords, latinStopwords) {
+  return async dispatch => {
+    return axios({
+      method: 'post',
+      url: `${REST_API}/parallels`,
+      crossDomain: true,
+      headers: {
+        contentType: 'x-www-form-urlencoded',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      responseType: 'json',
+      data: {
+        method: {
+          name: 'greek_to_latin',
+          greek_stopwords: greekStopwords,
+          latin_stopwords: latinStopwords,
+          freq_basis: params.frequencyBasis,
+          max_distance: parseInt(params.maxDistance, 10),
+          distance_basis: params.distanceBasis
+        },
+        page_number: 0,
+        per_page: 100,
+        sort_by: 'score',
+        sort_order: 'descending',
+        source: {
+          object_id: source.object_id,
+          units: params.unitType
+        },
+        target: {
+          object_id: target.object_id,
+          units: params.unitType
+        },
+      }
+    })
+    .then(response => {
+      let searchID = '';
+
+      if (response.headers.location !== undefined) {
+        searchID = response.headers.location.match(/parallels[/]([\w\d]+)/)[1];
+      }
+
+      else if (response.request.responseURL !== undefined) {
+        searchID = response.request.responseURL.match(/parallels[/]([\w\d]+)/)[1];
+      }
+
+      dispatch(updateSearchID(searchID));
+
+      return {search_id: searchID, response: response};
+    })
+    .catch(error => {
+      return error.response
+    });
+  };
+}
 
 /**
  * Ping the REST API to get the status of a search.
