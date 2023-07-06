@@ -129,7 +129,7 @@ function Greek2LatinSearchParametersForm(props) {
                 toggleSideBar={toggleSideBar}
               />
               <Grid item xs={12}>
-                <TextSelectGroup />
+                <Greek2LatinTextSelectGroup />
               </Grid>
               <Grid item
                 align="center"
