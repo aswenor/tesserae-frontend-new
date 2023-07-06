@@ -4,7 +4,7 @@
  * @author [Jeff Kinnison](https://github.com/jeffkinnison)
  * @author [Abby Swenor] (https://github.com/aswenor)
  * 
- * @exports SearchParametersForm
+ * @exports Greek2LatinSearchParametersForm
  * 
  * @requires NPM:react
  * @requires NPM:prop-types
@@ -13,7 +13,7 @@
  * @requires NPM:@mui/material
  * @requires NPM:@mui/icons-material
  * @requires ./AdvancedOptionsGroup
- * @requires ./TextSelectGroup
+ * @requires ./Greek2LatinTextSelectGroup
  * @requires ../../api/corpus
  */
 import React from 'react';
@@ -34,7 +34,7 @@ import DownloadButton from './DownloadButton';
 import LanguageSelectButtons from '../common/LanguageSelectButtons';
 import { MarginlessAccordion, MarginlessAccordionSummary,
          MarginlessAccordionDetails } from '../common/MarginlessAccordion';
-import TextSelectGroup from './TextSelectGroup';
+import Greek2LatinTextSelectGroup from './Greek2LatinTextSelectGroup';
 
 import { runSearch } from '../../api/search';
 import { clearResults, clearSearchMetadata } from '../../state/search';
@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
  *     />
  *   );
  */
-function SearchParametersForm(props) {
+function Greek2LatinSearchParametersForm(props) {
   const { clearResults, runSearch, language, searchInProgress,
           searchParameters, sourceDivision, sourceText, targetDivision,
           targetText, toggleSideBar } = props;
@@ -179,7 +179,7 @@ function SearchParametersForm(props) {
 }
 
 
-SearchParametersForm.propTypes = {
+Greek2LatinSearchParametersForm.propTypes = {
   /**
    * Flag determining if an AJAX call may be initiated.
    */
