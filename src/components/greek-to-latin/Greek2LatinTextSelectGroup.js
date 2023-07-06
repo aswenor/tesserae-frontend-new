@@ -201,4 +201,4 @@ function mapDispatchToProps(dispatch) {
 
 
 // Do redux binding here.
-export default connect(mapStateToProps, mapDispatchToProps)(TextSelectGroup);
+export default connect(mapStateToProps, mapDispatchToProps)(Greek2LatinTextSelectGroup);
