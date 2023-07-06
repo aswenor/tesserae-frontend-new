@@ -125,9 +125,9 @@ function Greek2LatinSearchParametersForm(props) {
               justifyContent="center"
               spacing={2}
             >
-              <!-- <LanguageSelectButtons
-                toggleSideBar={toggleSideBar}
-              /> -->
+              //<LanguageSelectButtons
+                //toggleSideBar={toggleSideBar}
+              ///>
               <Grid item xs={12}>
                 <Greek2LatinTextSelectGroup />
               </Grid>
