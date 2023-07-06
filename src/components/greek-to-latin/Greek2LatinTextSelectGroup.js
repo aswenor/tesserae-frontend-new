@@ -56,7 +56,7 @@ import { updateSourceDivision, updateSourceText,
  *    />
  *  );
  */
-function TextSelectGroup(props) {
+function Greek2LatinTextSelectGroup(props) {
   const { availableTexts, language, sourceDivision, sourceText,
           targetDivision, targetText, updateSource, updateSourceDivision,
           updateTarget, updateTargetDivision } = props
