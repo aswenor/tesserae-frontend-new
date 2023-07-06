@@ -114,7 +114,7 @@ function Greek2LatinTextSelectGroup(props) {
 }
 
 
-TextSelectGroup.propTypes = {
+Greek2LatinTextSelectGroup.propTypes = {
   /**
    * List of texts exposed by the REST API.
    */
