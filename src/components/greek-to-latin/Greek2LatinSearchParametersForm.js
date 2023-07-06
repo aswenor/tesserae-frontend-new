@@ -273,4 +273,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 
 // Do redux binding here.
-export default connect(mapStateToProps, mapDispatchToProps)(SearchParametersForm);
+export default connect(mapStateToProps, mapDispatchToProps)(Greek2LatinSearchParametersForm);
