@@ -6,7 +6,7 @@ import Greek2LatinSearchParametersForm from './Greek2LatinSearchParametersForm';
 import TwoPanelView from '../common/TwoPanelView';
 
 
-function Search(props) {
+function Greek_to_Latin(props) {
   return (
     <PageContainer>
       <TwoPanelView
