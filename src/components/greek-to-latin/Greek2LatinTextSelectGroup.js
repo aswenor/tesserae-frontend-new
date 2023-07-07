@@ -184,14 +184,18 @@ Greek2LatinTextSelectGroup.propTypes = {
  * @returns {object} Members of the global state to provide as props.
  */
 const mapStateToProps = (state) => {
+  updateSelectedLanguage('greek');
+  const sourceTexts = state.corpus.availableTexts;
+  updateSelectedLanguage('latin');
+  const targetTexts = state.corpus.availableTexts;
   return {
     //availableTexts: state.corpus.availableTexts,
     //language: state.corpus.language,
-    sourceAvailableTexts: state.corpus.availableTexts,
+    sourceAvailableTexts: sourceTexts,
     sourceLanguage: 'greek',
     sourceDivision: state.search.sourceDivision,
     sourceText: state.search.sourceText,
-    targetAvailableTexts: state.corpus.availableTexts,
+    targetAvailableTexts: targetTexts,
     targetLanguage: 'latin',
     targetDivision: state.search.targetDivision,
     targetText: state.search.targetText,
