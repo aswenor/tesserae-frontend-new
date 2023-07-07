@@ -4,7 +4,7 @@
  * @author [Jeff Kinnison](https://github.com/jeffkinnison)
  * @author [Abby Swenor] (https://github.com/aswenor)
  * 
- * @exports TextSelectGroup
+ * @exports Greek2LatinTextSelectGroup
  * 
  * @requires NPM:react
  * @requires NPM:prop-types
