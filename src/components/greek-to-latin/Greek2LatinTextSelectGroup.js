@@ -83,7 +83,7 @@ function Greek2LatinTextSelectGroup(props) {
           handleAuthorChange={(value) => handleTextChange(value, updateSource)}
           handleDivisionChange={updateSourceDivision}
           handleTitleChange={(value) => handleTextChange(value, updateSource)}
-          loading={sourceAvailableText.length === 0}
+          loading={sourceAvailableTexts.length === 0}
           loadingText={`Loading ${sourceLanguage} corpus`}
           onOpen={() => {}}
           selection={sourceText}
