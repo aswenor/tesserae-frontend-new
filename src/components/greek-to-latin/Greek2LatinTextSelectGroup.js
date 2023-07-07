@@ -23,7 +23,7 @@ import Grid from '@mui/material/Grid';
 
 import TextSelectDropdowns from '../common/TextSelectDropdowns';
 import { updateSourceDivision, updateSourceText,
-         updateTargetDivision, updateTargetText } from '../../state/search';
+         updateTargetDivision, updateTargetText, updateSelectedLanguage } from '../../state/search';
 
 
 /**
@@ -57,8 +57,8 @@ import { updateSourceDivision, updateSourceText,
  *  );
  */
 function Greek2LatinTextSelectGroup(props) {
-  const { availableTexts, language, sourceDivision, sourceText,
-          targetDivision, targetText, updateSource, updateSourceDivision,
+  const { sourceAvailableTexts, sourceLanguage, sourceDivision, sourceText,
+          targetAvailableTexts, targetLanguage, targetDivision, targetText, updateSource, updateSourceDivision,
           updateTarget, updateTargetDivision } = props
 
   /** Update selected text on user selection. */
@@ -83,11 +83,11 @@ function Greek2LatinTextSelectGroup(props) {
           handleAuthorChange={(value) => handleTextChange(value, updateSource)}
           handleDivisionChange={updateSourceDivision}
           handleTitleChange={(value) => handleTextChange(value, updateSource)}
-          loading={availableTexts.length === 0}
-          loadingText={`Loading ${language} corpus`}
+          loading={sourceAvailableTextsvailableTexts.length === 0}
+          loadingText={`Loading ${sourceLanguage} corpus`}
           onOpen={() => {}}
           selection={sourceText}
-          textList={availableTexts}
+          textList={sourceAvailableTexts}
           title="Source Text"
         />
       </Grid>
@@ -101,11 +101,11 @@ function Greek2LatinTextSelectGroup(props) {
           handleAuthorChange={(value) => handleTextChange(value, updateTarget)}
           handleDivisionChange={updateTargetDivision}
           handleTitleChange={(value) => handleTextChange(value, updateTarget)}
-          loading={availableTexts.length === 0}
-          loadingText={`Loading ${language} corpus`}
+          loading={targetAvailableTextsvailableTexts.length === 0}
+          loadingText={`Loading ${targetLanguage} corpus`}
           onOpen={() => {}}
           selection={targetText}
-          textList={availableTexts}
+          textList={targetAvailableTexts}
           title="Target Text"
         />
       </Grid>
@@ -116,14 +116,14 @@ function Greek2LatinTextSelectGroup(props) {
 
 Greek2LatinTextSelectGroup.propTypes = {
   /**
-   * List of texts exposed by the REST API.
+   * List of source texts exposed by the REST API. (greek)
    */
-  availableTexts: PropTypes.arrayOf(PropTypes.object),
+  sourceAvailableTexts: PropTypes.arrayOf(PropTypes.object),
 
   /**
-   * The current language populating the UI.
+   * The current source language populating the UI. (greek)
    */
-  language: PropTypes.string,
+  sourceLanguage: PropTypes.string,
 
   /**
    * The currently selected source text subsection.
@@ -134,6 +134,16 @@ Greek2LatinTextSelectGroup.propTypes = {
    * The currently selected source text.
    */
   sourceText: PropTypes.object,
+
+  /**
+   * List of target texts exposed by the REST API. (latin)
+   */
+  targetAvailableTexts: PropTypes.arrayOf(PropTypes.object),
+
+  /**
+   * The current target language populating the UI. (latin)
+   */
+  targetLanguage: PropTypes.string,
 
   /**
    * The currently selected target text subsection.
@@ -175,10 +185,14 @@ Greek2LatinTextSelectGroup.propTypes = {
  */
 const mapStateToProps = (state) => {
   return {
-    availableTexts: state.corpus.availableTexts,
-    language: state.corpus.language,
+    //availableTexts: state.corpus.availableTexts,
+    //language: state.corpus.language,
+    sourceAvailableTexts: state.corpus.availableTexts,
+    sourceLanguage: 'greek',
     sourceDivision: state.search.sourceDivision,
     sourceText: state.search.sourceText,
+    targetAvailableTexts: state.corpus.availableTexts,
+    targetLanguage: 'latin',
     targetDivision: state.search.targetDivision,
     targetText: state.search.targetText,
   };
