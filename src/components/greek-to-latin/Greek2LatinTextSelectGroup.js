@@ -25,6 +25,7 @@ import TextSelectDropdowns from '../common/TextSelectDropdowns';
 import { updateSourceDivision, updateSourceText,
          updateTargetDivision, updateTargetText } from '../../state/search';
 import { updateSelectedLanguage } from '../../state/corpus'
+import { fetchTexts } from '../../api/corpus'
 
 
 /**
@@ -66,6 +67,10 @@ function Greek2LatinTextSelectGroup(props) {
   const handleTextChange = (text, updateFunc) => {
     updateFunc(text);
   }
+  const sourceLanguage = 'greek';
+  const sourceAvailableTexts = fetchTexts('greek');
+  const targetLanguage = 'latin';
+  const targetAvailableTexts = fetchTexts('latin');
 
   return (
     <Grid container
