@@ -23,7 +23,8 @@ import Grid from '@mui/material/Grid';
 
 import TextSelectDropdowns from '../common/TextSelectDropdowns';
 import { updateSourceDivision, updateSourceText,
-         updateTargetDivision, updateTargetText, updateSelectedLanguage } from '../../state/search';
+         updateTargetDivision, updateTargetText } from '../../state/search';
+import updateSelectedLanguage from '../../state/corpus'
 
 
 /**
