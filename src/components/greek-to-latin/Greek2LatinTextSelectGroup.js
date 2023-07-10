@@ -59,9 +59,9 @@ import { fetchTexts } from '../../api/corpus'
  *  );
  */
 function Greek2LatinTextSelectGroup(props) {
-  const { //sourceAvailableTexts, sourceLanguage, 
+  const { sourceAvailableTexts, sourceLanguage, 
           sourceDivision, sourceText,
-          //targetAvailableTexts, targetLanguage, 
+          targetAvailableTexts, targetLanguage, 
           targetDivision, targetText, updateSource, updateSourceDivision,
           updateTarget, updateTargetDivision } = props
 
@@ -139,12 +139,12 @@ Greek2LatinTextSelectGroup.propTypes = {
   /**
    * List of source texts exposed by the REST API. (greek)
    */
-  //sourceAvailableTexts: PropTypes.arrayOf(PropTypes.object),
+  sourceAvailableTexts: PropTypes.arrayOf(PropTypes.object),
 
   /**
    * The current source language populating the UI. (greek)
    */
-  //sourceLanguage: PropTypes.string,
+  sourceLanguage: PropTypes.string,
 
   /**
    * The currently selected source text subsection.
@@ -159,12 +159,12 @@ Greek2LatinTextSelectGroup.propTypes = {
   /**
    * List of target texts exposed by the REST API. (latin)
    */
-  //targetAvailableTexts: PropTypes.arrayOf(PropTypes.object),
+  targetAvailableTexts: PropTypes.arrayOf(PropTypes.object),
 
   /**
    * The current target language populating the UI. (latin)
    */
-  //targetLanguage: PropTypes.string,
+  targetLanguage: PropTypes.string,
 
   /**
    * The currently selected target text subsection.
@@ -212,12 +212,12 @@ const mapStateToProps = (state) => {
   return {
     //availableTexts: state.corpus.availableTexts,
     //language: state.corpus.language,
-    //sourceAvailableTexts: sourceTexts,
-    //sourceLanguage: 'greek',
+    sourceAvailableTexts: sourceTexts,
+    sourceLanguage: 'greek',
     sourceDivision: state.search.sourceDivision,
     sourceText: state.search.sourceText,
-    //targetAvailableTexts: targetTexts,
-    //targetLanguage: 'latin',
+    targetAvailableTexts: targetTexts,
+    targetLanguage: 'latin',
     targetDivision: state.search.targetDivision,
     targetText: state.search.targetText,
   };
