@@ -69,7 +69,7 @@ function Greek2LatinTextSelectGroup(props) {
   const handleTextChange = (text, updateFunc) => {
     updateFunc(text);
   }
-  const sourceLanguage = 'greek';
+  /** const sourceLanguage = 'greek';
   const targetLanguage = 'latin';
   let sourceAvailableTexts = [];
   let textsToAddGr = Object.values(fetchTexts('greek'));
@@ -84,7 +84,7 @@ function Greek2LatinTextSelectGroup(props) {
   for (let i = 0; i < textsToAddLa.length; i++) {
     let index = i + 1;
     targetAvailableTexts[index] = textsToAddLa[i];
-  }
+  } */
 
 
   return (
