@@ -259,5 +259,5 @@ const mapStatetoProps = (state) => {
 };
 
 
-export default RTCIceConnectionState(mapStatetoProps)(GreekTextSelectDropdowns);
+export default connect(mapStatetoProps)(GreekTextSelectDropdowns);
  
