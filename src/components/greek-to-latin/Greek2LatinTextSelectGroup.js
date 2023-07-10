@@ -93,7 +93,7 @@ function Greek2LatinTextSelectGroup(props) {
           loadingText={`Loading ${sourceLanguage} corpus`}
           onOpen={() => {}}
           selection={sourceText}
-          textList={sourceAvailableTexts}
+          //textList={sourceAvailableTexts}
           title="Source Text"
         />
       </Grid>
