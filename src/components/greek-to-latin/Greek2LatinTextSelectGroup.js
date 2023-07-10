@@ -69,6 +69,8 @@ function Greek2LatinTextSelectGroup(props) {
   const handleTextChange = (text, updateFunc) => {
     updateFunc(text);
   }
+  sourceLanguage = 'greek';
+  targetLanguage = 'latin';
   /** const sourceLanguage = 'greek';
   const targetLanguage = 'latin';
   let sourceAvailableTexts = [];
