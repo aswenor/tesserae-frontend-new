@@ -80,12 +80,13 @@ const useStyles = makeStyles(theme => ({
  *   );
  */
 function Greek2LatinSearchParametersForm(props) {
-  const { clearResults, runSearch, language, searchInProgress,
+  const { clearResults, runSearch, //language, 
+          searchInProgress,
           searchParameters, sourceDivision, sourceText, targetDivision,
           targetText, toggleSideBar } = props;
 
   const classes = useStyles();
-  language = 'greek';
+  let language = 'greek';
 
   const clearAndInitiate = () => {
     if (!searchInProgress) {
