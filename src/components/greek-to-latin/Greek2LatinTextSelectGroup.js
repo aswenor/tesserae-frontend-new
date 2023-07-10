@@ -71,8 +71,10 @@ function Greek2LatinTextSelectGroup(props) {
   }
   const sourceLanguage = 'greek';
   const targetLanguage = 'latin';
-  const sourceAvailableTexts = Object.keys(fetchTexts('greek'));
-  const targetAvailableTexts = Object.keys(fetchTexts('latin'));
+  //const sourceAvailableTexts = Object.keys(fetchTexts('greek'));
+  //const targetAvailableTexts = Object.keys(fetchTexts('latin'));
+  const sourceAvailableTexts = state.corpus.availableTexts;
+  const targetAvailableTexts = state.corpus.availableTexts;
 
   return (
     <Grid container
