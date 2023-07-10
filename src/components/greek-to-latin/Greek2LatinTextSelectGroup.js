@@ -26,8 +26,8 @@ import { updateSourceDivision, updateSourceText,
          updateTargetDivision, updateTargetText } from '../../state/search';
 import { updateSelectedLanguage } from '../../state/corpus';
 import { fetchTexts } from '../../api/corpus';
-import GreekTextSelectDropdowns from '../GreekTextSelectDropdowns';
-import LatinTextSelectDropdowns from '../LatinTextSelectDropdowns';
+import GreekTextSelectDropdowns from 'tesserae-frontend-new/src/components/greek-to-latin/GreekTextSelectDropdowns';
+import LatinTextSelectDropdowns from 'tesserae-frontend-new/src/components/greek-to-latin/LatinTextSelectDropdowns';
 
 
 /**
