@@ -85,6 +85,7 @@ function Greek2LatinSearchParametersForm(props) {
           targetText, toggleSideBar } = props;
 
   const classes = useStyles();
+  language = 'greek';
 
   const clearAndInitiate = () => {
     if (!searchInProgress) {
@@ -247,7 +248,7 @@ Greek2LatinSearchParametersForm.propTypes = {
  */
 const mapStateToProps = (state) => {
   return {
-    language: state.corpus.language,
+    //language: state.corpus.language,
     searchInProgress: state.search.searchInProgress,
     searchParameters: state.search.searchParameters,
     sourceDivision: state.search.sourceDivision,
