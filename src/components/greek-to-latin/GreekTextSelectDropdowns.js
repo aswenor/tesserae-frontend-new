@@ -14,6 +14,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { hasIn, isNull, isObject, uniqBy } from 'lodash';
+import { connect } from 'react-redux';
 
 import makeStyles from '@mui/styles/makeStyles';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -21,6 +22,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { updateSelectedLanguage } from '../../state/corpus';
 
 
 /** CSS styles to apply to the component. */
@@ -241,8 +243,21 @@ GreekTextSelectDropdowns.propTypes = {
    * Text to display describing the purpose of these dropdowns.
    */
   title: PropTypes.string
-}
+};
+
+/**
+ * Add redux store state to this component's props.
+ * 
+ * @param {object} state The global state of the application.
+ * @returns {object} Members of the global state to provide as props.
+ */
+const mapStatetoProps = (state) => {
+  updateSelectedLanguage('greek');
+  return {
+    textList: state.corpus.availableTexts
+  };
+};
 
 
-export default GreekTextSelectDropdowns;
+export default RTCIceConnectionState(mapStatetoProps)(GreekTextSelectDropdowns);
  

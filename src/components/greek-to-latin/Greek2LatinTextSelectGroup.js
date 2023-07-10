@@ -24,8 +24,10 @@ import Grid from '@mui/material/Grid';
 import TextSelectDropdowns from '../common/TextSelectDropdowns';
 import { updateSourceDivision, updateSourceText,
          updateTargetDivision, updateTargetText } from '../../state/search';
-import { updateSelectedLanguage } from '../../state/corpus'
-import { fetchTexts } from '../../api/corpus'
+import { updateSelectedLanguage } from '../../state/corpus';
+import { fetchTexts } from '../../api/corpus';
+import GreekTextSelectDropdowns from '../GreekTextSelectDropdowns';
+import LatinTextSelectDropdowns from '../LatinTextSelectDropdowns';
 
 
 /**
@@ -82,7 +84,7 @@ function Greek2LatinTextSelectGroup(props) {
         xs={12}
       >
         {/* Source text selection. */}
-        <TextSelectDropdowns
+        <GreekTextSelectDropdowns
           division={sourceDivision}
           handleAuthorChange={(value) => handleTextChange(value, updateSource)}
           handleDivisionChange={updateSourceDivision}
@@ -100,7 +102,7 @@ function Greek2LatinTextSelectGroup(props) {
         xs={12}
       >
         {/* Target text selection. */}
-        <TextSelectDropdowns
+        <LatinTextSelectDropdowns
           division={targetDivision}
           handleAuthorChange={(value) => handleTextChange(value, updateTarget)}
           handleDivisionChange={updateTargetDivision}
