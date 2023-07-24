@@ -24,7 +24,7 @@ import Grid from '@mui/material/Grid';
 import TextSelectDropdowns from '../common/TextSelectDropdowns';
 import { updateSourceDivision, updateSourceText,
          updateTargetDivision, updateTargetText } from '../../state/search';
-import { updateSelectedLanguage } from '../../state/corpus';
+import { updateSelectedLanguage, updateAvailableTexts } from '../../state/corpus';
 import { fetchTexts } from '../../api/corpus';
 import GreekTextSelectDropdowns from './GreekTextSelectDropdowns';
 import LatinTextSelectDropdowns from './LatinTextSelectDropdowns';
@@ -191,9 +191,9 @@ Greek2LatinTextSelectGroup.propTypes = {
  */
 const mapStateToProps = (state) => {
   connect(updateSelectedLanguage('greek'));
-  const sourceTexts = state.corpus.availableTexts;
+  const sourceTexts = updateAvailableTexts();//state.corpus.availableTexts;
   connect(updateSelectedLanguage('latin'));
-  const targetTexts = state.corpus.availableTexts;
+  const targetTexts = updateAvailableTexts();//state.corpus.availableTexts;
   return {
     //availableTexts: state.corpus.availableTexts,
     //language: state.corpus.language,
