@@ -212,7 +212,7 @@ Greek2LatinSearchParametersForm.propTypes = {
   /**
    * The current language populating the UI.
    */
-  language: PropTypes.string,
+  //language: PropTypes.string,
   
   /**
    * Object containing all currently selected advanced parameters for the search.
