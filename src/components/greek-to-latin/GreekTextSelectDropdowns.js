@@ -253,7 +253,7 @@ GreekTextSelectDropdowns.propTypes = {
  */
 const mapStatetoProps = (state) => {
   const action = updateSelectedLanguage('greek');
-  dispatchEvent(action);
+  dispatch(action);
   return {
     textList: state.corpus.availableTexts
   };
