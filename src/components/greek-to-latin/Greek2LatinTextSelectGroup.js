@@ -191,9 +191,9 @@ Greek2LatinTextSelectGroup.propTypes = {
  */
 const mapStateToProps = (state) => {
   connect(updateSelectedLanguage('greek'));
-  const sourceTexts = updateAvailableTexts(state.corpus.availableTexts);//state.corpus.availableTexts;
+  const sourceTexts = state.corpus.availableTexts;
   connect(updateSelectedLanguage('latin'));
-  const targetTexts = updateAvailableTexts();//state.corpus.availableTexts;
+  const targetTexts = state.corpus.availableTexts;
   return {
     //availableTexts: state.corpus.availableTexts,
     //language: state.corpus.language,
