@@ -252,7 +252,8 @@ GreekTextSelectDropdowns.propTypes = {
  * @returns {object} Members of the global state to provide as props.
  */
 const mapStatetoProps = (state) => {
-  updateSelectedLanguage('greek');
+  const action = updateSelectedLanguage('greek');
+  dispatchEvent(action);
   return {
     textList: state.corpus.availableTexts
   };
