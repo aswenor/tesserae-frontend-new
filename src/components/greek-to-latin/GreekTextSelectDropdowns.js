@@ -78,7 +78,7 @@ function GreekTextSelectDropdowns(props) {
           textList, title } = props;
   
   connect(updateSelectedLanguage('greek'));
-  textList = state.corpus.availableTexts;
+  //textList = state.corpus.availableTexts;
 
 
   console.log(division);
