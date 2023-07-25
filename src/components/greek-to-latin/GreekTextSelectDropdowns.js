@@ -76,6 +76,10 @@ function GreekTextSelectDropdowns(props) {
   const { division, handleAuthorChange, handleDivisionChange,
           handleTitleChange, loading, loadingText, onOpen, selection,
           textList, title } = props;
+  
+  connect(updateSelectedLanguage('greek'));
+  textList = state.corpus.availableTexts;
+
 
   console.log(division);
  
