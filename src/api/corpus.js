@@ -43,7 +43,8 @@ export function initialFetch() {
       return;
     }
 
-    await fetchTexts(response.data.language)(dispatch);
+    await fetchSourceTexts(response.data.language)(dispatch);
+    await fetchTargetTexts(response.data.language)(dispatch);
   }
 }
 
