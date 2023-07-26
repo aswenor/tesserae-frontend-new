@@ -161,10 +161,10 @@ export function fetchSourceTexts(language) {
         let source = undefined;
 
         if (language.toLowerCase() === 'latin') {
-          source = find(texts, {author: 'vergil', title: 'aeneid'});
+          source = find(sourceTexts, {author: 'vergil', title: 'aeneid'});
         }
         else if (language.toLowerCase() === 'greek') {
-          source = find(texts, {author: 'homer', title: 'iliad'});
+          source = find(sourceTexts, {author: 'homer', title: 'iliad'});
         }
 
         dispatch(updateSourceText(!isUndefined(source) ? source : sourceTexts[0]));
@@ -202,13 +202,13 @@ export function fetchTargetTexts(language) {
         let target = undefined;
 
       if (language.toLowerCase() === 'latin') {
-        target = find(texts, {author: 'lucan', title: 'bellum civile'});
+        target = find(targetTexts, {author: 'lucan', title: 'bellum civile'});
       }
       else if (language.toLowerCase() === 'greek') {
-        target = find(texts, {author: 'apollonius', title: 'agronautica'});
+        target = find(targetTexts, {author: 'apollonius', title: 'agronautica'});
       }
 
-      dispatch(updateTargetText(!isUndefined(target) ? target : texts[-1]));
+      dispatch(updateTargetText(!isUndefined(target) ? target : targetTextsexts[-1]));
 
       dispatch(updateAvailableTargetTexts(targetTexts));
       return targetTexts;
