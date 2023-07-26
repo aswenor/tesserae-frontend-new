@@ -31,6 +31,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AdvancedOptionsGroup from './AdvancedOptionsGroup'
 import DownloadButton from './DownloadButton';
 import LanguageSelectButtons from '../common/LanguageSelectButtons';
+import MethodSelectButtons from '../common/MethodSelectButtons';
 import { MarginlessAccordion, MarginlessAccordionSummary,
          MarginlessAccordionDetails } from '../common/MarginlessAccordion';
 import TextSelectGroup from './TextSelectGroup';
@@ -79,7 +80,7 @@ const useStyles = makeStyles(theme => ({
  *   );
  */
 function SearchParametersForm(props) {
-  const { clearResults, runSearch, language, searchInProgress,
+  const { clearResults, runSearch, method, language, searchInProgress,
           searchParameters, sourceDivision, sourceText, targetDivision,
           targetText, toggleSideBar } = props;
 
@@ -88,7 +89,7 @@ function SearchParametersForm(props) {
   const clearAndInitiate = () => {
     if (!searchInProgress) {
       clearResults();
-      runSearch(language, sourceText, sourceDivision, targetText, targetDivision, searchParameters, true);
+      runSearch(method, language, sourceText, sourceDivision, targetText, targetDivision, searchParameters, true);
     }
   };
 
@@ -127,6 +128,7 @@ function SearchParametersForm(props) {
               <LanguageSelectButtons
                 toggleSideBar={toggleSideBar}
               />
+              <MethodSelectButtons></MethodSelectButtons>
               <Grid item xs={12}>
                 <TextSelectGroup />
               </Grid>
@@ -213,6 +215,11 @@ SearchParametersForm.propTypes = {
    * The current language populating the UI.
    */
   language: PropTypes.string,
+
+  /**
+   * The current method populating the UI.
+   */
+  method: PropTypes.string,
   
   /**
    * Object containing all currently selected advanced parameters for the search.
@@ -249,6 +256,7 @@ SearchParametersForm.propTypes = {
  */
 const mapStateToProps = (state) => {
   return {
+    method: state.search.method,
     language: state.corpus.language,
     searchInProgress: state.search.searchInProgress,
     searchParameters: state.search.searchParameters,
