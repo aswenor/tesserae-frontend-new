@@ -39,6 +39,7 @@
   },
   progress: [],
   status: '',
+  method: 'original',
   sourceDivision: '0',
   sourceText: {author: '', title: ''},
   stopwords: [],
@@ -63,6 +64,7 @@ const UPDATE_SEARCH_ID = 'UPDATE_SEARCH_ID';
 const UPDATE_SEARCH_IN_PROGRESS = 'UPDATE_SEARCH_IN_PROGRESS';
 const UPDATE_SEARCH_PARAMETERS = 'UPDATE_SEARCH_PARAMETERS';
 const UPDATE_SEARCH_STATUS = 'UPDATE_SEARCH_STATUS';
+const UPDATE_METHOD = 'UPDATE_METHOD';
 const UPDATE_SOURCE_DIVISION = 'UPDATE_SOURCE_DIVISON';
 const UPDATE_SOURCE_TEXT = 'UPDATE_SOURCE_TEXT';
 const UPDATE_STOPWORDS = 'UPDATE_STOPWORDS';
@@ -291,6 +293,20 @@ export function updateSearchStatus(status = DEFAULT_STATE.status,
   };
 }
 
+/** Update the method used to perform the search.
+ * 
+ * @param {String} method The method selected to perform the search.
+ * @returns {Object} A redux-style action.
+ */
+export function updateMethod(method = DEFAULT_STATE.method) {
+  return {
+    type: UPDATE_METHOD,
+    payload: {
+      method: method
+    }
+  }
+}
+
 
 /**
  * Update the subsection of the source text to search.
@@ -404,6 +420,7 @@ export function searchReducer(state = DEFAULT_STATE, action = {}) {
     case UPDATE_SEARCH_ID:
     case UPDATE_SEARCH_IN_PROGRESS:
     case UPDATE_SEARCH_STATUS:
+    case UPDATE_METHOD:
     case UPDATE_SOURCE_DIVISION:
     case UPDATE_SOURCE_TEXT:
     case UPDATE_STOPWORDS:
