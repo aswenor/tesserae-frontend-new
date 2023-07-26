@@ -278,7 +278,7 @@ export function initiateGreek2LatinSearch(source, sourceDivision, target, target
       responseType: 'json',
       data: {
         method: {
-          name: 'greek-to-latin',
+          name: 'greek_to_latin',
           greek_stopwords: greekStopwords,
           latin_stopwords: latinStopwords,
           freq_basis: params.frequencyBasis,
