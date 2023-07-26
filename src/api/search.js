@@ -85,9 +85,11 @@ export function runSearch(method, language, source, sourceDivision, target, targ
       }
     }
 
-    if (response.status >= 400 && response.status < 600) {
-      dispatch(updateSearchInProgress(false));
-      return;
+    if (hasIn(response, 'status')) {
+      if (response.status >= 400 && response.status < 600) {
+        dispatch(updateSearchInProgress(false));
+        return;
+      }
     }
 
     let interval = setInterval(async () => {
