@@ -70,7 +70,7 @@ const localTheme = {
 };
 
 function MethodSelectButtons(props) {
-    const { method, methods, //setSelectedLanguage, fetchTexts
+    const { method, //methods, setSelectedLanguage, fetchTexts
             setSelectedMethod } = props;
 
     /** CSS styles and global theme. */
@@ -196,7 +196,7 @@ MethodSelectButtons.propTypes = {
     method: PropTypes.string,
 
     /** The methods available to the application. */
-    methods: PropTypes.arrayOf(PropTypes.string),
+    //methods: PropTypes.arrayOf(PropTypes.string),
 
     /** Function to update application state on language selection. */
     //setSelectedLanguage: PropTypes.func,
