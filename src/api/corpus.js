@@ -95,7 +95,7 @@ export function fetchLanguages() {
  * Fetch the list of texts available for a language.
  * 
  * @param {String} language The language of the texts to fetch.
- 
+ */
 export function fetchTexts(language) {
   return async dispatch => {
     return axios({
@@ -136,7 +136,7 @@ export function fetchTexts(language) {
     })
   };
 }
-*/
+
 
 /**
  * Fetch the list of texts available for the source.
