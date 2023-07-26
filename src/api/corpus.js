@@ -127,7 +127,8 @@ export function fetchTexts(language) {
         dispatch(updateTargetText(!isUndefined(target) ? target : texts[-1]));
       }
       
-      dispatch(updateAvailableTexts(texts));
+      dispatch(updateAvailableSourceTexts(texts));
+      dispatch(updateAvailableTargetTexts(texts));
       return texts;
     })
     .catch(error => {
