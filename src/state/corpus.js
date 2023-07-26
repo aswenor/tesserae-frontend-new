@@ -17,7 +17,8 @@ import { maxBy, minBy } from 'lodash';
  */
  export const DEFAULT_STATE = {
   availableLanguages: [],
-  availableTexts: [],
+  availableSourceTexts: [],
+  availableTargetTexts: [],
   filter: {
     author: '',
     title: '',
@@ -35,7 +36,8 @@ import { maxBy, minBy } from 'lodash';
  */
 const CLEAR_FILTER = 'CLEAR_FILTER';
 const UPDATE_AVAILABLE_LANGUAGES = 'UPDATE_AVAILABLE_LANGUAGES';
-const UPDATE_AVAILABLE_TEXTS = 'UPDATE_AVAILABLE_TEXTS';
+const UPDATE_AVAILABLE_SOURCE_TEXTS = 'UPDATE_AVAILABLE_SOURCE_TEXTS';
+const UPDATE_AVAILABLE_TARGET_TEXTS = 'UPDATE_AVAILABLE_TARGET_TEXTS';
 const UPDATE_FILTER = 'UPDATE_FILTER';
 const UPDATE_SELECTED_LANGUAGE = 'UPDATE_SELECTED_LANGUAGE';
 
@@ -87,7 +89,7 @@ export function updateAvailableLanguages(availableLanguages = DEFAULT_STATE.avai
  * 
  * @param {Array} availableTexts List of texts in the corpus in the selected language.
  * @returns {Object} A redux-style action.
- */
+ 
 export function updateAvailableTexts(availableTexts = DEFAULT_STATE.availableTexts) {
   const maxYear = availableTexts.length > 0 ?
                   maxBy(availableTexts, 'year').year :
@@ -100,6 +102,61 @@ export function updateAvailableTexts(availableTexts = DEFAULT_STATE.availableTex
     type: UPDATE_AVAILABLE_TEXTS,
     payload: {
       availableTexts: availableTexts,
+      filter: {
+        year: [minYear, maxYear]
+      },
+      maxYear: maxYear,
+      minYear: minYear
+    }
+  }
+}
+*/
+
+/**
+ * Update the source texts exposed through the REST API.
+ * 
+ * @param {Array} availableSourceTexts List of source texts in the corpus in the selected language.
+ * @returns {Object} A redux-style action.
+ */
+export function updateAvailableSourceTexts(availableSourceTexts = DEFAULT_STATE.availableSourceTexts) {
+  const maxYear = availableSourceTexts.length > 0 ?
+                  maxBy(availableSourceTexts, 'year').year :
+                  DEFAULT_STATE.filter.year[1];
+  const minYear = availableSourceTexts.length > 0 ?
+                  minBy(availableSourceTexts, 'year').year :
+                  DEFAULT_STATE.filter.year[0];
+
+  return {
+    type: UPDATE_AVAILABLE_SOURCE_TEXTS,
+    payload: {
+      availableSourceTexts: availableSourceTexts,
+      filter: {
+        year: [minYear, maxYear]
+      },
+      maxYear: maxYear,
+      minYear: minYear
+    }
+  }
+}
+
+/**
+ * Update the texts exposed through the REST API.
+ * 
+ * @param {Array} availableTargetTexts List of texts in the corpus in the selected language.
+ * @returns {Object} A redux-style action.
+ */
+export function updateAvailableTargetTexts(availableTargetTexts = DEFAULT_STATE.availableTargetTexts) {
+  const maxYear = availableTargetTexts.length > 0 ?
+                  maxBy(availableTargetTexts, 'year').year :
+                  DEFAULT_STATE.filter.year[1];
+  const minYear = availableTargetTexts.length > 0 ?
+                  minBy(availableTargetTexts, 'year').year :
+                  DEFAULT_STATE.filter.year[0];
+
+  return {
+    type: UPDATE_AVAILABLE_TARGET_TEXTS,
+    payload: {
+      availableTargetTexts: availableTargetTexts,
       filter: {
         year: [minYear, maxYear]
       },
@@ -139,7 +196,8 @@ export function updateSelectedLanguage(language = DEFAULT_STATE.language) {
   return {
     type: UPDATE_SELECTED_LANGUAGE,
     payload: {
-      availableTexts: DEFAULT_STATE.availableTexts,
+      availableSourceTexts: DEFAULT_STATE.availableSourceTexts,
+      availableTargetTexts: DEFAULT_STATE.availableTargetTexts,
       language: language
     }
   }
@@ -164,7 +222,8 @@ export function corpusReducer(state = DEFAULT_STATE, action = {}) {
   switch (action.type) {
     case CLEAR_FILTER:
     case UPDATE_AVAILABLE_LANGUAGES:
-    case UPDATE_AVAILABLE_TEXTS:
+    case UPDATE_AVAILABLE_SOURCE_TEXTS:
+    case UPDATE_AVAILABLE_TARGET_TEXTS:
     case UPDATE_FILTER:
     case UPDATE_SELECTED_LANGUAGE:
       return {

@@ -35,7 +35,7 @@ import Typography from '@mui/material/Typography';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import createTesseraeTheme from '../../theme';
-import { fetchTexts } from '../../api/corpus';
+import { fetchSourceTexts, fetchTargetTexts } from '../../api/corpus';
 import { updateSelectedLanguage } from '../../state/corpus';
 import { updateMethod } from '../../state/search';
 
@@ -70,8 +70,7 @@ const localTheme = {
 };
 
 function MethodSelectButtons(props) {
-    const { method, //methods, setSelectedLanguage, fetchTexts
-            setSelectedMethod } = props;
+    const { method, fetchSourceTexts, fetchTargetTexts, setSelectedMethod } = props;
 
     /** CSS styles and global theme. */
     const classes = useStyles();
@@ -86,6 +85,10 @@ function MethodSelectButtons(props) {
 
     const changeMethod = (method) => {
         setSelectedMethod(method);
+        if (method.toLowerCase() === 'greek-to-latin') {
+            fetchSourceTexts('greek');
+            fetchTargetTexts('latin');
+        }
     };
 
     let buttons = [];
@@ -189,8 +192,11 @@ function MethodSelectButtons(props) {
 
 
 MethodSelectButtons.propTypes = {
-    /** Function to fetch texts from the REST API */
-    //fetchTexts: PropTypes.func,
+    /** Function to fetch source texts from the REST API */
+    fetchSourceTexts: PropTypes.func,
+
+    /** Function to fetch target texts from the REST API */
+    fetchTargetTexts: PropTypes.func,
 
     /** The current user-selected method. */
     method: PropTypes.string,
@@ -224,7 +230,9 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        setSelectedMethod: updateMethod
+        setSelectedMethod: updateMethod,
+        fetchSourceTexts: fetchSourceTexts,
+        fetchTargetTexts: fetchTargetTexts
     }, dispatch)
 }
 
