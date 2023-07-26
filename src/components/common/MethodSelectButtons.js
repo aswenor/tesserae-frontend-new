@@ -114,7 +114,7 @@ function MethodSelectButtons(props) {
                     aria-controls={open ? 'additional-methods-menu' : undefined}
                     aria-expanded={open ? 'true' : undefined}
                     aria-haspopup="menu"
-                    aria-label="select a language to search"
+                    aria-label="select a search method"
                     className={classes.button}
                     color={method === methods[0] || method === methods[1] ? 'secondary' : 'default'}
                     onClick={(event) => setAnchorEl(event.currentTarget)}
@@ -150,7 +150,7 @@ function MethodSelectButtons(props) {
                         {buttons}
                     </ButtonGroup>
                     {/* If more than three methods are present, this is where we put them. */}
-                    {languages.length > 3 &&
+                    {methods.length > 3 &&
                         <Popover
                             anchorEl={anchorEl}
                             anchorOrigin={{
