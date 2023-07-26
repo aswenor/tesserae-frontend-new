@@ -70,7 +70,7 @@ const localTheme = {
 };
 
 function MethodSelectButtons(props) {
-    const { method, fetchSourceTexts, fetchTargetTexts, setSelectedMethod } = props;
+    const { method, language, fetchSourceTexts, fetchTargetTexts, setSelectedMethod } = props;
 
     /** CSS styles and global theme. */
     const classes = useStyles();
@@ -88,6 +88,10 @@ function MethodSelectButtons(props) {
         if (method.toLowerCase() === 'greek-to-latin') {
             fetchSourceTexts('greek');
             fetchTargetTexts('latin');
+        }
+        else {
+            fetchSourceTexts(language);
+            fetchTargetTexts(language);
         }
     };
 
@@ -201,11 +205,8 @@ MethodSelectButtons.propTypes = {
     /** The current user-selected method. */
     method: PropTypes.string,
 
-    /** The methods available to the application. */
-    //methods: PropTypes.arrayOf(PropTypes.string),
-
-    /** Function to update application state on language selection. */
-    //setSelectedLanguage: PropTypes.func,
+    /** The current user-selected language. */
+    language: PropTypes.string,
 
     /** Function to update application state on method selection. */
     setSelectedMethod: PropTypes.func
@@ -219,7 +220,8 @@ MethodSelectButtons.propTypes = {
 */
 function mapStateToProps(state) {
     return {
-        method: state.search.method
+        method: state.search.method,
+        language: state.corpus.language
     }
 }
 
