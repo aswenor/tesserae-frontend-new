@@ -187,9 +187,14 @@ SearchParametersForm.propTypes = {
   asyncReady: PropTypes.bool,
 
   /**
-   * List of texts exposed by the REST API.
+   * List of source texts exposed by the REST API.
    */
-  availableTexts: PropTypes.arrayOf(PropTypes.object),
+  availableSourceTexts: PropTypes.arrayOf(PropTypes.object),
+
+  /**
+   * List of target texts exposed by the REST API.
+   */
+  availableTargetTexts: PropTypes.arrayOf(PropTypes.object),
 
   /**
    * Function to clear out an existing search.
