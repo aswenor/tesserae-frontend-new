@@ -4,7 +4,8 @@
  * @author [Jeff Kinnison](https://github.com/jeffkinnison)
  * 
  * @exports fetchLanguages
- * @exports fetchTexts
+ * @exports fetchSourceTexts
+ * @exports fetchTargetTexts
  * 
  * @requires NPM:axios
  * @requires NPM:lodash
