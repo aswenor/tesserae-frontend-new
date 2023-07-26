@@ -208,7 +208,7 @@ export function fetchTargetTexts(language) {
         target = find(targetTexts, {author: 'apollonius', title: 'agronautica'});
       }
 
-      dispatch(updateTargetText(!isUndefined(target) ? target : targetTextsexts[-1]));
+      dispatch(updateTargetText(!isUndefined(target) ? target : targetTexts[-1]));
 
       dispatch(updateAvailableTargetTexts(targetTexts));
       return targetTexts;
