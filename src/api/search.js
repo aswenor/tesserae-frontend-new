@@ -303,11 +303,11 @@ export function initiateGreek2LatinSearch(source, sourceDivision, target, target
       let searchID = '';
 
       if (response.headers.location !== undefined) {
-        searchID = response.headers.location.match(/parrallels[/]([\w\d]+)/)[1];
+        searchID = response.headers.location.match(/parallels[/]([\w\d]+)/)[1];
       }
 
       else if (response.request.responseURL !== undefined) {
-        searchID = response.request.responseURL.match(/parrallels[/]([\w\d]+)/)[1];
+        searchID = response.request.responseURL.match(/parallels[/]([\w\d]+)/)[1];
       }
 
       dispatch(updateSearchID(searchID));
