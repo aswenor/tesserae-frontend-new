@@ -70,7 +70,7 @@ export function runSearch(method, language, source, sourceDivision, target, targ
     else if (method.toLowerCase() === 'greek-to-latin') {
       let greekStopwords = await fetchStoplist(params.feature, params.stoplist, 'greek')(dispatch);
       let latinStopwords = await fetchStoplist(params.feature, params.stoplist, 'latin')(dispatch);
-      response = await initiateGreek2LatinSearch(source, sourceDivision, target, targetDivision, params, greekStopwords.data.stopwords, latinStopwords.data.stopwords);
+      response = await initiateGreek2LatinSearch(source, sourceDivision, target, targetDivision, params, greekStopwords.data.stopwords, latinStopwords.data.stopwords)(dispatch);
       let temp = 0; // using for debugging purposes 
     }
 
