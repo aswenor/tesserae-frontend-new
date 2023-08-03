@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
  * @component
  */
 function BodyRow(props) {
-  const { idx, result } = props;
+  const { idx, result, sourceDivision, targetDivision } = props;
 
   /** CSS styles and global theme. */
   const classes = useStyles();
@@ -63,7 +63,52 @@ function BodyRow(props) {
   const sourceSnippet = highlightMatches(result.source_snippet, result.source_tag, sourceIndices);
   const targetSnippet = highlightMatches(result.target_snippet, result.target_tag, targetIndices);
 
-  return (
+  // Get the divisions and parse out the given integer value of each division (no integer value means use full text)
+  //let sourceDiv = parseInt(sourceDivision);
+  //let targetDiv = parseInt(targetDivision);
+  let sourceDiv = undefined;
+  let targetDiv = undefined;
+  if (sourceDivision === '0') {
+    sourceDiv = NaN;
+  }
+  else {
+    sourceDiv = parseInt(sourceDivision);
+  }
+  if (targetDivision === '0') {
+    targetDiv = NaN;
+  }
+  else {
+    targetDiv = parseInt(targetDivision);
+  }
+
+  // Parse out the subsection from the text tags
+  //let sourceSection = Math.floor(parseFloat(result.source_tag))
+  //let targetSection = Math.floor(parseFloat(result.target_tag))
+  const parseSourceTag = result.source_tag.split(" ");
+  const parseTargetTag = result.target_tag.split(" ");
+  let sourceSection = undefined;
+  let targetSection = undefined;
+  let i = 0;
+  let parseCheck = parseSourceTag[i];
+
+  while(isNaN(parseCheck)) {
+    i = i + 1;
+    parseCheck = parseSourceTag[i];
+  }
+  sourceSection = Math.floor(parseCheck);
+
+  let j = 0;
+  let parseCheck1 = parseTargetTag[j];
+  while(isNaN(parseCheck1)) {
+    j = j + 1;
+    parseCheck1 = parseTargetTag[j];
+  }
+  targetSection = Math.floor(parseCheck1);
+  
+  // Check for subsection tags and if they match (or its a full text search) return the corresponding BodyRow object
+  if( (isNaN(sourceDiv) && isNaN(targetDiv)) || ((sourceDiv === sourceSection) && isNaN(targetDiv)) || (isNaN(sourceDiv) && (targetDiv === targetSection)) || ((sourceDiv === sourceSection) && (targetDiv === targetSection))) {
+  //if ((sourceDiv === sourceSection) && (targetDiv === targetSection)) {  
+    return (
     <TableRow
       className={classes.row}
       hover
@@ -120,6 +165,13 @@ function BodyRow(props) {
       </TableCell>
     </TableRow>
   );
+  }
+
+  else {
+    return false;
+  }
+  
+  
 }
 
 

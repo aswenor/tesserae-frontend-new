@@ -82,6 +82,8 @@ function ResultsTable(props) {
         <Body
           currentPage={pagination.currentPage}
           rowsPerPage={pagination.rowsPerPage}
+          sourceDivision={sourceDivision}
+          targetDivision={targetDivision}
         />
       </BodyScrollTable>
   );
@@ -153,7 +155,7 @@ const mapStateToProps = state => ({
   changingPage: state.search.changingPage,
   resultsCount: state.search.resultsCount,
   searchID: state.search.searchID,
-  sourceDivision: state.search.searchDivision,
+  sourceDivision: state.search.sourceDivision,
   targetDivision: state.search.targetDivision
 });
 
