@@ -10,6 +10,7 @@
  * @exports initiateSearch
  * @exports getSearchStatus
  * @exports fetchResults
+ * @exports changePage
  * 
  * @requires NPM:axios
  * @requires NPM:lodash

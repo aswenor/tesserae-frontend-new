@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 
 import Body from './Body';
 import BodyScrollTable from '../../common/BodyScrollTable';
-import { changePage } from '../../../api/search';
+import { changePage, fetchResults } from '../../../api/search';
 import ChangePageOverlay from '../../common/ChangePageOverlay';
 import Header from './Header';
 
@@ -35,9 +35,9 @@ import Header from './Header';
  */
 function ResultsTable(props) {
   const { changePage, changingPage, resultsCount, searchID, sourceDivision,
-          targetDivision } = props;
+          targetDivision, fetchResults, asyncReady, searchStatus } = props;
 
-  const [ pagination, setPagination ] = useState({
+  /** const [ pagination, setPagination ] = useState({
     currentPage: 0,
     rowsPerPage: 100,
     sortHeader: 'score',
@@ -57,7 +57,20 @@ function ResultsTable(props) {
 
   const updatePagination = (newPagination) => {
     setPagination({...pagination, ...newPagination});
+  }; */
+  const onPageChange = (pagination) => {
+    fetchResults(searchID, asyncReady,
+                  pagination.currentPage,
+                  pagination.rowsPerPage,
+                  pagination.sortHeader,
+                  pagination.sortOrder);
   };
+
+  console.log('results', results);
+
+  if (searchStatus.toLowerCase() === 'done' && results.length === 0) {
+    fetchResults(searchID, asyncReady);
+  }
 
   // If a search has not been run and no results are available, display a
   // placeholder that points to the parameters form or shows a load bar. 
@@ -142,6 +155,11 @@ ResultsTable.propTypes = {
    * Database ID of the search.
    */
   searchID: PropTypes.string,
+
+  /**
+   * Whether or not an async request may be initiated.
+   */
+  asyncReady: PropTypes.bool
 }
 
 
@@ -156,13 +174,17 @@ const mapStateToProps = state => ({
   resultsCount: state.search.resultsCount,
   searchID: state.search.searchID,
   sourceDivision: state.search.sourceDivision,
-  targetDivision: state.search.targetDivision
+  targetDivision: state.search.targetDivision,
+  results: state.search.results,
+  asyncReady: state.async.asyncPending < state.async.maxAsyncPending,
+  searchStatus: state.search.searchStatus
 });
 
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    changePage: changePage
+    changePage: changePage,
+    fetchResults: fetchResults
   }, dispatch);
 }
 
