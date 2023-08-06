@@ -38,6 +38,16 @@ const useStyles = makeStyles(theme => ({
   button: {
     border: '1px solid #000000',
     boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.3)',
+  },
+  logo: {
+    backgroundColor: '#ffffff',
+    border: '1px solid black',
+    borderRadius: '5px',
+    height: '100%',
+    margin: '10px',
+    maxHeight: '50px',
+    padding: 0,
+    width: 'auto',
   }
 }));
 
