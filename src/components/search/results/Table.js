@@ -34,7 +34,7 @@ import Header from './Header';
  * @component
  */
 function ResultsTable(props) {
-  const { changePage, changingPage, resultsCount, searchID, sourceDivision,
+  const { changePage, changingPage, results, resultsCount, searchID, sourceDivision,
           targetDivision, fetchResults, asyncReady, searchStatus } = props;
 
   /** const [ pagination, setPagination ] = useState({
@@ -81,16 +81,17 @@ function ResultsTable(props) {
     : <BodyScrollTable
         bodyCount={resultsCount}
         initialRowsPerPage={100}
-        onChangePage={setPagination}
+        //onPageChange={setPagination}
+        onPageChange={onPageChange}
         pagination={pagination}
         rowsPerPageLabel="Results per page: "
         rowsPerPageOptions={[50, 100, 250, 500]}
-        updatePagination={updatePagination}
+        //updatePagination={updatePagination}
       >
         <Header
           sortHeader={pagination.sortHeader}
           sortOrder={pagination.sortOrder}
-          updatePagination={updatePagination}
+          //updatePagination={updatePagination}
         />
         <Body
           currentPage={pagination.currentPage}
