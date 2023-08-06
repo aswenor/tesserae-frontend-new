@@ -103,37 +103,34 @@ function NavBar(props) {
 
   return (
     <AppBar className={classes.root} position="static">
-      <Toolbar>
-        {/* The internal Box is necessary to use the local theming. */}
-        <Box
-          alignContent="flex-end"
-          alignItems="flex-end"
-          display="flex"
-          justifyContent="flex-end"
-          justifyItems="flex-end"
-          width={1}  
-        >
-          <Link
-            to="/"
+      <ThemeProvider theme={createTesseraeTheme(navTheme)}>
+        <Toolbar>
+          {/* The internal Box is necessary to use the local theming. */}
+          <Box
+            alignContent="flex-end"
+            alignItems="flex-end"
+            display="flex"
+            justifyContent="flex-end"
+            justifyItems="flex-end"
+            width={1}  
           >
-            <img 
-              alt="Tesserae Version 5"
-              className={classes.logo}
-              src="Tesserae.png"
-            />
-          </Link>
-          {/* This theme overrides the global as long as it is in a Box */}
-          <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={createTesseraeTheme(navTheme)}>
-              <ButtonGroup
-                size="small"
-              >
-                {links}
-              </ButtonGroup>
-            </ThemeProvider>
-          </StyledEngineProvider>
+            <Link
+              to="/"
+            >
+              <img 
+                alt="Tesserae Version 5"
+                className={classes.logo}
+                src="Tesserae.png"
+              />
+            </Link>
+            <ButtonGroup
+              size="small"
+            >
+              {links}
+            </ButtonGroup>
         </Box>
       </Toolbar>
+      </ThemeProvider>
     </AppBar>
   );
 }
