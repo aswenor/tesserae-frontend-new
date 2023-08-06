@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 
 function TablePaginationActions(props) {
-  const { count, onChangePage, page, rowsPerPage } = props;
+  const { count, onPageChange, page, rowsPerPage } = props;
 
   const classes = useStyles();
   const theme = useTheme();
@@ -49,14 +49,14 @@ function TablePaginationActions(props) {
       <IconButton
         aria-label="first page"
         disabled={page === 0}
-        onClick={(event) => onChangePage(event, 0)}
+        onClick={(event) => onPageChange(event, 0)}
         size="large">
         {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         aria-label="previous page"
         disabled={page === 0}
-        onClick={(event) => onChangePage(event, prevPage)}
+        onClick={(event) => onPageChange(event, prevPage)}
         size="large">
         {theme.direction === 'rtl'
          ? <KeyboardArrowRightIcon />
@@ -66,7 +66,7 @@ function TablePaginationActions(props) {
       <IconButton
         aria-label="next page"
         disabled={page === totalPages}
-        onClick={(event) => onChangePage(event, nextPage)}
+        onClick={(event) => onPageChange(event, nextPage)}
         size="large">
         {theme.direction === 'rtl'
          ? <KeyboardArrowLeftIcon />
@@ -76,7 +76,7 @@ function TablePaginationActions(props) {
       <IconButton
         aria-label="last page"
         disabled={page === totalPages}
-        onClick={(event) => onChangePage(event, totalPages)}
+        onClick={(event) => onPageChange(event, totalPages)}
         size="large">
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
@@ -89,7 +89,8 @@ TablePaginationActions.propTypes = {
   count: PropTypes.number,
   page: PropTypes.number,
   rowsPerPage: PropTypes.number,
-  updatePaging: PropTypes.func
+  updatePaging: PropTypes.func,
+  onPageChange: PropTypes.func
 };
 
 
