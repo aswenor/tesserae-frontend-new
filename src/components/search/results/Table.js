@@ -37,7 +37,7 @@ function ResultsTable(props) {
   const { changePage, changingPage, results, resultsCount, searchID, sourceDivision,
           targetDivision, fetchResults, asyncReady, searchStatus } = props;
 
-  /** const [ pagination, setPagination ] = useState({
+    const [ pagination, setPagination ] = useState({
     currentPage: 0,
     rowsPerPage: 100,
     sortHeader: 'score',
@@ -57,8 +57,8 @@ function ResultsTable(props) {
 
   const updatePagination = (newPagination) => {
     setPagination({...pagination, ...newPagination});
-  }; */
-  const onPageChange = (pagination) => {
+  }; 
+  /** const onPageChange = (pagination) => {
     fetchResults(searchID, asyncReady,
                   pagination.currentPage,
                   pagination.rowsPerPage,
@@ -70,7 +70,7 @@ function ResultsTable(props) {
 
   if (searchStatus.toLowerCase() === 'done' && results.length === 0) {
     fetchResults(searchID, asyncReady);
-  }
+  } */
 
   // If a search has not been run and no results are available, display a
   // placeholder that points to the parameters form or shows a load bar. 
@@ -82,16 +82,15 @@ function ResultsTable(props) {
         bodyCount={resultsCount}
         initialRowsPerPage={100}
         //onPageChange={setPagination}
-        onPageChange={onPageChange}
         pagination={pagination}
         rowsPerPageLabel="Results per page: "
         rowsPerPageOptions={[50, 100, 250, 500]}
-        //updatePagination={updatePagination}
+        updatePagination={updatePagination}
       >
         <Header
           sortHeader={pagination.sortHeader}
           sortOrder={pagination.sortOrder}
-          //updatePagination={updatePagination}
+          updatePagination={updatePagination}
         />
         <Body
           currentPage={pagination.currentPage}
