@@ -58,7 +58,7 @@ function ResultsTable(props) {
   const updatePagination = (newPagination) => {
     setPagination({...pagination, ...newPagination});
   }; 
-  /** const onPageChange = (pagination) => {
+  const onPageChange = (pagination) => {
     fetchResults(searchID, asyncReady,
                   pagination.currentPage,
                   pagination.rowsPerPage,
@@ -66,6 +66,7 @@ function ResultsTable(props) {
                   pagination.sortOrder);
   };
 
+  /** 
   console.log('results', results);
 
   if (searchStatus.toLowerCase() === 'done' && results.length === 0) {
@@ -82,6 +83,7 @@ function ResultsTable(props) {
         bodyCount={resultsCount}
         initialRowsPerPage={100}
         //onPageChange={setPagination}
+        onPageChange={onPageChange}
         pagination={pagination}
         rowsPerPageLabel="Results per page: "
         rowsPerPageOptions={[50, 100, 250, 500]}
