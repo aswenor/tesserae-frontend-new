@@ -107,11 +107,13 @@ function NavBar(props) {
         <Toolbar>
           {/* The internal Box is necessary to use the local theming. */}
           <Box
-            alignContent="flex-end"
-            alignItems="flex-end"
+            //alignContent="flex-end"
+            //alignItems="flex-end"
+            alignItems="center"
             display="flex"
-            justifyContent="flex-end"
-            justifyItems="flex-end"
+            //justifyContent="flex-end"
+            //justifyItems="flex-end"
+            justifyContent="flex-start"
             width={1}  
           >
             <Link
