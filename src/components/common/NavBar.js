@@ -103,6 +103,15 @@ function NavBar(props) {
           justifyItems="flex-end"
           width={1}  
         >
+          <Link
+            to="/"
+          >
+            <img 
+              alt="Tesserae Version 5"
+              className={classes.logo}
+              src="Tesserae.png"
+            />
+          </Link>
           {/* This theme overrides the global as long as it is in a Box */}
           <StyledEngineProvider injectFirst>
             <ThemeProvider theme={createTesseraeTheme(navTheme)}>
