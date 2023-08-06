@@ -114,7 +114,8 @@ function NavBar(props) {
             //justifyContent="flex-end"
             //justifyItems="flex-end"
             justifyContent="flex-start"
-            width={1}  
+            //width={1}  
+            flexGrow={.7}
           >
             <Link
               to="/"
@@ -125,12 +126,21 @@ function NavBar(props) {
                 src="Tesserae.png"
               />
             </Link>
+          </Box>
+          <Box
+            alignItems="center"
+            display="flex"
+            flexGrow={.3}
+            height="100%"
+            justifyContent="flex-end"
+            minWidth={.3}
+          >
             <ButtonGroup
               size="small"
             >
               {links}
             </ButtonGroup>
-        </Box>
+          </Box>
       </Toolbar>
       </ThemeProvider>
     </AppBar>
