@@ -38,6 +38,16 @@ const useStyles = makeStyles(theme => ({
   button: {
     border: '1px solid #000000',
     boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.3)',
+  },
+  logo: {
+    backgroundColor: '#ffffff',
+    border: '1px solid black',
+    borderRadius: '5px',
+    height: '100%',
+    margin: '10px',
+    maxHeight: '50px',
+    padding: 0,
+    width: 'auto',
   }
 }));
 
@@ -93,28 +103,46 @@ function NavBar(props) {
 
   return (
     <AppBar className={classes.root} position="static">
-      <Toolbar>
-        {/* The internal Box is necessary to use the local theming. */}
-        <Box
-          alignContent="flex-end"
-          alignItems="flex-end"
-          display="flex"
-          justifyContent="flex-end"
-          justifyItems="flex-end"
-          width={1}  
-        >
-          {/* This theme overrides the global as long as it is in a Box */}
-          <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={createTesseraeTheme(navTheme)}>
-              <ButtonGroup
-                size="small"
-              >
-                {links}
-              </ButtonGroup>
-            </ThemeProvider>
-          </StyledEngineProvider>
-        </Box>
+      <ThemeProvider theme={createTesseraeTheme(navTheme)}>
+        <Toolbar>
+          {/* The internal Box is necessary to use the local theming. */}
+          <Box
+            //alignContent="flex-end"
+            //alignItems="flex-end"
+            alignItems="center"
+            display="flex"
+            //justifyContent="flex-end"
+            //justifyItems="flex-end"
+            justifyContent="flex-start"
+            //width={1}  
+            flexGrow={.7}
+          >
+            <Link
+              to="/"
+            >
+              <img 
+                alt="Tesserae Version 5"
+                className={classes.logo}
+                src="Tesserae.png"
+              />
+            </Link>
+          </Box>
+          <Box
+            alignItems="center"
+            display="flex"
+            flexGrow={.3}
+            height="100%"
+            justifyContent="flex-end"
+            minWidth={.3}
+          >
+            <ButtonGroup
+              size="small"
+            >
+              {links}
+            </ButtonGroup>
+          </Box>
       </Toolbar>
+      </ThemeProvider>
     </AppBar>
   );
 }

@@ -16,7 +16,8 @@ const routes = [
   {name: 'Downloads', url: '/download', component: Downloads},
   {name: 'Reader', url: '/reader/:textId', component: Reader},
   {name: 'Sources', url: '/sources', component: Sources, show: true},
-  {name: 'Tutorial', url: '/tutorial', component: Tutorial, show: true}
+  {name: 'Tutorial', url: '/tutorial', component: Tutorial, show: true},
+  {name: 'Version 3', url: 'https://tesseraev3.caset.buffalo.edu/', component: null, show: true, external: true}
 ]
 
 
