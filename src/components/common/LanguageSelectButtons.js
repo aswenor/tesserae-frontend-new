@@ -32,7 +32,7 @@ import Typography from '@mui/material/Typography';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 import createTesseraeTheme from '../../theme';
-import { fetchTexts } from '../../api/corpus';
+import { fetchSourceTexts, fetchTargetTexts } from '../../api/corpus';
 import { updateSelectedLanguage } from '../../state/corpus';
 
 
@@ -80,7 +80,7 @@ const localTheme = {
  *   )
  */
 function LanguageSelectButtons(props) {
-  const { fetchTexts, language, languages, setSelectedLanguage } = props;
+  const { fetchSourceTexts, fetchTargetTexts, language, languages, setSelectedLanguage } = props;
 
   /** CSS styles and global theme. */
   const classes = useStyles();
@@ -93,7 +93,8 @@ function LanguageSelectButtons(props) {
 
   const changeLanguage = (language) => {
     setSelectedLanguage(language);
-    fetchTexts(language);
+    fetchSourceTexts(language);
+    fetchTargetTexts(language);
   };
 
   let buttons = [];
@@ -197,8 +198,11 @@ function LanguageSelectButtons(props) {
 
 
 LanguageSelectButtons.propTypes = {
-  /** Function to fetch texts from the REST API */
-  fetchText: PropTypes.func,
+  /** Function to fetch source texts from the REST API */
+  fetchSourceTexts: PropTypes.func,
+
+  /** Function to fetch target texts from the REST API */
+  fetchTargetTexts: PropTypes.func,
 
   /** The current user-selected language. */
   language: PropTypes.string,
@@ -231,7 +235,8 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchTexts: fetchTexts,
+    fetchSourceTexts: fetchSourceTexts,
+    fetchTargetTexts: fetchTargetTexts,
     setSelectedLanguage: updateSelectedLanguage
   }, dispatch)
 }

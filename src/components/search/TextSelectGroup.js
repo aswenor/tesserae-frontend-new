@@ -56,7 +56,7 @@ import { updateSourceDivision, updateSourceText,
  *  );
  */
 function TextSelectGroup(props) {
-  const { availableTexts, language, sourceDivision, sourceText,
+  const { availableSourceTexts, availableTargetTexts, language, sourceDivision, sourceText,
           targetDivision, targetText, updateSource, updateSourceDivision,
           updateTarget, updateTargetDivision } = props
 
@@ -82,11 +82,11 @@ function TextSelectGroup(props) {
           handleAuthorChange={(value) => handleTextChange(value, updateSource)}
           handleDivisionChange={updateSourceDivision}
           handleTitleChange={(value) => handleTextChange(value, updateSource)}
-          loading={availableTexts.length === 0}
+          loading={availableSourceTexts.length === 0}
           loadingText={`Loading ${language} corpus`}
           onOpen={() => {}}
           selection={sourceText}
-          textList={availableTexts}
+          textList={availableSourceTexts}
           title="Source Text"
         />
       </Grid>
@@ -100,11 +100,11 @@ function TextSelectGroup(props) {
           handleAuthorChange={(value) => handleTextChange(value, updateTarget)}
           handleDivisionChange={updateTargetDivision}
           handleTitleChange={(value) => handleTextChange(value, updateTarget)}
-          loading={availableTexts.length === 0}
+          loading={availableTargetTexts.length === 0}
           loadingText={`Loading ${language} corpus`}
           onOpen={() => {}}
           selection={targetText}
-          textList={availableTexts}
+          textList={availableTargetTexts}
           title="Target Text"
         />
       </Grid>
@@ -115,9 +115,14 @@ function TextSelectGroup(props) {
 
 TextSelectGroup.propTypes = {
   /**
-   * List of texts exposed by the REST API.
+   * List of source texts exposed by the REST API.
    */
-  availableTexts: PropTypes.arrayOf(PropTypes.object),
+  availableSourceTexts: PropTypes.arrayOf(PropTypes.object),
+
+  /** 
+   * List of target texts exposed by the REST API.
+   */
+  availableTargetTexts: PropTypes.arrayOf(PropTypes.object),
 
   /**
    * The current language populating the UI.
@@ -174,7 +179,8 @@ TextSelectGroup.propTypes = {
  */
 const mapStateToProps = (state) => {
   return {
-    availableTexts: state.corpus.availableTexts,
+    availableSourceTexts: state.corpus.availableSourceTexts,
+    availableTargetTexts: state.corpus.availableTargetTexts,
     language: state.corpus.language,
     sourceDivision: state.search.sourceDivision,
     sourceText: state.search.sourceText,

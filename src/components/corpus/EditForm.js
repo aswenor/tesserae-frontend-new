@@ -13,7 +13,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import BlockIcon from '@mui/icons-material/Block';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { fetchTexts, updateTextMetadata } from '../../api/corpus';
+import { fetchSourceTexts, fetchTargetTexts, updateTextMetadata } from '../../api/corpus';
 import ThemedDialog from '../common/ThemedDialog';
 
 
@@ -166,7 +166,16 @@ function EditForm(props) {
 
 EditForm.propTypes = {
   asyncReady: PropTypes.bool,
-  availableTexts: PropTypes.arrayOf(
+  availableSourceTexts: PropTypes.arrayOf(
+    PropTypes.shape({
+      author: PropTypes.string,
+      is_prose: PropTypes.bool,
+      object_id: PropTypes.string,
+      title: PropTypes.string,
+      year: PropTypes.number
+    })
+  ),
+  availableTargetTexts: PropTypes.arrayOf(
     PropTypes.shape({
       author: PropTypes.string,
       is_prose: PropTypes.bool,
@@ -181,7 +190,8 @@ EditForm.propTypes = {
 function mapStateToProps(state) {
   return {
     asyncReady: state.async.asyncPending < state.async.maxAsyncPending,
-    availableTexts: state.corpus.availableTexts,
+    availableSourceTexts: state.corpus.availableSourceTexts,
+    availableTargetTexts: state.corpus.availableTargetTexts,
     language: state.corpus.language
   };
 }
@@ -189,7 +199,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchTexts: fetchTexts,
+    fetchSourceTexts: fetchSourceTexts,
+    fetchTargetTexts: fetchTargetTexts,
     updateTextMetadata: updateTextMetadata
   }, dispatch)
 }

@@ -7,7 +7,8 @@
  * @exports updateTargetText
  * @exports updateSearchParameters
  * @exports fetchStoplist
- * @exports initiateSearch
+ * @exports initiateOriginalSearch
+ * @exports initiateGreek2LatinSearch
  * @exports getSearchStatus
  * @exports fetchResults
  * @exports changePage
@@ -49,7 +50,7 @@ function normalizeScores(parallels, maxScore = 10) {
 }
 
 
-export function runSearch(language, source, sourceDivision, target, targetDivision, params) {
+export function runSearch(method, language, source, sourceDivision, target, targetDivision, params) {
   return async dispatch => {
     dispatch(updateSearchInProgress(true));
 
@@ -64,7 +65,15 @@ export function runSearch(language, source, sourceDivision, target, targetDivisi
       return;
     }
 
-    response = await initiateSearch(source, sourceDivision, target, targetDivision, params, response.data.stopwords)(dispatch);
+    if (method.toLowerCase() === 'original') {
+      response = await initiateOriginalSearch(source, sourceDivision, target, targetDivision, params, response.data.stopwords)(dispatch);
+    }
+    else if (method.toLowerCase() === 'greek-to-latin') {
+      let greekStopwords = await fetchStoplist(params.feature, params.stoplist, 'greek')(dispatch);
+      let latinStopwords = await fetchStoplist(params.feature, params.stoplist, 'latin')(dispatch);
+      response = await initiateGreek2LatinSearch(source, sourceDivision, target, targetDivision, params, greekStopwords.data.stopwords, latinStopwords.data.stopwords)(dispatch);
+      let temp = 0; // using for debugging purposes 
+    }
 
     const searchID = response.search_id;
     response = response.response;
@@ -79,7 +88,7 @@ export function runSearch(language, source, sourceDivision, target, targetDivisi
     }
 
     if (response.status >= 400 && response.status < 600) {
-      dispatch(updateSearchInProgress(false));
+       dispatch(updateSearchInProgress(false));
       return;
     }
 
@@ -180,7 +189,7 @@ export function fetchStoplist(feature, stopwords, stoplistBasis) {
 
 
 /**
- * Kick off a search by sending parameters to the REST API.
+ * Kick off an original search by sending parameters to the REST API.
  * 
  * @param {Object} source Source text metadata.
  * @param {Object} target Target text metadata.
@@ -189,7 +198,7 @@ export function fetchStoplist(feature, stopwords, stoplistBasis) {
  * @param {boolean} pending True if any AJAX calls are in progress.
  * @returns {function} Callback that calls dispatch to handle communication.
  */
-export function initiateSearch(source, sourceDivision, target, targetDivision, params, stopwords) {
+export function initiateOriginalSearch(source, sourceDivision, target, targetDivision, params, stopwords) {
   return async dispatch => {
     return axios({
       method: 'post',
@@ -233,6 +242,72 @@ export function initiateSearch(source, sourceDivision, target, targetDivision, p
         searchID = response.headers.location.match(/parallels[/]([\w\d]+)/)[1];
       }
       
+      else if (response.request.responseURL !== undefined) {
+        searchID = response.request.responseURL.match(/parallels[/]([\w\d]+)/)[1];
+      }
+
+      dispatch(updateSearchID(searchID));
+
+      return {search_id: searchID, response: response};
+    })
+    .catch(error => {
+      return error.response
+    });
+  };
+}
+
+/**
+ * Kick off a greek-to-latin search by sending parameters to the REST API.
+ * 
+ * @param {Object} source Source text metadata.
+ * @param {Object} target Target text metadata.
+ * @param {Object} params Advanced options for the search.
+ * @param {String[]} greekStopwords List of greek tokens to exclude from the search.
+ * @param {String[]} latinStopwords List of latin tokens to exclude from the search.
+ * @param {boolean} pending True if any AJAX calls are in progress.
+ * @returns {function} Callback that calls dispatch to handle communication.
+ */
+export function initiateGreek2LatinSearch(source, sourceDivision, target, targetDivision, params, greekStopwords, latinStopwords) {
+  return async dispatch => {
+    return axios({
+      method: 'post',
+      url: `${REST_API}/parallels/`,
+      crossDomain: true,
+      headers: {
+        contentType: 'x-www-form-urlencoded',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      responseType: 'json',
+      data: {
+        method: {
+          name: 'greek_to_latin',
+          greek_stopwords: greekStopwords,
+          latin_stopwords: latinStopwords,
+          freq_basis: params.frequencyBasis,
+          max_distance: parseInt(params.maxDistance, 10),
+          distance_basis: params.distanceBasis
+        },
+        page_number: 0,
+        per_page: 100,
+        sort_by: 'score',
+        sort_order: 'descending',
+        source: {
+          object_id: source.object_id,
+          units: params.unitType
+        },
+        target: {
+          object_id: target.object_id,
+          units: params.unitType
+        },
+      }
+    })
+    .then(response => {
+      let searchID = '';
+
+      if (response.headers.location !== undefined) {
+        searchID = response.headers.location.match(/parallels[/]([\w\d]+)/)[1];
+      }
+
       else if (response.request.responseURL !== undefined) {
         searchID = response.request.responseURL.match(/parallels[/]([\w\d]+)/)[1];
       }

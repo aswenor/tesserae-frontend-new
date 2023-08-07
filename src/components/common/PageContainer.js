@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
  *   );
  */
 function PageContainer(props) {
-  const { availableTexts, children, fetchLanguages, languages } = props;
+  const { availableSourceTexts, availableTargetTexts, children, fetchLanguages, languages } = props;
   
   /** CSS styles and global theme. */
   const classes = useStyles();
@@ -65,7 +65,7 @@ function PageContainer(props) {
       p={0}
       width={1.0}
     >
-      {languages.length === 0 || availableTexts.length === 0
+      {languages.length === 0 || availableSourceTexts.length === 0 || availableTargetTexts === 0
        ? <LoadingScreen />
        : children
       }
@@ -76,7 +76,8 @@ function PageContainer(props) {
 
 function mapStateToProps(state) {
   return {
-    availableTexts: state.corpus.availableTexts,
+    availableSourceTexts: state.corpus.availableSourceTexts,
+    availableTargetTexts: state.corpus.availableTargetTexts,
     languages: state.corpus.availableLanguages
   }
 }

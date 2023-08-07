@@ -4,7 +4,8 @@
  * @author [Jeff Kinnison](https://github.com/jeffkinnison)
  * 
  * @exports fetchLanguages
- * @exports fetchTexts
+ * @exports fetchSourceTexts
+ * @exports fetchTargetTexts
  * 
  * @requires NPM:axios
  * @requires NPM:lodash
@@ -19,7 +20,7 @@ import { difference, find, hasIn, isUndefined, union } from 'lodash';
 
 import { registerError } from '../state/async';
 import { updateAvailableLanguages,
-         updateAvailableTexts } from '../state/corpus';
+         updateAvailableSourceTexts, updateAvailableTargetTexts } from '../state/corpus';
 import { updateSourceText, updateTargetText } from '../state/search';
 
 
@@ -42,7 +43,8 @@ export function initialFetch() {
       return;
     }
 
-    await fetchTexts(response.data.language)(dispatch);
+    await fetchSourceTexts(response.data.language)(dispatch);
+    await fetchTargetTexts(response.data.language)(dispatch);
   }
 }
 
@@ -125,7 +127,8 @@ export function fetchTexts(language) {
         dispatch(updateTargetText(!isUndefined(target) ? target : texts[-1]));
       }
       
-      dispatch(updateAvailableTexts(texts));
+      dispatch(updateAvailableSourceTexts(texts));
+      dispatch(updateAvailableTargetTexts(texts));
       return texts;
     })
     .catch(error => {
@@ -134,6 +137,90 @@ export function fetchTexts(language) {
     })
   };
 }
+
+
+/**
+ * Fetch the list of texts available for the source.
+ * 
+ * @param {String} language The language of the texts to fetch.
+ */
+export function fetchSourceTexts(language) {
+  return async dispatch => {
+    return axios({
+      method: 'get',
+      url: `${REST_API}/texts/`,
+      crossDomain: true,
+      responseType: 'json',
+      params: {
+        language: language.toLowerCase()
+      }
+    })
+    .then(response => {
+      const sourceTexts = response.data.texts.sort((a,b) =>
+        a.author > b.author || (a.author === b.author && a.title > b.title)
+      );
+        let source = undefined;
+
+        if (language.toLowerCase() === 'latin') {
+          source = find(sourceTexts, {author: 'vergil', title: 'aeneid'});
+        }
+        else if (language.toLowerCase() === 'greek') {
+          source = find(sourceTexts, {author: 'homer', title: 'iliad'});
+        }
+
+        dispatch(updateSourceText(!isUndefined(source) ? source : sourceTexts[0]));
+
+      dispatch(updateAvailableSourceTexts(sourceTexts));
+      return sourceTexts;
+    })
+    .catch(error => {
+      dispatch(registerError(error));
+      return error
+    })
+  };
+}
+
+/**
+ * Fetch the list of available target texts in the language.
+ * 
+ * @param {String} language The language of the texts to fetch.
+ */
+export function fetchTargetTexts(language) {
+  return async dispatch => {
+    return axios({
+      method: 'get',
+      url: `${REST_API}/texts/`,
+      crossDomain: true,
+      responseType: 'json',
+      params: {
+        language: language.toLowerCase()
+      }
+    })
+    .then(response => {
+      const targetTexts = response.data.texts.sort((a,b) =>
+        a.author > b.author || (a.author === b.author && a.title > b.title)
+      );
+        let target = undefined;
+
+      if (language.toLowerCase() === 'latin') {
+        target = find(targetTexts, {author: 'lucan', title: 'bellum civile'});
+      }
+      else if (language.toLowerCase() === 'greek') {
+        target = find(targetTexts, {author: 'apollonius', title: 'agronautica'});
+      }
+
+      dispatch(updateTargetText(!isUndefined(target) ? target : targetTexts[-1]));
+
+      dispatch(updateAvailableTargetTexts(targetTexts));
+      return targetTexts;
+    })
+    .catch(error => {
+      dispatch(registerError(error));
+      return error
+    })
+  };
+}
+
 
 
 export function ingestText() {}
