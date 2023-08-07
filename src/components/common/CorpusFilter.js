@@ -209,7 +209,7 @@ CorpusFilter.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    availableTexts: state.corpus.availableSourceTexts
+    availableTexts: state.corpus.availableTexts
   }
 }
 

@@ -34,7 +34,7 @@ function Corpus(props) {
 
 function mapStateToProps(state) {
   return {
-    textList: state.corpus.availableSourceTexts
+    textList: state.corpus.availableTexts
   };
 }
 
