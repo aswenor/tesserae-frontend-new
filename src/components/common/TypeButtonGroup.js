@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 
   },
   buttonGroup: {
-    backgroundColor: theme.palette.default.main
+    backgroundColor: #ffffff//theme.palette.default.main
   }
 }));
 
