@@ -24,6 +24,7 @@ import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Typography from '@material-ui/core/Typography';
 
 import { filterTexts } from '../../utils';
 import createTesseraeTheme from '../../theme';
@@ -49,7 +50,7 @@ function CorpusFilter(props) {
 
   const classes = useStyles();
 
-  const [ yearRange, setYearRange ] = useState([-10000, 10000]);
+  /** const [ yearRange, setYearRange ] = useState([-10000, 10000]);
 
   useEffect(() => {
     const numbersOnly = filter(availableTexts, t => isNumber(t.year));
@@ -64,7 +65,7 @@ function CorpusFilter(props) {
       type: 'all',
       year: [minYear, maxYear]
     });
-  }, [availableTexts, setFilter, setYearRange]);
+  }, [availableTexts, setFilter, setYearRange]); */
 
   return (
     <div className={classes.root}>
@@ -87,13 +88,13 @@ function CorpusFilter(props) {
         selection={{author: authorFilter, title: titleFilter}}
       />
       <div className={classes.spacer}></div>
-      <YearRangeSlider
+      {/* <YearRangeSlider
         maxYear={yearRange[1]}
         minYear={yearRange[0]}
         selectYearRange={(value) => { setFilter(prev => ({...prev, year: value})); }}
         selectedYearRange={textFilter.year}
         tickInterval={100}
-      />
+      /> */}
     </div>
   );
 }
