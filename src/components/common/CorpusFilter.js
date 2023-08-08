@@ -366,4 +366,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps)(CorpusFilter);
+export default connect(mapStateToProps)(CorpusFilter); */
