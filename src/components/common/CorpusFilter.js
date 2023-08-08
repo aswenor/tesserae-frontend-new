@@ -29,7 +29,159 @@ import { filterTexts } from '../../utils';
 import createTesseraeTheme from '../../theme';
 import TypeButtonGroup from './TypeButtonGroup';
 import YearRangeSlider from './YearRangeSlider';
+import CorpusTextSelect from './CorpusTextSelect';
 
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3)
+  },
+  spacer: {
+    marginTop: '15px',
+    width: '100%'
+  }
+}));
+
+function CorpusFilter(props) {
+  const { availableTexts, authorFilter, dateRangeFilter, language, setAuthorFilter,
+          setDateRangeFilter, setTitleFilter, setTypeFilter, titleFilter, typeFilter } = props;
+
+  const classes = useStyles();
+
+  const [ yearRange, setYearRange ] = useState([-10000, 10000]);
+
+  useEffect(() => {
+    const numbersOnly = filter(availableTexts, t => isNumber(t.year));
+    const minYear = Math.floor(minBy(numbersOnly, 'year').year / 100) * 100;
+    const maxYear = Math.ceil(maxBy(numbersOnly, 'year').year / 100) * 100;
+
+    setYearRange([minYear, maxYear]);
+
+    setFilter({
+      author: '',
+      title: '',
+      type: 'all',
+      year: [minYear, maxYear]
+    });
+  }, [availableTexts, setFilter, setYearRange]);
+
+  return (
+    <div className={classes.root}>
+      <div className={classes.spacer}></div>
+      <Typography variant="h5">Filter Corpus By</Typography>
+      <div className={classes.spacer}></div>
+      <TypeButtonGroup
+        setTypeFilter={setTypeFilter}
+        typeFilter={typeFilter}
+      />
+      <div className={classes.spacer}></div>
+      <CorpusTextSelect
+        handleAuthorChange={setAuthorFilter}
+        handleTitleChange={setTitleFilter}
+        handeDateChange={setDateRangeFilter}
+        loading={availableTexts.length === 0}
+        loadingText={`Loading ${language} corpus`}
+        onOpen={() => {}}
+        textList={availableTexts}
+        selection={{author: authorFilter, title: titleFilter}}
+      />
+      <div className={classes.spacer}></div>
+      <YearRangeSlider
+        maxYear={yearRange[1]}
+        minYear={yearRange[0]}
+        selectYearRange={(value) => { setFilter(prev => ({...prev, year: value})); }}
+        selectedYearRange={textFilter.year}
+        tickInterval={100}
+      />
+    </div>
+  );
+}
+
+CorpusFilter.propTypes = {
+  /**
+   * List of available texts for viewing.
+   */
+  availableTexts: PropTypes.arrayOf(PropTypes.shape({
+      /**
+       * Author of the text.
+       */
+      author: PropTypes.string,
+
+      /**
+       * Title of the text.
+       */
+      title: PropTypes.string
+    })
+  ),
+
+  /**
+   * Filter for the author in the list of texts.
+   */
+  authorFilter: PropTypes.string,
+
+  /**
+   * Filter for the date range for the texts.
+   */
+  dateRangeFilter: PropTypes.arrayOf(PropTypes.number),
+
+  /**
+   * Function to set the author filter.
+   */
+  setAuthorFilter: PropTypes.func,
+
+  /**
+   * Function to set the date range filter.
+   */
+  setDateRangeFilter: PropTypes.func,
+
+  /**
+   * Function to set the title filter.
+   */
+  setTitleFilter: PropTypes.func,
+
+  /**
+   * Function to set the type filter.
+   */
+  setTypeFilter: PropTypes.func,
+
+  /** 
+   * Filter for the title of the text.
+   */
+  titleFilter: PropTypes.string,
+
+  /**
+   * Filter for the type of the text. (All/Prose/Poetry)
+   */
+  typeFilter: PropTypes.string,
+
+  /**
+   *  Maximum year to display on the publicaiton year filter. 
+   */
+  maxYear: PropTypes.number,
+
+  /** 
+   * Minimum year to display on the publicaiton year filter. 
+   */
+  minYear: PropTypes.number
+};
+
+/**
+ * Add redux store state to this component's props.
+ * 
+ * @param {object} state The global state of the application.
+ * @returns {object} Members of the global state to provide as props.
+ */
+function mapStateToProps(state) {
+  return {
+    availableTexts: state.corpus.availableSourceTexts,
+    language: state.corpus.language
+  };
+}
+
+export default connect(mapStateToProps)(CorpusFilter); 
+
+/**
 
 const useStyles = makeStyles(theme => ({
   autocomplete: {
@@ -171,36 +323,36 @@ function CorpusFilter(props) {
 
 
 CorpusFilter.propTypes = {
-  /** Callback to update the filter on changes. */
+  // Callback to update the filter on changes. 
   filterTextList: PropTypes.func,
 
-  /** Filtered list of texts available in the corpus. */
+  // Filtered list of texts available in the corpus. 
   filteredTextList: PropTypes.arrayOf(
     PropTypes.shape({
-      /** Author of the text. */
+      // Author of the text. 
       author: PropTypes.string,
 
-      /** Title of the text. */
+      // Title of the text. 
       title: PropTypes.string
     })
   ),
 
-  /** True if the corpus is still loading. */
+  // True if the corpus is still loading. 
   loading: PropTypes.bool,
 
-  /** Maximum year to display on the publicaiton year filter. */
+  // Maximum year to display on the publicaiton year filter. 
   maxYear: PropTypes.number,
 
-  /** Minimum year to display on the publicaiton year filter. */
+  // Minimum year to display on the publicaiton year filter. 
   minYear: PropTypes.number,
 
-  /** List of texts available in the corpus. */
+  // List of texts available in the corpus. 
   textList: PropTypes.arrayOf(
     PropTypes.shape({
-      /** Author of the text. */
+      // Author of the text. 
       author: PropTypes.string,
 
-      /** Title of the text. */
+      // Title of the text. 
       title: PropTypes.string
     })
   )

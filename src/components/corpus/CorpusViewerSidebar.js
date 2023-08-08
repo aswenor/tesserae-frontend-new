@@ -14,6 +14,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isObject } from 'lodash';
 
 import makeStyles from '@mui/styles/makeStyles';
 import Box from '@mui/material/Box';
@@ -71,10 +72,11 @@ const useStyles = makeStyles(theme => ({
  *     />
  *   );
  */
+/**
 function CorpusViewerSidebar(props) {
   const { filteredTextList, updateFilteredTextList } = props;
 
-  /** CSS styles and global theme. */
+  // CSS styles and global theme. 
   const classes = useStyles();
 
   return (
@@ -102,31 +104,101 @@ function CorpusViewerSidebar(props) {
 
 
 CorpusViewerSidebar.propTypes = {
-  /** Callback to update the filter on changes. */
+  // Callback to update the filter on changes. 
   filterTextList: PropTypes.func,
 
-  /** Filtered list of texts available in the corpus. */
+  // Filtered list of texts available in the corpus. 
   filteredTextList: PropTypes.arrayOf(
     PropTypes.shape({
-      /** Author of the text. */
+      // Author of the text.
       author: PropTypes.string,
 
-      /** Title of the text. */
+      // Title of the text. 
       title: PropTypes.string
     })
   ),
 
-  /** List of texts available in the corpus. */
+  // List of texts available in the corpus. 
   textList: PropTypes.arrayOf(
     PropTypes.shape({
-      /** Author of the text. */
+      // Author of the text. 
       author: PropTypes.string,
 
-      /** Title of the text. */
+      // Title of the text. 
       title: PropTypes.string
     })
   )
 }
 
+
+export default CorpusViewerSidebar;
+*/
+
+function CorpusViewerSidebar(props) {
+  const { filter, setFilter } = props;
+
+  /** CSS styles and global theme. */
+  const classes = useStyles();
+
+  return (
+    <Box
+      alignItems="center"
+      className={classes.root}
+      component="section"
+      display="flex"
+      flexDirection="column"
+      flexGrow={1}
+      height={'100%'}
+      width={1}
+    >
+      <div className={classes.spacer}></div>
+      <LanguageSelectButtons />
+      <CorpusFilter
+        authorFilter={filter.author}
+        dateRangeFilter={filter.year}
+        setAuthorFilter={(value) => setFilter(prev => ({...prev, author: isObject(value) ? value.author : value}))}
+        setDateRangeFilter={(value) => setFilter(prev => ({...prev, year:value}))}
+        setTitleFilter={(value) => setFilter(prev => ({...prev, title: isObject(value) ? value.title : value}))}
+        setTypeFilter={(value) => setFilter(prev => ({...prev, type: value}))}
+        titleFilter={filter.title}
+        typeFilter={filter.type}
+      />
+      <div className={classes.spacer}></div>
+      <SearchButtons />
+    </Box>
+  );
+}
+
+CorpusViewerSidebar.propTypes = {
+  /**
+   * Object containing values to filter texts by.
+   */
+  filter: PropTypes.shape({
+    /**
+     * Pattern to filter authors by.
+     */
+    author: PropTypes.string,
+
+    /**
+     * Pattern to filter titles by.
+     */
+    title: PropTypes.string,
+
+    /**
+     * All/Poetry/Prose filter.
+     */
+    type: PropTypes.string,
+
+    /**
+     * Start and end dates for the publication year range.
+     */
+    year: PropTypes.arrayOf(PropTypes.number)
+  }),
+
+  /**
+   * Function to update filter values, (failed, value) => void
+   */
+  setFilter: PropTypes.func
+}
 
 export default CorpusViewerSidebar;
