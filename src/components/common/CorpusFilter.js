@@ -104,7 +104,7 @@ function CorpusFilter(props) {
 
   const classes = useStyles();
 
-  const textItems = filteredTextList.title.filter(t => textFilter.author === '' || t.author.toLowerCase() === textFilter.author).sort((a,b) => a.title > b.title);
+  const textItems = (filteredTextList.title).filter(t => textFilter.author === '' || t.author.toLowerCase() === textFilter.author).sort((a,b) => a.title > b.title);
 
   return (
     <Box
