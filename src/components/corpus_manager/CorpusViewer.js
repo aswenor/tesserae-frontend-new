@@ -80,6 +80,8 @@ function CorpusViewer(props) {
     return (<CorpusViewerBodyRow text={item} />);
   });
 
+  let pagination = {currentPage, rowsPerPage, sortHeader, sortOrder};
+
   return (
     <Box
       display="flex"
@@ -90,13 +92,20 @@ function CorpusViewer(props) {
     >
       <BodyScrollTable
         bodyCount={textList.length}
-        bodyRows={bodyRows}
-        headerRow={<CorpusViewerHeader />}
+        //bodyRows={bodyRows}
+        //headerRow={<CorpusViewerHeader />}
         initialRowsPerPage={25}
         onPageChange={() => {}}
+        pagination={pagination}
         rowsPerPageLabel="Rows Per Page:"
         rowsPerPageOptions={[10, 25, 50, 100]}
-      />
+      >
+        <CorpusViewerHeader 
+          sortHeader={sortHeader}
+          sortOrder={sortOrder}
+        />
+        {bodyRows}
+      </BodyScrollTable>
     </Box>
   );
 }
