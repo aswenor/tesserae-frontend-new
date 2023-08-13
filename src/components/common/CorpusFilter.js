@@ -104,6 +104,8 @@ function CorpusFilter(props) {
 
   const classes = useStyles();
 
+  const textItems = availableTexts.filter(t => textFilter.author === '' || t.author.toLowerCase() === textFilter.author).sort((a,b) => a.title > b.title);
+
   return (
     <Box
       alignContent="center"
@@ -145,7 +147,8 @@ function CorpusFilter(props) {
             isOptionEqualToValue={option => option === textFilter.title}
             onChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
             onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
-            options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
+            options={textItems}
+            //options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
             renderInput={params => (
               <TextField {...params}
                 className={classes.autocomplete}
