@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 
 import Box from '@material-ui/core/Box';
 
-import BodyScrollTable from '../common/BodyScrollTable';
+import BodyScrollTable from '../common/BodyScrollTable1';
 import CorpusViewerBodyRow from './CorpusViewerBodyRow';
 import CorpusViewerHeader from './CorpusViewerHeader';
 
