@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import TextSelectDropdowns from '../search/TextSelectDropdowns';
-import TypeButtonGroup from '../multitext/TypeButtonGroup';
-import YearSlider from '../common/YearSlider';
+import TextSelectDropdowns from '../common/TextSelectDropdowns';
+import TypeButtonGroup from '../common/TypeButtonGroup';
+//import YearSlider from '../common/YearSlider';
 
 
 const useStyles = makeStyles(theme => ({
