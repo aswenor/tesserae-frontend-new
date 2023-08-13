@@ -21,7 +21,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 
 import CorpusFilter from '../common/CorpusFilter';
-import LanguageSelectMenu from '../common/LanguageSelectMenu';
+import LanguageSelectMenu from '../common/LanguageSelectButtons';
 import SearchButtons from './SearchButtons';
 
 
@@ -91,7 +91,7 @@ function CorpusViewerSidebar(props) {
       width={1}
     >
       <div className={classes.spacer}></div>
-      <LanguageSelectMenu />
+      <LanguageSelectButtons />
       <CorpusFilter
         authorFilter={filter.author}
         dateRangeFilter={filter.year}

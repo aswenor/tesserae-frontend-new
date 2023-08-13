@@ -21,7 +21,8 @@ import { makeStyles } from '@material-ui/core';
 
 import CorpusViewer from './CorpusViewer';
 import CorpusViewerSidebar from './CorpusViewerSidebar';
-import HorizontalResizePanels from '../common/HorizontalResizePanels';
+//import HorizontalResizePanels from '../common/HorizontalResizePanels';
+import TwoPanelView from '../common/TwoPanelView';
 import PageContainer from '../common/PageContainer';
 
 
@@ -125,22 +126,20 @@ function CorpusManager(props) {
         showLanguages
         toggleSideBar={(event) => setIsOpen(prevOpen => !prevOpen)}
       >
-        <HorizontalResizePanels
-          leftChild={
-            availableTexts.length > 0
-             ?  <CorpusViewerSidebar
-                  filter={filter}
-                  setFilter={setFilter}
-                  show={availableTexts.length > 0}
-                />
-             : <div></div>
-            
-          }
-          leftMinWidth={20}
-          open={isOpen}
-          rightChild={<CorpusViewer textList={textList} />}
-          rightMinWidth={35}
-        />
+        <TwoPanelView
+          leftMaxWidth={350}
+          leftMinWidth={350}
+          showToggle={false}
+        >
+          <CorpusViewerSidebar
+            filter={filter}
+            setFilter={setFilter}
+            show={availableTexts.length > 0}
+          />
+          <CorpusViewer
+            textList={textList}
+          />
+        </TwoPanelView>
       </PageContainer>
   );
 }
@@ -202,7 +201,7 @@ CorpusManager.propTypes = {
  */
 function mapStateToProps(state) {
   return {
-    availableTexts: state.corpus.availableTexts
+    availableTexts: state.corpus.availableSourceTexts
   }
 }
 
