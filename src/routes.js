@@ -1,5 +1,5 @@
 import About from './components/about';
-import Corpus from './components/corpus';
+import Corpus from './components/corpus_manager';
 import Downloads from './components/download';
 import Multitext from './components/multitext';
 import Reader from './components/reader';
