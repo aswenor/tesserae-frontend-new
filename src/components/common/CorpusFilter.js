@@ -146,7 +146,7 @@ function CorpusFilter(props) {
             defaultValue={""}
             filterOptions={createFilterOptions({matchFrom: 'start'})}
             isOptionEqualToValue={option => option === textFilter.title}
-            onChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
+            onChange={(event, value) => { setFilter(prev => ({...prev, title: !isNull(value) ? value : ''})); }}
             //onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
             options={uniqBy(filteredTextList, 'title').map(item => item.title)}
             //options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
