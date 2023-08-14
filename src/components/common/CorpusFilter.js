@@ -128,7 +128,7 @@ function CorpusFilter(props) {
             filterOptions={createFilterOptions({matchFrom: 'start'})}
             isOptionEqualToValue={option => option === textFilter.author}
             onChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
-            onInputChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
+            //onInputChange={(event, value) => { setFilter(prev => ({...prev, author: isString(value) ? value : ''})); }}
             options={uniqBy(filteredTextList, 'author').map(item => item.author)}
             renderInput={params => (
               <TextField {...params}
@@ -138,7 +138,7 @@ function CorpusFilter(props) {
                 variant="outlined"
               />
             )}
-            //value={textFilter.author}
+            value={textFilter.author}
           />
           <Box className={classes.searchSpacer} width={1}></Box>
           <Autocomplete
@@ -147,7 +147,7 @@ function CorpusFilter(props) {
             filterOptions={createFilterOptions({matchFrom: 'start'})}
             isOptionEqualToValue={option => option === textFilter.title}
             onChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
-            onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
+            //onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
             options={uniqBy(filteredTextList, 'title').map(item => item.title)}
             //options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
             renderInput={params => (
@@ -158,7 +158,7 @@ function CorpusFilter(props) {
                 variant="outlined"
               />
             )}
-            //value={textFilter.title}
+            value={textFilter.title}
           />
           <Box className={classes.yearSpacer} width={1}></Box>
           <YearRangeSlider
