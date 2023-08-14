@@ -138,7 +138,7 @@ function CorpusFilter(props) {
                 variant="outlined"
               />
             )}
-            value={selection}
+            value={textFilter.author}
           />
           <Box className={classes.searchSpacer} width={1}></Box>
           <Autocomplete
@@ -148,7 +148,7 @@ function CorpusFilter(props) {
             isOptionEqualToValue={option => option === textFilter.title}
             onChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
             onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
-            options={(uniqBy(filteredTextList, 'title').map(item => item.title)).filter(t => selection.author === '' || t.author.toLowerCase() === selection.author).sort((a,b) => a.title > b.title)}
+            options={(uniqBy(filteredTextList, 'title').map(item => item.title)).filter(t => textFilter.author === '' || t.author.toLowerCase() === textFilter.author).sort((a,b) => a.title > b.title)}
             //options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
             renderInput={params => (
               <TextField {...params}
@@ -158,7 +158,7 @@ function CorpusFilter(props) {
                 variant="outlined"
               />
             )}
-            value={selection}
+            value={textFilter.title}
           />
           <Box className={classes.yearSpacer} width={1}></Box>
           <YearRangeSlider
