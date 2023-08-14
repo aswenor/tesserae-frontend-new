@@ -31,8 +31,8 @@ export function filterTexts(texts, type, authorFilter, titleFilter, years) {
 
   return texts.filter(x => (
     (type.toLowerCase() === 'all' || x.is_prose === filterType) &&
-    (authorFilter === '' || x.author.search(authorPattern)) &&
-    (titleFilter === '' || x.title.search(titlePattern)) &&
+    (authorFilter === '' || !x.author.search(authorPattern)) &&
+    (titleFilter === '' || !x.title.search(titlePattern)) &&
     inRange(x.year, years[0], years[1] + 1)));
 }
 
