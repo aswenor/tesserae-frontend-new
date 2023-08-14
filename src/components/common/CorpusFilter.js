@@ -17,7 +17,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { filter, isNumber, isString, maxBy, minBy, uniqBy } from 'lodash';
+import { filter, isNumber, isString, maxBy, minBy, uniqBy, isNull } from 'lodash';
 
 import makeStyles from '@mui/styles/makeStyles';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
