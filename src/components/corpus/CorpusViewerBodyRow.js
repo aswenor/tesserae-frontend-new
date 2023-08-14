@@ -1,4 +1,4 @@
-/**
+   /**
  * @fileoverview Row representing one text's metadata and management options.
  * 
  * @author [Jeff Kinnison](https://github.com/jeffkinnison)
