@@ -148,7 +148,7 @@ function CorpusFilter(props) {
             isOptionEqualToValue={option => option === textFilter.title}
             onChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
             onInputChange={(event, value) => { setFilter(prev => ({...prev, title: isString(value) ? value : ''})); }}
-            options={(uniqBy(filteredTextList, 'title').map(item => item.title)).filter(t => textFilter.author === '' || t.author === textFilter.author).sort((a,b) => a.title > b.title)}
+            options={uniqBy(filteredTextList, 'title').map(item => item.title)}
             //options={filteredTextList.filter(item => item.author === textFilter.author).map(item => item.title)}
             renderInput={params => (
               <TextField {...params}
@@ -214,7 +214,7 @@ CorpusFilter.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    availableTexts: state.corpus.availableSourceTexts
+    availableTexts: state.corpus.availableTexts
   }
 }
 
