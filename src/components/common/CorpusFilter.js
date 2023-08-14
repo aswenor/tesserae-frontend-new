@@ -138,7 +138,7 @@ function CorpusFilter(props) {
                 variant="outlined"
               />
             )}
-            value={textFilter.author}
+            //value={textFilter.author}
           />
           <Box className={classes.searchSpacer} width={1}></Box>
           <Autocomplete
@@ -158,7 +158,7 @@ function CorpusFilter(props) {
                 variant="outlined"
               />
             )}
-            value={textFilter.title}
+            //value={textFilter.title}
           />
           <Box className={classes.yearSpacer} width={1}></Box>
           <YearRangeSlider
