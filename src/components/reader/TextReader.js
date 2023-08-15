@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     height: '10%',
     maxHeight: '100%',
+    overflow: 'hidden'
   },
   paper: {
     backgroundColor: '#fdead1',//theme.palette.secondary.main,
