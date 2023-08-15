@@ -71,10 +71,26 @@ export function highlightMatches(snippet, tag, matchIndices) {
       // the current `wordStr`. Otherwise, add the current string to the `wordStr` buffer.
       if (includes(matchIndices, wordIdx)) {
         if (wordIdx > 0 && wordIdx.length > 0) {
-          tags.push(<Typography component="span" key={`${tag}-${tags.length}`}>{wordStr}</Typography>);
+          tags.push(
+            <Typography
+              color="primary"
+              component="span" 
+              key={`${tag}-${tags.length}`}
+            >
+              {wordStr}
+            </Typography>
+          );
           wordStr = '';
         }
-        tags.push(<Typography component="span" key={`${tag}-${tags.length}`} color="primary">{splitted[i]}</Typography>);
+        tags.push(
+          <Typography 
+            component="span" 
+            key={`${tag}-${tags.length}`} 
+            color="primary"
+          >
+            {splitted[i]}
+          </Typography>
+        );
       }
       else {
         wordStr = `${wordStr}${splitted[i]}`;
@@ -87,10 +103,19 @@ export function highlightMatches(snippet, tag, matchIndices) {
   }
 
   // Compile the remaining parts of the snippet.
-  tags.push(<Typography component="span" key={`${tag}-${tags.length}`}>{wordStr}</Typography>);
+  tags.push(
+    <Typography 
+      component="span" 
+      key={`${tag}-${tags.length}`}
+      color="primary"
+    >
+      {wordStr}
+    </Typography>
+  );
 
   // Wrap the result in a "p" Typography component to contain it all.
-  return (<Typography>{tags}</Typography>);
+  //return (<Typography>{tags}</Typography>);
+  return tags;
 }
 
 
