@@ -18,7 +18,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#ffffff', //theme.palette.secondary.main,
     height: '100%',
     width: '100%',
   },
