@@ -89,7 +89,7 @@ function TextReader(props) {
 
 
 function mapStateToProps(state, ownProps) {
-  const textMetadata = find(state.corpus.availableTexts, x => x.object_id === ownProps.textID);
+  const textMetadata = find(state.corpus.availableSourceTexts, x => x.object_id === ownProps.textID);
   return {
     asyncReady: state.async.asyncPending < state.async.maxAsyncPending,
     textData: state.texts[ownProps.textID] !== undefined ? state.texts[ownProps.textID] : [],
