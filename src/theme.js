@@ -12,6 +12,10 @@ import { createTheme, responsiveFontSizes, adaptV4Theme } from '@mui/material/st
 
 const DEFAULT_THEME = {
   palette: {
+    default: {
+      light: '#ffffff',
+      main: '#ffffff',
+    },
     primary: {
       main: '#f69417'
     },

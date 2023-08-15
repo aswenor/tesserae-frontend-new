@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '100%',
   },
   paper: {
-    backgroundColor: '#ffffff',//theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.main,
     display: 'block',
     height: '100%',
     paddingLeft: theme.spacing(2),
