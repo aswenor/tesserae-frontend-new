@@ -19,7 +19,7 @@ import TextDisplay from './TextDisplay';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    height: '100%',
+    height: '50%',
     maxHeight: '100%',
   },
   paper: {
@@ -63,7 +63,7 @@ function TextReader(props) {
   return (
     <div className={classes.root}>
       { textData.length === 0
-        ? <LoadingText />
+        ? < LoadingText />
         : <Paper className={classes.paper} component="div">
             <Box>
               <Toolbar

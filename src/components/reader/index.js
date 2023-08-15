@@ -9,16 +9,6 @@ import Reader from './Reader';
 function ReaderRouter(props) {
   const match = useRouteMatch();
   return (
-    <Switch>
-      <Route path={`${match.path}/:textID`}>
-        <Reader />
-      </Route>
-      <Route path={match.path}>
-      </Route>
-    </Switch>
-);
-
-  /**return (
       <Switch>
         <Route path={`${match.path}/:textID`}>
           <Reader />
@@ -31,7 +21,7 @@ function ReaderRouter(props) {
           />
         </Route>
       </Switch>
-  ); */
+  ); 
 }
 
 
