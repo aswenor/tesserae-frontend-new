@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
     // overflowX: 'hidden',
-    overflow: 'auto',
+    //overflow: 'auto',
   }
 }));
 
