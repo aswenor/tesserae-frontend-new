@@ -8,21 +8,30 @@ import Reader from './Reader';
 
 function ReaderRouter(props) {
   const match = useRouteMatch();
-
   return (
+    <Switch>
+      <Route path={`${match.path}/:textID`}>
+        <Reader />
+      </Route>
+      <Route path={match.path}>
+      </Route>
+    </Switch>
+);
+
+  /**return (
       <Switch>
         <Route path={`${match.path}/:textID`}>
           <Reader />
         </Route>
         <Route path={match.path}>
-          <RedirectOverlay
+        <RedirectOverlay
             delay={3}
             displayText="Redirecting to corpus viewer in 3 seconds."
             to="/corpus"
           />
         </Route>
       </Switch>
-  );
+  ); */
 }
 
 
