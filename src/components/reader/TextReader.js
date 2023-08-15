@@ -102,7 +102,6 @@ function TextReader(props) {
          <Box
             height={'100%'}
             width={1}
-            sx={{overflow: 'auto'}}
           >
             <TextDisplay units={textData} />
           </Box>
