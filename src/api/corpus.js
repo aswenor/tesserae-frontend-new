@@ -16,12 +16,14 @@
  */
 
 import axios from 'axios';
-import { difference, find, hasIn, isUndefined, union } from 'lodash';
+import { difference, find, hasIn, isUndefined, union, sortBy } from 'lodash';
+import { batch } from 'react-redux';
 
-import { registerError } from '../state/async';
+import { initiateAsync, clearAsync, registerError } from '../state/async';
 import { updateAvailableLanguages,
          updateAvailableSourceTexts, updateAvailableTargetTexts } from '../state/corpus';
 import { updateSourceText, updateTargetText } from '../state/search';
+import { addFullText } from '../state/texts';
 
 
 /**
