@@ -86,7 +86,7 @@ function TextReader(props) {
   ); */
 
   return (
-    <div className={classes.root}>
+    <div className={classes.paper}>
       { textData.length === 0
         ? < LoadingText />
         : <div>
