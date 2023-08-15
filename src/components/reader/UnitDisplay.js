@@ -27,7 +27,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     paddingBottom: theme.spacing(2),
     paddingTop: theme.spacing(2),
-    overflow: 'auto'
   }
 }));
 
