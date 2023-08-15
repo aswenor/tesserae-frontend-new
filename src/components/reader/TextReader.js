@@ -19,7 +19,7 @@ import TextDisplay from './TextDisplay';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    height: '50%',
+    height: '100%',
     maxHeight: '100%',
   },
   paper: {
