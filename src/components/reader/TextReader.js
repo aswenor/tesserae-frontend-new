@@ -17,12 +17,12 @@ import TextDisplay from './TextDisplay';
 
 
 const useStyles = makeStyles(theme => ({
-  //root: {
-    //display: 'flex',
-    //height: '10%',
-    //maxHeight: '100%',
+  root: {
+    display: 'flex',
+    height: '100%',
+    maxHeight: '100%',
     //overflow: 'hidden'
-  //},
+  },
   paper: {
     backgroundColor: '#fdead1', //theme.palette.secondary.main,
     display: 'block',
@@ -62,7 +62,7 @@ function TextReader(props) {
     return () => removeFullText(textID);
   }, [removeFullText, textID]);
 
-  /**return (
+  return (
     <div className={classes.root}>
       { textData.length === 0
         ? < LoadingText />
@@ -85,9 +85,9 @@ function TextReader(props) {
           </Paper>
       }
     </div>
-  ); */
+  );
 
-  return (
+  /** return (
     <div className={classes.paper} >
       { textData.length === 0
         ? < LoadingText />
@@ -110,7 +110,7 @@ function TextReader(props) {
         </div>
       }
     </div>
-  )
+  ) */
 
 }
 
