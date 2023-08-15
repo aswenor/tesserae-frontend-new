@@ -62,7 +62,7 @@ function TextReader(props) {
     return () => removeFullText(textID);
   }, [removeFullText, textID]);
 
-  return (
+  /** return (
     <div className={classes.root}>
       { textData.length === 0
         ? < LoadingText />
@@ -85,9 +85,9 @@ function TextReader(props) {
           </Paper>
       }
     </div>
-  );
+  ); */
 
-  /** return (
+  return (
     <div className={classes.paper} >
       { textData.length === 0
         ? < LoadingText />
@@ -110,7 +110,7 @@ function TextReader(props) {
         </div>
       }
     </div>
-  ) */
+  );
 
 }
 
