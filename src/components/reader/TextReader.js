@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     paddingRight: theme.spacing(1),
     [theme.breakpoints.up('md')]: {
       marginLeft: '12.5%',
-      width: '75%'
+      width: '90%'
     },
     [theme.breakpoints.down('sm')]: {
       width: '100%'
