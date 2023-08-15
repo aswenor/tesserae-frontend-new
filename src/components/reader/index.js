@@ -1,16 +1,29 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
-import PageContainer from '../common/PageContainer';
+import RedirectOverlay from '../common/RedirectOverlay';
+import Reader from './Reader';
 
 
-function Reader(props) {
+function ReaderRouter(props) {
+  const match = useRouteMatch();
+
   return (
-    <PageContainer>
-      
-    </PageContainer>
+      <Switch>
+        <Route path={`${match.path}/:textID`}>
+          <Reader />
+        </Route>
+        <Route path={match.path}>
+          <RedirectOverlay
+            delay={3}
+            displayText="Redirecting to corpus viewer in 3 seconds."
+            to="/corpus"
+          />
+        </Route>
+      </Switch>
   );
 }
 
 
-export default Reader;
+export default ReaderRouter;
