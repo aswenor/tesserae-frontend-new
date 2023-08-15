@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
     // overflowX: 'hidden',
-    overflow: 'scroll'
+    overflow: 'auto',
   }
 }));
 
@@ -40,7 +40,6 @@ function TextDisplay(props) {
       className={classes.root}
       justify="center"
       spacing={2}
-      overflow="scroll"
     >
       {unitRows}
     </Grid>
