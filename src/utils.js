@@ -44,21 +44,21 @@ export function filterTexts(texts, type, authorFilter, titleFilter, years) {
  * @param {String} tag Locus identifier for the snippet.
  * @param {Array} matchIndices The indices of the tokens to highlight.
  * @returns {Array} A list of Typography components with matches highlighted.
- */
+ 
 export function highlightMatches(snippet, tag, matchIndices) {
-  /** Array of highlighted tokens. */
+  // Array of highlighted tokens. 
   let highlightedSnippet = [];
 
-  /** Split the snippet along whitespace. */
+  // Split the snippet along whitespace. 
   let snippetTokens = snippet.split(/[\s.?!,;:/]+/);
   
-  /** The current token index to inspect. */
+  // The current token index to inspect. 
   let current = 0;
 
-  /** The next match token index. */
+  // The next match token index. 
   let next = null;
 
-  /** The current slice of the snippet to wrap. */
+  // The current slice of the snippet to wrap. 
   let slice = null;
 
   // Iterate over the match indices, extract token slices, and highlight
@@ -131,7 +131,7 @@ export function highlightMatches(snippet, tag, matchIndices) {
   }
 
   return highlightedSnippet;
-}
+} */
 
 /**
  * Highlight relevant tokens in a snippet.
@@ -140,7 +140,7 @@ export function highlightMatches(snippet, tag, matchIndices) {
  * @param {String} tag Locus identifier for the snippet.
  * @param {Array} matchIndices The indices of the tokens to highlight.
  * @returns {Component} A Typography component with matches highlighted.
- 
+ */
 export function highlightMatches(snippet, tag, matchIndices) {
   // Sorry in advance for the code/comment ratio, but this one required some explanation.
 
@@ -211,7 +211,7 @@ export function highlightMatches(snippet, tag, matchIndices) {
 
   // Wrap the result in a "p" Typography component to contain it all.
   return (<Typography>{tags}</Typography>);
-} */
+} 
 
 
 /**
