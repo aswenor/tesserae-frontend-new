@@ -1,4 +1,4 @@
-import React from 'react';
+/** import React from 'react';
 import PropTypes from 'prop-types';
 
 import Grid from '@mui/material/Grid';
@@ -28,16 +28,14 @@ function TextContainer(props) {
 
 
 TextContainer.propTypes = {
-  /**
-   * Snippet location metadata.
-   */
+  // Snippet location metadata.
   location: PropTypes.string,
 
-  /**
-   * Raw text of the snippet.
-   */
+  // Raw text of the snippet.
+   
   snippet: PropTypes.string
 }
 
 
 export default TextContainer;
+*/

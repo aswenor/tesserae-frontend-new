@@ -1,4 +1,4 @@
-/** import React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -48,4 +48,3 @@ function TextDisplay(props) {
 
 
 export default TextDisplay; 
-*/ 
