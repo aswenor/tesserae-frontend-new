@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden'
   },
   paper: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#fdead1', //theme.palette.secondary.main,
     display: 'block',
     height: '100%',
     paddingLeft: theme.spacing(2),
@@ -88,7 +88,7 @@ function TextReader(props) {
   ); */
 
   return (
-    <div className={classes.paper} backgroundColor='#ffffff'>
+    <div className={classes.paper} >
       { textData.length === 0
         ? < LoadingText />
         : <div>
