@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden'
   },
   paper: {
-    backgroundColor: '#fdead1',//theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main,
     display: 'block',
     height: '100%',
     paddingLeft: theme.spacing(2),
