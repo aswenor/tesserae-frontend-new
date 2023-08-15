@@ -221,12 +221,112 @@ export function fetchTargetTexts(language) {
   };
 }
 
+export function fetchFullText(textID, unit, asyncReady) {
+  return dispatch => {
+    if (asyncReady) {
+      console.log('fetching the full text');
+      dispatch(initiateAsync());
+
+      axios({
+        method: 'get',
+        url: `${REST_API}/units/`,
+        crossDomain: true,
+        responseType: 'json',
+        params: {
+          unit_type: unit,
+          works: textID,
+        }
+      })
+      .then(response => {
+        console.log('response', response)
+        batch(() => {
+          const units = sortBy(response.data.units, 'index');
+          dispatch(addFullText(textID, units));
+          dispatch(clearAsync());
+        });
+        return response.data.units;
+      })
+      .catch(error => {
+        // On error, update the error log.
+        batch(() => {
+          dispatch(registerError(error));
+          dispatch(clearAsync());
+        });
+      });
+    }
+  };
+}
 
 
-export function ingestText() {}
+
+export function ingestText(tessFile, metadata) {
+  return dispatch => {
+    dispatch(initiateAsync());
+
+    let data = FormData();
+    data.set('metadata', metadata);
+    data.set('file', tessFile);
+
+    axios({
+      method: 'post',
+      url: `${REST_API}/texts/`,
+      crossDomain: true,
+      responseType: 'json',
+      headers: {
+        'Content-Type': 'multipart/form'
+      },
+      data: data
+    }).then(response => {
+
+    }).error(error => {
+      // On error, update the error log.
+      batch(() => {
+        dispatch(registerError(error));
+        dispatch(clearAsync());
+      });
+    });
+  };
+}
 
 
-export function updateTextMetadata() {}
+export function updateTextMetadata(textID, metadata) {
+  return dispatch => {
+    axios({
+      method: 'patch',
+      url: `${REST_API}/texts/${textID}/`,
+      crossDomain: true,
+      responseType: 'json',
+      data: metadata
+    }).then(response => {
+
+    }).error(error => {
+      // On error, update the error log.
+      batch(() => {
+        dispatch(registerError(error));
+        dispatch(clearAsync());
+      });
+    });
+  };
+}
 
 
-export function deleteTexts() {}
+export function deleteTexts(textIDs) {
+  return dispatch => {
+    textIDs.map(item =>
+      axios({
+        method: 'delete',
+        url: `${REST_API}/texts/${item.object_id}/`,
+        crossDomain: true,
+        responseType: 'json',
+      }).then(response => {
+        
+      }).error(error => {
+        // On error, update the error log.
+        batch(() => {
+          dispatch(registerError(error));
+          dispatch(clearAsync());
+        });
+      })
+    );
+  };
+}
