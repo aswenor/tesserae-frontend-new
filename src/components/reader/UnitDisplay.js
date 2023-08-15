@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     paddingBottom: theme.spacing(2),
     paddingTop: theme.spacing(2),
+    overflow: 'auto'
   }
 }));
 
@@ -66,7 +67,6 @@ function UnitDisplay(props) {
       justify="flex-start"
       key={tag}
       spacing={2}
-      overflow="scroll"
     >
       <Grid item md={1} xs={12}>
         <Typography color="primary" align="center" variant="body1">
