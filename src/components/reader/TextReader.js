@@ -17,12 +17,12 @@ import TextDisplay from './TextDisplay';
 
 
 const useStyles = makeStyles(theme => ({
-  //root: {
-    //display: 'flex',
-    //height: '10%',
-    //maxHeight: '100%',
+  root: {
+    display: 'flex',
+    height: '10%',
+    maxHeight: '100%',
     //overflow: 'hidden'
-  //},
+  },
   paper: {
     backgroundColor: '#fdead1', //theme.palette.secondary.main,
     display: 'block',
