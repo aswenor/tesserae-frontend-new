@@ -84,8 +84,10 @@ function TextSelectDropdowns(props) {
   const authorItems = uniqBy(textList, 'author').sort((a, b) => a.author.localeCompare(b.author));
  
   /** Text list to select title, filtered by author when an author is selected. */
-  const textItems = textList.filter(t => selection.author === '' || t.author.toLowerCase() === selection.author).sort((a, b) => a.title > b.title);
- 
+  //const textItems = textList.filter(t => selection.author === '' || t.author.toLowerCase() === selection.author).sort((a, b) => a.title > b.title);
+  const textItems = textList.filter(t => selection.author === '' || t.author.toLowerCase() === selection.author).sort((a, b) => a.title.localeCompare(b.title));
+
+
   const isAuthorSelected = (option, value) => {
     return isObject(value)
       ? option.author.toLowerCase() === value.author.toLowerCase()
