@@ -17,6 +17,7 @@ import LanguageSelectButtons from '../common/LanguageSelectButtons';
 import { MarginlessAccordion, MarginlessAccordionSummary,
          MarginlessAccordionDetails } from '../common/MarginlessAccordion';
 import { runMultitextSearch } from '../../api/multitext';
+import { fetchStoplist } from '../../api/search';
 import TargetsTable from './targets/Table';
 import TextSelectGroup from '../search/TextSelectGroup';
 import { clearResults } from '../../state/multitext';
@@ -56,9 +57,17 @@ const useStyles = makeStyles(theme => ({
  * @returns 
  */
 function MultitextSearchParametersForm(props) {
-  const { clearResults, runMultitextSearch, language, multitextTargets,
-          searchInProgress, searchParameters, sourceText,
+  const { asyncReady, clearResults, fetchStoplist, runMultitextSearch, language, multitextTargets,
+          searchInProgress, searchParameters, sourceText, stopwords,
           targetText } = props;
+
+  if (language !== '' && stopwords.length === 0) {
+    const basis = searchParameters.stoplistBasis === 'corpus'
+                  ? language
+                  : [sourceText.object_id, targetText.object_id];
+    fetchStoplist(searchParameters.feature, searchParameters.stoplist, basis, asyncReady);
+  }
+  
 
   const clearAndInitiate = () => {
     if (!searchInProgress) {    
@@ -153,9 +162,19 @@ function MultitextSearchParametersForm(props) {
 
 MultitextSearchParametersForm.propTypes = {
   /**
+   * Flag determining if an AJAX call may be initiated.
+   */
+  asyncReady: PropTypes.bool,
+
+  /**
    * Clear existing results to prep for new search.
    */
   clearResults: PropTypes.func,
+
+  /**
+   * Function to retrieve the specified stoplist from the REST API.
+   */
+  fetchStoplist: PropTypes.func,
 
   /**
    * The language of the texts being searched.
@@ -213,12 +232,14 @@ MultitextSearchParametersForm.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    asyncReady: state.async.asyncPending < state.async.maxAsyncPending,
     language: state.corpus.language,
     multitextTargets: state.multitext.selectedTexts,
     searchInProgress: state.multitext.searchInProgress,
     searchParameters: state.search.searchParameters,
     sourceText: state.search.sourceText,
-    targetText: state.search.targetText
+    targetText: state.search.targetText,
+    stopwords: state.search.stopwords
   };
 }
 
@@ -226,7 +247,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     clearResults: clearResults,
-    runMultitextSearch: runMultitextSearch
+    runMultitextSearch: runMultitextSearch,
+    fetchStoplist: fetchStoplist
   }, dispatch);
 }
 
