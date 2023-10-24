@@ -51,13 +51,27 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const localTheme = {
+/**const localTheme = {
   palette: {
     default: '#ffffff',
     primary: '#757575',
     secondary: '#757575'
   }
-};
+};*/ 
+/** Local theme override for button styling. */
+const localTheme = {
+    palette: {
+      default: {
+        main: '#ffffff'
+      },
+      primary: {
+        main: '#757575'
+      },
+      secondary: {
+        main: '#757575'
+      },
+    }
+  };
 
 
 /**
