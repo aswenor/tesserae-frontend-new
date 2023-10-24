@@ -32,7 +32,7 @@ import Typography from '@mui/material/Typography';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 import createTesseraeTheme from '../../theme';
-import { fetchSourceTexts, fetchTargetTexts } from '../../api/corpus';
+import { fetchSourceTexts, fetchTargetTexts, updateLanguage } from '../../api/corpus';
 import { updateSelectedLanguage } from '../../state/corpus';
 
 
@@ -80,7 +80,7 @@ const localTheme = {
  *   )
  */
 function LanguageSelectButtons(props) {
-  const { fetchSourceTexts, fetchTargetTexts, language, languages, setSelectedLanguage } = props;
+  const { fetchSourceTexts, fetchTargetTexts, language, languages, setSelectedLanguage, updateLanguage } = props;
 
   /** CSS styles and global theme. */
   const classes = useStyles();
@@ -92,7 +92,8 @@ function LanguageSelectButtons(props) {
   const open = Boolean(anchorEl);
 
   const changeLanguage = (language) => {
-    setSelectedLanguage(language);
+    //setSelectedLanguage(language);
+    updateLanguage(language);
     fetchSourceTexts(language);
     fetchTargetTexts(language);
   };
@@ -237,7 +238,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     fetchSourceTexts: fetchSourceTexts,
     fetchTargetTexts: fetchTargetTexts,
-    setSelectedLanguage: updateSelectedLanguage
+    setSelectedLanguage: updateSelectedLanguage,
+    updateLanguage: updateLanguage
   }, dispatch)
 }
 

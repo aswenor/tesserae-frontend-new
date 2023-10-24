@@ -21,8 +21,8 @@ import { batch } from 'react-redux';
 
 import { initiateAsync, clearAsync, registerError } from '../state/async';
 import { updateAvailableLanguages,
-         updateAvailableSourceTexts, updateAvailableTargetTexts } from '../state/corpus';
-import { updateSourceText, updateTargetText } from '../state/search';
+         updateAvailableSourceTexts, updateAvailableTargetTexts, updateSelectedLanguage } from '../state/corpus';
+import { resetSearch, updateSourceText, updateTargetText } from '../state/search';
 import { addFullText } from '../state/texts';
 
 
@@ -91,6 +91,22 @@ export function fetchLanguages() {
     });
   };
 }
+
+/**
+ * Update the selected language of the app.
+ * 
+ * @param {String} language The language to change to.
+ * @returns {function} Callback that calls dispatch to update state.
+ */
+return function updateLanguage(language) {
+  return dispatch => {
+    batch(() => {
+      dispatch(updateSelectedLanguage(language));
+      dispatch(resetSearch());
+    });
+  }
+}
+
 
 
 /**
