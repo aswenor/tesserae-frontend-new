@@ -93,7 +93,7 @@ function LanguageSelectButtons(props) {
 
   const changeLanguage = (language) => {
     //setSelectedLanguage(language);
-    updateLanguage(language);
+    updateLanguage(language)
     fetchSourceTexts(language);
     fetchTargetTexts(language);
   };

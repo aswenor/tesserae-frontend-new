@@ -30,7 +30,8 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import AdvancedOptionsGroup from './AdvancedOptionsGroup'
 import DownloadButton from './DownloadButton';
-import LanguageSelectButtons from '../common/LanguageSelectButtons';
+//import LanguageSelectButtons from '../common/LanguageSelectButtons';
+import LanguageSelectMenu from '../common/LanguageSelectMenu';
 import MethodSelectButtons from '../common/MethodSelectButtons';
 import { MarginlessAccordion, MarginlessAccordionSummary,
          MarginlessAccordionDetails } from '../common/MarginlessAccordion';
@@ -125,7 +126,7 @@ function SearchParametersForm(props) {
               justifyContent="center"
               spacing={2}
             >
-              <LanguageSelectButtons
+              <LanguageSelectMenu
                 toggleSideBar={toggleSideBar}
               />
               <MethodSelectButtons></MethodSelectButtons>
