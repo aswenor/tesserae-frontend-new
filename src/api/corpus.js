@@ -98,7 +98,7 @@ export function fetchLanguages() {
  * @param {String} language The language to change to.
  * @returns {function} Callback that calls dispatch to update state.
  */
-return function updateLanguage(language) {
+export function updateLanguage(language) {
   return dispatch => {
     batch(() => {
       dispatch(updateSelectedLanguage(language));
