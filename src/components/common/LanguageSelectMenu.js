@@ -257,7 +257,7 @@ function LanguageSelectMenu(props) {
 
   return (
     <Box>
-      <ThemeProvider theme={createTessTheme(localTheme)}>
+      <ThemeProvider theme={createTesseraeTheme(localTheme)}>
         <ButtonGroup
           ref={anchorRef}
         >
