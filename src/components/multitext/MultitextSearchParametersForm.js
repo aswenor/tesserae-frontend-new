@@ -20,8 +20,8 @@ import { runMultitextSearch } from '../../api/multitext';
 import { fetchStoplist, initiateOriginalSearch } from '../../api/search';
 import TargetsTable from './targets/Table';
 import TextSelectGroup from '../search/TextSelectGroup';
-import { clearResults } from '../../state/multitext';
-
+import { clearResults as clearMultitextResults } from '../../state/multitext';
+import { updateSearchInProgress, updateMultitextInProgress } from '../../state/async';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,8 +59,35 @@ const useStyles = makeStyles(theme => ({
 function MultitextSearchParametersForm(props) {
   const { asyncReady, clearResults, fetchStoplist, runMultitextSearch, language, multitextTargets,
           searchInProgress, searchParameters, sourceText, stopwords,
-          targetText } = props;
+          targetText, searchNeeded } = props;
 
+  const classes = useStyles();
+
+  const disableSeach = stopwords.length === 0
+                        || sourceText.object_id === undefined
+                        || targetText.object_id === undefined
+                        || multitextTargets.length === 0;
+
+  if (language !== '' && stopwords.length === 0) {
+    const basis = searchParameters.stoplistBasis === 'corpus'
+                  ? language
+                  : [sourceText.object_id, targetText.object_id];
+    fetchStoplist(searchParameters.feature, searchParameters.stoplist, basis, asyncReady);
+  }
+
+  const clearAndInitiate = () => {
+    if (searchNeeded) {
+      batch(() => {
+        clearResults();
+        clearMultitextResults();
+        updateMultitextInProgress(true);
+      });
+      initiateOriginalSearch(sourceText, 0, targetText, 0, searchParameters, stopwords)
+    }
+  }
+
+
+/** 
   if (language !== '' && stopwords.length === 0) {
     const basis = searchParameters.stoplistBasis === 'corpus'
                   ? language
@@ -77,12 +104,13 @@ function MultitextSearchParametersForm(props) {
     }
   };
 
-  const classes = useStyles();
+  
 
   const disableSearch = searchInProgress
                         || sourceText.object_id === undefined
                         || targetText.object_id === undefined
                         || multitextTargets.length === 0;
+                        */
 
   return (
     <Box
@@ -240,7 +268,8 @@ function mapStateToProps(state) {
     searchParameters: state.search.searchParameters,
     sourceText: state.search.sourceText,
     targetText: state.search.targetText,
-    stopwords: state.search.stopwords
+    stopwords: state.search.stopwords,
+    searchNeeded: state.search.searchID === ''
   };
 }
 
@@ -248,8 +277,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     clearResults: clearResults,
+    clearMultitextResults: clearMultitextResults,
+    initiateOriginalSearch: initiateOriginalSearch,
     runMultitextSearch: runMultitextSearch,
-    fetchStoplist: fetchStoplist
+    fetchStoplist: fetchStoplist,
+    updateMultitextInProgress: updateMultitextInProgress,
+    updateSearchInProgress: updateSearchInProgress
   }, dispatch);
 }
 
