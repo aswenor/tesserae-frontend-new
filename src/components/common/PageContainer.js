@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
  *   );
  */
 function PageContainer(props) {
-  const { availableSourceTexts, availableTargetTexts, children, fetchLanguages, languages, fetchSourceTexts, fetchTargetTexts, language } = props;
+  const { availableSourceTexts, availableTargetTexts, children, fetchLanguages, languages, fetchSourceTexts, fetchTargetTexts, language, corpusLoaded } = props;
   
   /** CSS styles and global theme. */
   const classes = useStyles();
