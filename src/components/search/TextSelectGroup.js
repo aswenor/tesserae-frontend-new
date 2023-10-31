@@ -181,7 +181,7 @@ const mapStateToProps = (state) => {
   return {
     availableSourceTexts: state.corpus.availableSourceTexts,
     availableTargetTexts: state.corpus.availableTargetTexts,
-    language: 'english',//state.corpus.language,
+    language: state.corpus.language,
     sourceDivision: state.search.sourceDivision,
     sourceText: state.search.sourceText,
     targetDivision: state.search.targetDivision,
