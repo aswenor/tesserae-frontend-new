@@ -185,6 +185,9 @@ export function fetchSourceTexts(language) {
         else if (language.toLowerCase() === 'greek') {
           source = find(sourceTexts, {author: 'homer', title: 'iliad'});
         }
+        else if (language.toLowerCase() === 'english') {
+          source = find(sourceTexts, {author: 'cowper', title: 'task'});
+        }
 
         dispatch(updateSourceText(!isUndefined(source) ? source : sourceTexts[0]));
 
@@ -225,6 +228,9 @@ export function fetchTargetTexts(language) {
       }
       else if (language.toLowerCase() === 'greek') {
         target = find(targetTexts, {author: 'apollonius', title: 'agronautica'});
+      }
+      else if (language.toLowerCase() === 'english') {
+        target = find(targetTexts, {author: 'wordsworth', title: 'prelude'});
       }
 
       dispatch(updateTargetText(!isUndefined(target) ? target : targetTexts[-1]));
