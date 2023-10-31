@@ -15,6 +15,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { isEmpty } from 'lodash';
 
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
@@ -24,7 +26,12 @@ import Typography from '@mui/material/Typography';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { toTitleCase } from '../../utils';
+import { sleep, toTitleCase } from '../../utils';
+
+import { getSearchStatus, fetchResults } from '../../api/search';
+import { initiateSearch as initiateMultitextSearch,
+         getSearchStatus as getMultitextSearchStatus,
+         fetchResults as fetchMultitextResults } from '../../api/multitext';
 
 
 /** CSS styles to apply to the component. */
@@ -62,11 +69,11 @@ const useStyles = makeStyles(theme => ({
  *   
  */
 function MultitextResultsPlaceholder(props) {
-  const { multitextSearchProgress, searchInProgress, searchProgress } = props;
+  /**const { multitextSearchProgress, searchInProgress, searchProgress } = props;
 
   console.log(searchProgress);
 
-  /** CSS styles and global theme. */
+  // CSS styles and global theme.
   const classes = useStyles(props);
 
   const progress = [...searchProgress, ...multitextSearchProgress].map(item => {
@@ -79,7 +86,58 @@ function MultitextResultsPlaceholder(props) {
       </div>
     );
   });
+  */
 
+  const { asyncReady, fetchMultitextResults, getMultitextSearchStatus, getSearchStatus,
+          initiateMultitextSearch, multitextResults, multitextSearchID, multitextSearchInProgress,
+          multitextSearchProgress, multitextSearchStatus, multitextSelections, searchID,
+          searchInProgress, searchProgress, searchStatus, unit } = props;
+
+  const classes = useStyles(props);
+
+  // Either check for the status or get results from the REST API
+  if (searchID && searchStatus.toLowerCase() !== 'done') {
+    (async () => {
+      await sleep(250).then(() => {
+        getSearchStatus(searchID, asyncReady);
+      });
+    })();
+  }
+
+  if(searchStatus.toLowerCase() === 'done' && isEmpty(multitextResults)) {
+    console.log(multitextSearchStatus);
+    if (multitextSearchID === '') {
+      (async () => {
+        await initiateMultitextSearch(searchID, multitextSelections, unit, asyncReady);
+      })();
+    }
+    else if (multitextSearchStatus.toLowerCase() !== 'done') {
+      (async () => {
+        await sleep(250).then(() => {
+          getMultitextSearchStatus(multitextSearchID, asyncReady);
+        });
+      })();
+    }
+    else {
+      fetchMultitextResults(multitextSearchID, asyncReady);
+    }
+  }
+
+  const progress = searchProgress.concat(multitextSearchProgress).map(item => {
+    if (item !== undefined) {
+      return (
+        <div 
+          key={item.stage}
+        >
+          <Typography>{toTitleCase(item.stage)}:</Typography>
+          <LinearProgress value={item.value * 100} variant= "determinate" />
+        </div>
+      );
+    }
+    else {
+      return (<div></div>);
+    }
+  })
 
   // If a search is not in progress, an arrow pointing to the side bar is shown.
   // If a search is in progress, a spinning wheel is shown.
@@ -90,7 +148,7 @@ function MultitextResultsPlaceholder(props) {
         flexGrow={1}
         flexDirection="row"
       >
-        {!searchInProgress 
+        {!searchInProgress && !multitextSearchProgress
          ?  <Box
               className={classes.spacer}
             >
@@ -130,6 +188,18 @@ function MultitextResultsPlaceholder(props) {
 
 MultitextResultsPlaceholder.propTypes = {
   /**
+   * Flag determining if an AJAX call may be initiated.
+   */
+  asyncReady: PropTypes.bool,
+  /**
+   * Function to get the status of the search from the REST API.
+   */
+  getSearchStatus: PropTypes.func,
+  /**
+   * ID assigned to the search by the REST API.
+   */
+  searchID: PropTypes.string,
+  /**
    * Flag indicating that a search is in progress.
    */
      searchInProgress: PropTypes.bool,
@@ -148,6 +218,11 @@ MultitextResultsPlaceholder.propTypes = {
      */
     value : PropTypes.number
   })),
+
+  /**
+   * Search status string returned from the REST API.
+   */
+  searchStatus: PropTypes.string,
 }
 
 
@@ -159,12 +234,36 @@ MultitextResultsPlaceholder.propTypes = {
  */
 function mapStateToProps(state) {
   return {
+    asyncReady: state.async.asyncPending < state.async.maxAsyncPending,
+    multitextResults: state.multitext.results,
+    multitextSearchID: state.multitext.searchID,
+    multitextSearchInProgress: state.async.multitextSearchInProgress,
     multitextSearchProgress: state.multitext.progress,
+    multitextSearchStatus: state.multitext.status,
+    multitextSelections: state.multitext.selectedTexts,
+    resultCount: state.search.resultCount,
+    searchID: state.search.searchID,
     searchInProgress: state.multitext.searchInProgress,
-    searchProgress: state.search.progress
+    searchStatus: state.search.searchStatus,
+    searchProgress: state.search.progress,
+    unit: state.search.searchParameters.unitType
   };
+}
+
+/**
+ * Add redux store actions to this component's props.
+ * @param {function} dispatch The redux dispatch function
+ */
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchMultitextResults: fetchMultitextResults,
+    fetchResults: fetchResults,
+    getMultitextSearchStatus: getMultitextSearchStatus,
+    getSearchStatus: getSearchStatus,
+    initiateMultitextSearch: initiateMultitextSearch,
+  }, dispatch);
 }
 
 
 // Do redux binding here.
-export default connect(mapStateToProps)(MultitextResultsPlaceholder);
+export default connect(mapStateToProps, mapDispatchToProps)(MultitextResultsPlaceholder);
