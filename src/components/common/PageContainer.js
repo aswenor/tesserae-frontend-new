@@ -70,7 +70,7 @@ function PageContainer(props) {
       p={0}
       width={1.0}
     >
-      { language !== '' && corpusLoaded
+      { language !== '' || corpusLoaded
       //languages.length === 0 || availableSourceTexts.length === 0 || availableTargetTexts === 0
        //? <LoadingScreen />
        ? children
