@@ -18,13 +18,13 @@ export function runMultitextSearch(language, source, target, params, multitextTa
   return async dispatch => {
     dispatch(updateSearchInProgress(true));
 
-    const searchID = await runSearch('original', language, source, target, params)(dispatch);
+    /**const searchID = await runSearch('original', language, source, target, params)(dispatch);
     console.log(searchID);
 
     if (searchID === null || searchID === undefined) {
       dispatch(updateSearchInProgress(false));
       return;
-    }
+    } */
 
     let response = await initiateSearch(searchID, multitextTargets, params.unitType)(dispatch);
     console.log(response);
