@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { runSearch } from './search';
+import { runSearch, initiateOriginalSearch } from './search';
 import { updateChangePage,
          updateResults,
          updateSearchID,
@@ -18,15 +18,16 @@ export function runMultitextSearch(language, source, target, params, multitextTa
   return async dispatch => {
     dispatch(updateSearchInProgress(true));
 
-    /**const searchID = await runSearch('original', language, source, target, params)(dispatch);
+    const searchID = await runSearch('original', language, source, target, params)(dispatch);
     console.log(searchID);
 
     if (searchID === null || searchID === undefined) {
       dispatch(updateSearchInProgress(false));
       return;
-    } */
+    } 
 
     let response = await initiateSearch(searchID, multitextTargets, params.unitType)(dispatch);
+    //let response = await initiateOriginalSearch(source, 0, target, 0, params, )
     console.log(response);
     const multiSearchID = response.data.search_id;
     response.data.status = '';

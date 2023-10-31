@@ -17,7 +17,7 @@ import LanguageSelectButtons from '../common/LanguageSelectButtons';
 import { MarginlessAccordion, MarginlessAccordionSummary,
          MarginlessAccordionDetails } from '../common/MarginlessAccordion';
 import { runMultitextSearch } from '../../api/multitext';
-import { fetchStoplist } from '../../api/search';
+import { fetchStoplist, initiateOriginalSearch } from '../../api/search';
 import TargetsTable from './targets/Table';
 import TextSelectGroup from '../search/TextSelectGroup';
 import { clearResults } from '../../state/multitext';
@@ -72,7 +72,8 @@ function MultitextSearchParametersForm(props) {
   const clearAndInitiate = () => {
     if (!searchInProgress) {    
       clearResults();
-      runMultitextSearch(language, sourceText, targetText, searchParameters, multitextTargets);
+      //runMultitextSearch(language, sourceText, targetText, searchParameters, multitextTargets);
+      initiateOriginalSearch(sourceText, 0, targetText, 0, searchParameters, stopwords)
     }
   };
 
