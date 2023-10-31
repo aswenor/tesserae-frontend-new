@@ -22,6 +22,7 @@ import TargetsTable from './targets/Table';
 import TextSelectGroup from '../search/TextSelectGroup';
 import { clearResults as clearMultitextResults } from '../../state/multitext';
 import { updateSearchInProgress, updateMultitextInProgress } from '../../state/async';
+import { clearResults, clearSearchMetadata } from '../../state/search';
 
 const useStyles = makeStyles(theme => ({
   root: {
