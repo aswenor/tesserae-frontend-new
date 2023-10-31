@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
 import Box from '@mui/material/Box';
 
-import { initialFetch } from '../../api/corpus';
+import { initialFetch, fetchSourceTexts, fetchTargetTexts } from '../../api/corpus';
 import LoadingScreen from './LoadingScreen';
 
 
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
  *   );
  */
 function PageContainer(props) {
-  const { availableSourceTexts, availableTargetTexts, children, fetchLanguages, languages } = props;
+  const { availableSourceTexts, availableTargetTexts, children, fetchLanguages, languages, fetchSourceTexts, fetchTargetTexts, language } = props;
   
   /** CSS styles and global theme. */
   const classes = useStyles();
@@ -52,6 +52,11 @@ function PageContainer(props) {
       fetchLanguages();
     }
   }, [fetchLanguages, languages]);
+
+  if (language !== '' && !corpusLoaded) {
+    fetchSourceTexts(language);
+    fetchTargetTexts(language);
+  }
 
   return (
     <Box
@@ -65,9 +70,12 @@ function PageContainer(props) {
       p={0}
       width={1.0}
     >
-      {languages.length === 0 || availableSourceTexts.length === 0 || availableTargetTexts === 0
-       ? <LoadingScreen />
-       : children
+      { language !== '' && corpusLoaded
+      //languages.length === 0 || availableSourceTexts.length === 0 || availableTargetTexts === 0
+       //? <LoadingScreen />
+       ? children
+       : <LoadingScreen />
+       //: children
       }
     </Box>
   )
@@ -78,14 +86,18 @@ function mapStateToProps(state) {
   return {
     availableSourceTexts: state.corpus.availableSourceTexts,
     availableTargetTexts: state.corpus.availableTargetTexts,
-    languages: state.corpus.availableLanguages
+    languages: state.corpus.availableLanguages,
+    corpusLoaded: state.corpus.availableSourceTexts.length > 0,
+    language: state.corpus.language
   }
 }
 
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchLanguages: initialFetch
+    fetchLanguages: initialFetch,
+    fetchSourceTexts: fetchSourceTexts,
+    fetchTargetTexts: fetchTargetTexts
   }, dispatch);
 }
 
