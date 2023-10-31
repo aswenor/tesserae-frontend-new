@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { batch, connect } from 'react-redux';
 
 import makeStyles from '@mui/styles/makeStyles';
 import Box from '@mui/material/Box';
@@ -63,7 +63,7 @@ function MultitextSearchParametersForm(props) {
 
   const classes = useStyles();
 
-  const disableSeach = stopwords.length === 0
+  const disableSearch = stopwords.length === 0
                         || sourceText.object_id === undefined
                         || targetText.object_id === undefined
                         || multitextTargets.length === 0;
