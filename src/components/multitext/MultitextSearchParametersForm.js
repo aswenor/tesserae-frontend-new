@@ -64,7 +64,7 @@ function MultitextSearchParametersForm(props) {
 
   const classes = useStyles();
 
-  const disableSearch = stopwords.length === 0
+  /**const disableSearch = stopwords.length === 0
                         || sourceText.object_id === undefined
                         || targetText.object_id === undefined
                         || multitextTargets.length === 0;
@@ -85,10 +85,10 @@ function MultitextSearchParametersForm(props) {
       });
       initiateOriginalSearch(sourceText, 0, targetText, 0, searchParameters, stopwords)
     }
-  }
+  } */
 
 
-/** 
+
   if (language !== '' && stopwords.length === 0) {
     const basis = searchParameters.stoplistBasis === 'corpus'
                   ? language
@@ -100,8 +100,8 @@ function MultitextSearchParametersForm(props) {
   const clearAndInitiate = () => {
     if (!searchInProgress) {    
       clearResults();
-      //runMultitextSearch(language, sourceText, targetText, searchParameters, multitextTargets);
-      initiateOriginalSearch(sourceText, 0, targetText, 0, searchParameters, stopwords)
+      runMultitextSearch(language, sourceText, targetText, searchParameters, multitextTargets);
+      //initiateOriginalSearch(sourceText, 0, targetText, 0, searchParameters, stopwords)
     }
   };
 
@@ -110,8 +110,7 @@ function MultitextSearchParametersForm(props) {
   const disableSearch = searchInProgress
                         || sourceText.object_id === undefined
                         || targetText.object_id === undefined
-                        || multitextTargets.length === 0;
-                        */
+                        || multitextTargets.length === 0
 
   return (
     <Box
