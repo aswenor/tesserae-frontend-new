@@ -27,7 +27,7 @@ export const DEFAULT_STATE = {
   searchInProgress: false,
   selectedTexts: [],
   status: '',
-  // ...SEARCH_DEFAULTS
+   ...SEARCH_DEFAULTS
 };
  
  
