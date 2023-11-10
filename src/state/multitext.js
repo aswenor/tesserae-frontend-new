@@ -10,7 +10,7 @@
  */
 import { differenceBy, uniqBy } from 'lodash';
 
-// import { DEFAULT_STATE as SEARCH_DEFAULTS } from './search';
+import { DEFAULT_STATE as SEARCH_DEFAULTS } from './search';
 
 
 /**
